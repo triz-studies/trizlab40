@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="triz-base.css">
+    <script defer src="triz-nav.js"></script>
+    <title>Nguyên tắc 13: Đảo ngược</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;800;900&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            font-family: 'Nunito', 'Segoe UI', system-ui, sans-serif;
+            background: linear-gradient(145deg, #fb7185 0%, #f472b6 50%, #e879f9 100%);
+            color: #0b1021;
+            margin: 0;
+            padding: 22px;
+            min-height: 100vh;
+        }
+        .container { max-width: 1100px; margin: 0 auto; }
+        h1 { font-size: 2.4rem; margin: 12px 0 6px; font-weight: 900; }
+        .subtitle { margin: 0 0 16px; color: #831843; font-weight: 700; font-size: 1.15rem; }
+        
+        .kid-card {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            border-radius: 20px;
+            padding: 18px 20px;
+            border: 3px solid #fbbf24;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.12), inset 0 2px 0 rgba(255,255,255,0.5);
+            margin-bottom: 20px;
+        }
+        .kid-card p { margin: 8px 0; font-weight: 700; color: #92400e; font-size: 1.05rem; }
+        .kid-card .emoji { font-size: 1.4rem; margin-right: 8px; }
+        
+        .demo {
+            background: rgba(255,255,255,0.95);
+            border-radius: 24px;
+            padding: 24px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.18);
+            border: 3px solid rgba(255,255,255,0.8);
+        }
+        .demo-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            align-items: start;
+        }
+        
+        .demo-stage {
+            background: linear-gradient(180deg, #fdf2f8 0%, #fce7f3 100%);
+            border: 3px dashed #f9a8d4;
+            border-radius: 20px;
+            padding: 30px;
+            min-height: 320px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        
+        .bottle-scene {
+            position: relative;
+            width: 150px;
+            height: 220px;
+        }
+        
+        .bottle {
+            position: absolute;
+            width: 70px;
+            height: 150px;
+            left: 12px;
+            top: 30px;
+            transform: none;
+            transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        
+        .bottle-body {
+            width: 70px;
+            height: 120px;
+            background: linear-gradient(145deg, #ef4444 0%, #dc2626 100%);
+            border-radius: 12px 12px 35px 35px;
+            position: relative;
+            box-shadow: 0 8px 24px rgba(239,68,68,0.4);
+        }
+        
+        .bottle-neck {
+            width: 30px;
+            height: 35px;
+            background: linear-gradient(145deg, #ef4444 0%, #dc2626 100%);
+            border-radius: 6px 6px 0 0;
+            position: absolute;
+            top: -30px;
+            left: 12px;
+            transform: none;
+        }
+        
+        .bottle-cap {
+            width: 36px;
+            height: 15px;
+            background: linear-gradient(145deg, #fbbf24 0%, #f59e0b 100%);
+            border-radius: 4px;
+            position: absolute;
+            top: -42px;
+            left: 12px;
+            transform: none;
+        }
+        
+        .ketchup-level {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            right: 10px;
+            height: 30px;
+            background: linear-gradient(180deg, #991b1b 0%, #7f1d1d 100%);
+            border-radius: 0 0 25px 25px;
+            transition: all 0.5s ease;
+        }
+        
+        .flipped .bottle {
+            transform: translateX(-50%) rotate(180deg);
+            top: 50px;
+        }
+        
+        .flipped .ketchup-level {
+            height: 80px;
+            border-radius: 25px 25px 0 0;
+        }
+        
+        .drip {
+            position: absolute;
+            bottom: -20px;
+            left: 12px;
+            transform: none;
+            font-size: 1.5rem;
+            opacity: 0;
+            transition: all 0.4s ease;
+        }
+        
+        .flipped .drip {
+            opacity: 1;
+            bottom: -30px;
+        }
+        
+        .wait-indicator {
+            position: absolute;
+            top: 20px;
+            left: 12px;
+            transform: none;
+            background: #f97316;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 15px;
+            font-weight: 900;
+            font-size: 0.8rem;
+            opacity: 1;
+            transition: all 0.4s ease;
+        }
+        
+        .flipped .wait-indicator {
+            opacity: 0;
+            background: #22c55e;
+        }
+        
+        .ready-indicator {
+            position: absolute;
+            top: 20px;
+            left: 12px;
+            transform: none;
+            background: #22c55e;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 15px;
+            font-weight: 900;
+            font-size: 0.8rem;
+            opacity: 0;
+            transition: all 0.4s ease;
+        }
+        
+        .flipped .ready-indicator {
+            opacity: 1;
+        }
+        
+        .demo-label {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            transform: none;
+            background: rgba(30, 41, 59, 0.6);
+            color: #f1f5f9;
+            padding: 10px 18px;
+            border-radius: 30px;
+            font-weight: 800;
+            font-size: 0.95rem;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+            white-space: nowrap;
+        }
+        
+        .controls { display: flex; flex-direction: column; gap: 14px; }
+        
+        .primary-btn {
+            background: linear-gradient(145deg, #ef4444 0%, #dc2626 100%);
+            color: white;
+            border: none;
+            border-radius: 16px;
+            padding: 16px 24px;
+            font-weight: 900;
+            font-size: 1.1rem;
+            cursor: pointer;
+            box-shadow: 0 8px 24px rgba(239,68,68,0.4), inset 0 2px 0 rgba(255,255,255,0.2);
+            transition: all 0.2s ease;
+            font-family: inherit;
+        }
+        .primary-btn:hover { transform: translateY(-3px); box-shadow: 0 12px 28px rgba(239,68,68,0.5); }
+        
+        .status {
+            background: linear-gradient(135deg, #fdf2f8 0%, #fce7f3 100%);
+            border-radius: 14px;
+            padding: 14px 18px;
+            font-weight: 800;
+            color: #9d174d;
+            font-size: 1.05rem;
+            border: 2px solid #f9a8d4;
+        }
+        
+        .examples {
+            background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+            border-radius: 16px;
+            padding: 16px 18px;
+            border: 2px solid #86efac;
+        }
+        .examples h3 { margin: 0 0 12px; color: #166534; font-size: 1.05rem; }
+        .example-list { display: flex; flex-direction: column; gap: 10px; }
+        .example-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: white;
+            padding: 12px 14px;
+            border-radius: 12px;
+            font-weight: 700;
+            color: #15803d;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.06);
+        }
+        .example-item .icon { font-size: 1.5rem; }
+        
+        @media (max-width: 800px) {
+            .demo-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔄 Nguyên tắc 13: Đảo ngược</h1>
+        <p class="subtitle">Flip it around!</p>
+        
+        <div class="kid-card">
+            <p><span class="emoji">💡</span>Ý Tưởng Lớn: Lật ngược lại để hoạt động tốt hơn!</p>
+            <p><span class="emoji">🎯</span>Thử xem: Để chai tương cà úp ngược để rót nhanh!</p>
+        </div>
+        
+        <div class="demo">
+            <div class="demo-grid">
+                <div class="demo-stage" id="stage">
+                    <div class="wait-indicator">⏳ Waiting...</div>
+                    <div class="ready-indicator">⚡ Ready!</div>
+                    <div class="bottle-scene">
+                        <div class="bottle">
+                            <div class="bottle-cap"></div>
+                            <div class="bottle-neck"></div>
+                            <div class="bottle-body">
+                                <div class="ketchup-level"></div>
+                            </div>
+                        </div>
+                        <div class="drip">🍅💧</div>
+                    </div>
+                    <div class="demo-label" id="label">😤 Ketchup stuck at the top!</div>
+                </div>
+                
+                <div class="controls">
+                    <button class="primary-btn" id="toggle">🔄 Flip it upside down!</button>
+                    <div class="status" id="status">Shaking and waiting... ketchup won't come out!</div>
+                    
+                    <div class="examples">
+                        <h3>🔍 Tìm trong cuộc sống:</h3>
+                        <div class="example-list">
+                            <div class="example-item">
+                                <span class="icon">🍅</span>
+                                <span>Ketchup bottle stored upside down</span>
+                            </div>
+                            <div class="example-item">
+                                <span class="icon">🛏️</span>
+                                <span>Flip pillow to the cool side</span>
+                            </div>
+                            <div class="example-item">
+                                <span class="icon">🥞</span>
+                                <span>Flip a pancake to cook both sides</span>
+                            </div>
+                            <div class="example-item">
+                                <span class="icon">📦</span>
+                                <span>Turn a box upside down to empty it fast</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        const stage = document.getElementById('stage');
+        const label = document.getElementById('label');
+        const status = document.getElementById('status');
+        const toggle = document.getElementById('toggle');
+        let flipped = false;
+
+        toggle.addEventListener('click', () => {
+            flipped = !flipped;
+            stage.classList.toggle('flipped', flipped);
+            
+            if (flipped) {
+                label.textContent = '🎉 Ketchup flows right out!';
+                status.textContent = 'Gravity does the work - instant ketchup!';
+                toggle.textContent = '🔄 Flip it back up';
+            } else {
+                label.textContent = '😤 Ketchup stuck at the top!';
+                status.textContent = 'Shaking and waiting... ketchup won\'t come out!';
+                toggle.textContent = '🔄 Flip it upside down!';
+            }
+        });
+    </script>
+</body>
+</html>

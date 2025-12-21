@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="triz-base.css">
+    <script defer src="triz-nav.js"></script>
+    <title>Nguyên tắc 31: Sử dụng vật liệu nhiều lỗ</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;800;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Nunito', 'Segoe UI', system-ui, sans-serif;
+            background: linear-gradient(145deg, #38bdf8 0%, #0ea5e9 50%, #0284c7 100%);
+            color: #0b1021;
+            margin: 0;
+            padding: 22px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-size: 2.4rem;
+            margin: 12px 0 6px;
+            font-weight: 900;
+        }
+
+        .subtitle {
+            margin: 0 0 16px;
+            color: #0c4a6e;
+            font-weight: 700;
+            font-size: 1.15rem;
+        }
+
+        .kid-card {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            border-radius: 20px;
+            padding: 18px 20px;
+            border: 3px solid #fbbf24;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12), inset 0 2px 0 rgba(255, 255, 255, 0.5);
+            margin-bottom: 20px;
+        }
+
+        .kid-card p {
+            margin: 8px 0;
+            font-weight: 700;
+            color: #92400e;
+            font-size: 1.05rem;
+        }
+
+        .kid-card .emoji {
+            font-size: 1.4rem;
+            margin-right: 8px;
+        }
+
+        .demo {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 24px;
+            padding: 24px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.18);
+            border: 3px solid rgba(255, 255, 255, 0.8);
+        }
+
+        .demo-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            align-items: start;
+        }
+
+        .demo-stage {
+            background: linear-gradient(180deg, #e0f2fe 0%, #bae6fd 100%);
+            border: 3px dashed #7dd3fc;
+            border-radius: 20px;
+            padding: 30px;
+            min-height: 320px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .sponge-scene {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .sponge {
+            width: 120px;
+            height: 80px;
+            background: linear-gradient(145deg, #fbbf24 0%, #f59e0b 100%);
+            border-radius: 12px;
+            position: relative;
+            box-shadow: 0 8px 24px rgba(251, 191, 36, 0.4);
+            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .sponge-hole {
+            position: absolute;
+            background: rgba(146, 64, 14, 0.3);
+            border-radius: 50%;
+            transition: all 0.5s ease;
+        }
+
+        .sponge-hole:nth-child(1) {
+            width: 12px;
+            height: 12px;
+            top: 15px;
+            left: 20px;
+        }
+
+        .sponge-hole:nth-child(2) {
+            width: 10px;
+            height: 10px;
+            top: 12px;
+            left: 50px;
+        }
+
+        .sponge-hole:nth-child(3) {
+            width: 14px;
+            height: 14px;
+            top: 18px;
+            left: 85px;
+        }
+
+        .sponge-hole:nth-child(4) {
+            width: 11px;
+            height: 11px;
+            top: 40px;
+            left: 30px;
+        }
+
+        .sponge-hole:nth-child(5) {
+            width: 13px;
+            height: 13px;
+            top: 45px;
+            left: 65px;
+        }
+
+        .sponge-hole:nth-child(6) {
+            width: 9px;
+            height: 9px;
+            top: 55px;
+            left: 95px;
+        }
+
+        .sponge-hole:nth-child(7) {
+            width: 12px;
+            height: 12px;
+            top: 58px;
+            left: 15px;
+        }
+
+        .sponge-hole:nth-child(8) {
+            width: 10px;
+            height: 10px;
+            top: 35px;
+            left: 100px;
+        }
+
+        .water-puddle {
+            width: 100px;
+            height: 30px;
+            background: linear-gradient(180deg, #60a5fa 0%, #3b82f6 100%);
+            border-radius: 50%;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .porous .sponge {
+            background: linear-gradient(145deg, #60a5fa 0%, #3b82f6 100%);
+            box-shadow: 0 8px 24px rgba(59, 130, 246, 0.4);
+            transform: scale(1.1);
+        }
+
+        .porous .sponge-hole {
+            background: rgba(30, 64, 175, 0.4);
+        }
+
+        .porous .water-puddle {
+            transform: scale(0.3);
+            opacity: 0.3;
+        }
+
+        .water-drops {
+            position: absolute;
+            top: -30px;
+            display: flex;
+            gap: 15px;
+            opacity: 0;
+            transition: all 0.4s ease;
+        }
+
+        .porous .water-drops {
+            opacity: 1;
+            top: -40px;
+        }
+
+        .drop {
+            font-size: 1.2rem;
+            animation: drip 1s ease-in-out infinite;
+        }
+
+        .drop:nth-child(2) {
+            animation-delay: 0.3s;
+        }
+
+        .drop:nth-child(3) {
+            animation-delay: 0.6s;
+        }
+
+        @keyframes drip {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-5px);
+            }
+        }
+
+        .absorption-meter {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            padding: 8px 14px;
+            border-radius: 20px;
+            font-weight: 900;
+            font-size: 0.85rem;
+            background: #ef4444;
+            color: white;
+            transition: all 0.4s ease;
+        }
+
+        .porous .absorption-meter {
+            background: #22c55e;
+        }
+
+        .demo-label {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            transform: none;
+            background: rgba(30, 41, 59, 0.6);
+            color: #f1f5f9;
+            padding: 10px 18px;
+            border-radius: 30px;
+            font-weight: 800;
+            font-size: 0.95rem;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+            white-space: nowrap;
+        }
+
+        .controls {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .primary-btn {
+            background: linear-gradient(145deg, #0ea5e9 0%, #0284c7 100%);
+            color: white;
+            border: none;
+            border-radius: 16px;
+            padding: 16px 24px;
+            font-weight: 900;
+            font-size: 1.1rem;
+            cursor: pointer;
+            box-shadow: 0 8px 24px rgba(14, 165, 233, 0.4), inset 0 2px 0 rgba(255, 255, 255, 0.2);
+            transition: all 0.2s ease;
+            font-family: inherit;
+        }
+
+        .primary-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 28px rgba(14, 165, 233, 0.5);
+        }
+
+        .status {
+            background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%);
+            border-radius: 14px;
+            padding: 14px 18px;
+            font-weight: 800;
+            color: #0369a1;
+            font-size: 1.05rem;
+            border: 2px solid #7dd3fc;
+        }
+
+        .examples {
+            background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+            border-radius: 16px;
+            padding: 16px 18px;
+            border: 2px solid #86efac;
+        }
+
+        .examples h3 {
+            margin: 0 0 12px;
+            color: #166534;
+            font-size: 1.05rem;
+        }
+
+        .example-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .example-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: white;
+            padding: 12px 14px;
+            border-radius: 12px;
+            font-weight: 700;
+            color: #15803d;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.06);
+        }
+
+        .example-item .icon {
+            font-size: 1.5rem;
+        }
+
+        @media (max-width: 800px) {
+            .demo-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>🧽 Nguyên tắc 31: Sử dụng vật liệu nhiều lỗ</h1>
+        <p class="subtitle">Thêm lỗ nhỏ để mọi thứ đi qua!</p>
+
+        <div class="kid-card">
+            <p><span class="emoji">💡</span>Ý Tưởng Lớn: Lỗ nhỏ giúp thấm, hút, hoặc thoát!</p>
+            <p><span class="emoji">🎯</span>Thử xem: Xem mút hút nước qua các lỗ nhỏ!</p>
+        </div>
+
+        <div class="demo">
+            <div class="demo-grid">
+                <div class="demo-stage" id="stage">
+                    <div class="absorption-meter" id="meter">KHÔ 🏜️</div>
+                    <div class="sponge-scene">
+                        <div class="water-drops">
+                            <span class="drop">💧</span>
+                            <span class="drop">💧</span>
+                            <span class="drop">💧</span>
+                        </div>
+                        <div class="sponge">
+                            <div class="sponge-hole"></div>
+                            <div class="sponge-hole"></div>
+                            <div class="sponge-hole"></div>
+                            <div class="sponge-hole"></div>
+                            <div class="sponge-hole"></div>
+                            <div class="sponge-hole"></div>
+                            <div class="sponge-hole"></div>
+                            <div class="sponge-hole"></div>
+                        </div>
+                        <div class="water-puddle"></div>
+                    </div>
+                    <div class="demo-label" id="label">💧 Nước đọng thành vũng</div>
+                </div>
+
+                <div class="controls">
+                    <button class="primary-btn" id="toggle">🧽 Hút nước!</button>
+                    <div class="status" id="status">Các lỗ mút còn trống - nước chỉ đọng ở đó!</div>
+
+                    <div class="examples">
+                        <h3>🔍 Tìm trong cuộc sống:</h3>
+                        <div class="example-list">
+                            <div class="example-item">
+                                <span class="icon">🧽</span>
+                                <span>Mút hút nước đổ qua các lỗ</span>
+                            </div>
+                            <div class="example-item">
+                                <span class="icon">🥣</span>
+                                <span>Rổ thoát nước khỏi mì</span>
+                            </div>
+                            <div class="example-item">
+                                <span class="icon">👟</span>
+                                <span>Giày lưới cho chân thở</span>
+                            </div>
+                            <div class="example-item">
+                                <span class="icon">🌱</span>
+                                <span>Lỗ chậu hoa thoát nước thừa</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const stage = document.getElementById('stage');
+        const meter = document.getElementById('meter');
+        const label = document.getElementById('label');
+        const status = document.getElementById('status');
+        const toggle = document.getElementById('toggle');
+        let porous = false;
+
+        toggle.addEventListener('click', () => {
+            porous = !porous;
+            stage.classList.toggle('porous', porous);
+
+            if (porous) {
+                meter.textContent = 'ƯỚT! 💦';
+                label.textContent = '🎉 Các lỗ hút hết nước!';
+                status.textContent = 'Các lỗ nhỏ kéo nước vào như phép thuật!';
+                toggle.textContent = '🔄 Vắt ra';
+            } else {
+                meter.textContent = 'KHÔ 🏜️';
+                label.textContent = '💧 Nước đọng thành vũng';
+                status.textContent = 'Các lỗ mút còn trống - nước chỉ đọng ở đó!';
+                toggle.textContent = '🧽 Hút nước!';
+            }
+        });
+    </script>
+</body>
+
+</html>

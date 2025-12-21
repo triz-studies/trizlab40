@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="triz-base.css">
+    <script defer src="triz-nav.js"></script>
+    <title>Nguyên tắc 21: "Vượt nhanh"</title>
+    <style>
+        body {
+            font-family: 'Space Grotesk', 'Avenir Next', 'Segoe UI', system-ui, sans-serif;
+            background: linear-gradient(135deg, #ffeaa7, #fab1a0);
+            color: #2d3436;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            color: #2d3436;
+            text-shadow: 2px 2px 4px rgba(255, 255, 255, 0.5);
+        }
+
+        .subtitle {
+            font-size: 1.2em;
+            margin-bottom: 30px;
+            color: #e17055;
+            font-weight: bold;
+        }
+
+        .comparison {
+            display: flex;
+            justify-content: space-around;
+            margin: 40px 0;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .method-section {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            padding: 30px;
+            flex: 1;
+            min-width: 350px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .method-section h2 {
+            color: #2d3436;
+            margin-bottom: 20px;
+            font-size: 1.8em;
+        }
+
+        .slow-method {
+            border: 3px solid #e17055;
+        }
+
+        .fast-method {
+            border: 3px solid #00b894;
+        }
+
+        /* Arm and Bandage */
+        .arm-container {
+            position: relative;
+            height: 200px;
+            margin: 20px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .arm {
+            width: 180px;
+            height: 60px;
+            background: #fdbcb4;
+            border-radius: 30px;
+            position: relative;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .scratch {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 40px;
+            height: 3px;
+            background: #e17055;
+            border-radius: 2px;
+        }
+
+        .bandage {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80px;
+            height: 30px;
+            background: #f9ca24;
+            border: 2px solid #f0932b;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .bandage::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60px;
+            height: 20px;
+            background: #fff;
+            border-radius: 3px;
+        }
+
+        .bandage.peeling-slow {
+            animation: peelSlow 3s ease-in-out;
+        }
+
+        .bandage.peeling-fast {
+            animation: peelFast 0.5s ease-out;
+        }
+
+        @keyframes peelSlow {
+            0% {
+                transform: translate(-50%, -50%) rotate(0deg);
+            }
+
+            20% {
+                transform: translate(-40%, -50%) rotate(-5deg);
+            }
+
+            40% {
+                transform: translate(-30%, -50%) rotate(-10deg);
+            }
+
+            60% {
+                transform: translate(-20%, -50%) rotate(-15deg);
+            }
+
+            80% {
+                transform: translate(-10%, -50%) rotate(-20deg);
+            }
+
+            100% {
+                transform: translate(50px, -50%) rotate(-25deg);
+                opacity: 0;
+            }
+        }
+
+        @keyframes peelFast {
+            0% {
+                transform: translate(-50%, -50%) rotate(0deg);
+            }
+
+            100% {
+                transform: translate(100px, -50%) rotate(-30deg);
+                opacity: 0;
+            }
+        }
+
+        /* Pain Indicator */
+        .pain-meter {
+            margin: 20px 0;
+        }
+
+        .pain-bar {
+            width: 100%;
+            height: 25px;
+            background: #ddd;
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .pain-level {
+            height: 100%;
+            border-radius: 12px;
+            transition: width 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .pain-slow {
+            background: linear-gradient(45deg, #e17055, #d63031);
+        }
+
+        .pain-fast {
+            background: linear-gradient(45deg, #00b894, #00a085);
+        }
+
+        /* Control Buttons */
+        .control-button {
+            background: linear-gradient(45deg, #74b9ff, #0984e3);
+            border: none;
+            color: white;
+            padding: 15px 30px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 25px;
+            cursor: pointer;
+            margin: 15px 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .control-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .control-button:active {
+            transform: translateY(0);
+        }
+
+        .control-button.slow {
+            background: linear-gradient(45deg, #e17055, #d63031);
+        }
+
+        .control-button.fast {
+            background: linear-gradient(45deg, #00b894, #00a085);
+        }
+
+        .status {
+            font-size: 1.2em;
+            font-weight: bold;
+            margin: 15px 0;
+            min-height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Timer Display */
+        .timer {
+            font-size: 2em;
+            font-weight: bold;
+            color: #2d3436;
+            margin: 10px 0;
+        }
+
+        /* Face Expressions */
+        .face {
+            font-size: 4em;
+            margin: 15px 0;
+            transition: all 0.3s ease;
+        }
+
+        .explanation {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 30px 0;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .explanation h2 {
+            color: #2d3436;
+            margin-bottom: 15px;
+        }
+
+        .comparison-table {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .comparison-item {
+            background: rgba(116, 185, 255, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 4px solid #74b9ff;
+        }
+
+        .comparison-item.slow {
+            border-left-color: #e17055;
+            background: rgba(225, 112, 85, 0.1);
+        }
+
+        .reset-button {
+            background: linear-gradient(45deg, #a29bfe, #6c5ce7);
+            border: none;
+            color: white;
+            padding: 12px 25px;
+            font-size: 14px;
+            font-weight: bold;
+            border-radius: 20px;
+            cursor: pointer;
+            margin: 10px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Progress Indicators */
+        .progress-container {
+            margin: 20px 0;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #ddd;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.1s linear;
+        }
+
+        .progress-slow {
+            background: linear-gradient(45deg, #e17055, #d63031);
+        }
+
+        .progress-fast {
+            background: linear-gradient(45deg, #00b894, #00a085);
+        }
+
+        @media (max-width: 768px) {
+            .comparison {
+                flex-direction: column;
+            }
+
+            .method-section {
+                min-width: 280px;
+            }
+        }
+
+        /* Animation for pain waves */
+        @keyframes painWave {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.1);
+            }
+        }
+
+        .pain-animation {
+            animation: painWave 0.5s ease-in-out infinite;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>🩹 Nguyên tắc 21: "Vượt nhanh" 🩹</h1>
+        <p class="subtitle">Quick vs Slow Bandage Removal - Which Hurts Less?</p>
+
+        <div class="comparison">
+            <!-- Slow Method Section -->
+            <div class="method-section slow-method">
+                <h2>🐌 Slow Removal</h2>
+                <div class="arm-container">
+                    <div class="arm">
+                        <div class="scratch"></div>
+                        <div class="bandage" id="slowBandage"></div>
+                    </div>
+                </div>
+
+                <button class="control-button slow" onclick="removeSlowly()">😰 Remove Slowly</button>
+                <button class="reset-button" onclick="resetSlow()">🔄 Reset</button>
+
+                <div class="timer" id="slowTimer">0.0s</div>
+                <div class="face" id="slowFace">😊</div>
+                <div class="status" id="slowStatus">Ready to remove bandage slowly</div>
+
+                <div class="pain-meter">
+                    <h4>Pain Level:</h4>
+                    <div class="pain-bar">
+                        <div class="pain-level pain-slow" id="slowPain" style="width: 0%">0%</div>
+                    </div>
+                </div>
+
+                <div class="progress-container">
+                    <h4>Progress:</h4>
+                    <div class="progress-bar">
+                        <div class="progress-fill progress-slow" id="slowProgress" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Fast Method Section -->
+            <div class="method-section fast-method">
+                <h2>⚡ Fast Removal</h2>
+                <div class="arm-container">
+                    <div class="arm">
+                        <div class="scratch"></div>
+                        <div class="bandage" id="fastBandage"></div>
+                    </div>
+                </div>
+
+                <button class="control-button fast" onclick="removeFast()">😌 Remove Quickly!</button>
+                <button class="reset-button" onclick="resetFast()">🔄 Reset</button>
+
+                <div class="timer" id="fastTimer">0.0s</div>
+                <div class="face" id="fastFace">😊</div>
+                <div class="status" id="fastStatus">Ready to remove bandage quickly</div>
+
+                <div class="pain-meter">
+                    <h4>Pain Level:</h4>
+                    <div class="pain-bar">
+                        <div class="pain-level pain-fast" id="fastPain" style="width: 0%">0%</div>
+                    </div>
+                </div>
+
+                <div class="progress-container">
+                    <h4>Progress:</h4>
+                    <div class="progress-bar">
+                        <div class="progress-fill progress-fast" id="fastProgress" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="explanation">
+            <h2>🤔 What's the Big Difference?</h2>
+            <div class="comparison-table">
+                <div class="comparison-item slow">
+                    <h3>🐌 Slow Removal</h3>
+                    <p><strong>Duration:</strong> 3 seconds of pain</p>
+                    <p><strong>Experience:</strong> Long, drawn-out discomfort</p>
+                    <p><strong>Pain Pattern:</strong> Gradual increase</p>
+                    <p><strong>Feeling:</strong> "When will this end?" 😰</p>
+                </div>
+                <div class="comparison-item">
+                    <h3>⚡ Fast Removal</h3>
+                    <p><strong>Duration:</strong> 0.5 seconds of pain</p>
+                    <p><strong>Experience:</strong> Quick "rip" and done!</p>
+                    <p><strong>Pain Pattern:</strong> Sharp but brief</p>
+                    <p><strong>Feeling:</strong> "That wasn't so bad!" 😌</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="explanation">
+            <h2>🧠 Nguyên tắc 21: "Vượt nhanh" Explained</h2>
+            <p><strong>"Skipping"</strong> means quickly getting past the unpleasant or dangerous part!</p>
+            <p>🎯 <strong>The Idea:</strong> Instead of prolonging pain, skip through it quickly</p>
+            <p>⏰ <strong>Key Insight:</strong> Total pain = Pain Level × Time Duration</p>
+            <p>🚀 <strong>Strategy:</strong> Make the unpleasant phase as short as possible</p>
+            <p>🏃‍♂️ <strong>Think of it like:</strong> Running quickly past a scary dog instead of walking slowly</p>
+        </div>
+
+        <div class="explanation">
+            <h2>🌟 Real-Life Examples of Skipping</h2>
+            <p>Nguyên lý này hoạt động trong nhiều tình huống:</p>
+            <p>• <strong>Band-Aid removal</strong> - Rip it off quickly! 🩹</p>
+            <p>• <strong>Jumping into cold water</strong> - Don't go slow, just jump! 🏊‍♂️</p>
+            <p>• <strong>Getting a shot</strong> - Quick injection vs. slow needle 💉</p>
+            <p>• <strong>Crossing a busy street</strong> - Move quickly when safe! 🚶‍♂️</p>
+            <p>• <strong>Pulling off tape</strong> - Fast removal vs. slow peeling 📼</p>
+        </div>
+    </div>
+
+    <script>
+        let slowTimer;
+        let fastTimer;
+        let slowStartTime;
+        let fastStartTime;
+        let slowInterval;
+        let fastInterval;
+
+        function removeSlowly() {
+            const bandage = document.getElementById('slowBandage');
+            const status = document.getElementById('slowStatus');
+            const face = document.getElementById('slowFace');
+            const painMeter = document.getElementById('slowPain');
+            const timer = document.getElementById('slowTimer');
+            const progress = document.getElementById('slowProgress');
+
+            if (bandage.classList.contains('peeling-slow')) return;
+
+            bandage.classList.add('peeling-slow');
+            status.textContent = 'Ouch! This hurts and takes forever... 😰';
+
+            slowStartTime = Date.now();
+            let painLevel = 0;
+            let progressLevel = 0;
+
+            // Animate pain and progress over 3 seconds
+            slowInterval = setInterval(() => {
+                const elapsed = (Date.now() - slowStartTime) / 1000;
+                timer.textContent = elapsed.toFixed(1) + 's';
+
+                if (elapsed <= 3) {
+                    painLevel = Math.min(90, elapsed * 30); // Gradual increase
+                    progressLevel = (elapsed / 3) * 100;
+
+                    painMeter.style.width = painLevel + '%';
+                    painMeter.textContent = Math.round(painLevel) + '%';
+                    progress.style.width = progressLevel + '%';
+
+                    // Change face based on pain level
+                    if (painLevel < 30) face.textContent = '😐';
+                    else if (painLevel < 60) face.textContent = '😣';
+                    else face.textContent = '😰';
+
+                    // Add pain animation
+                    if (painLevel > 20) {
+                        face.classList.add('pain-animation');
+                    }
+                } else {
+                    clearInterval(slowInterval);
+                    face.textContent = '😌';
+                    face.classList.remove('pain-animation');
+                    status.textContent = 'Finally done! That took forever! 😮‍💨';
+                    painMeter.style.width = '0%';
+                    painMeter.textContent = '0%';
+                }
+            }, 100);
+        }
+
+        function removeFast() {
+            const bandage = document.getElementById('fastBandage');
+            const status = document.getElementById('fastStatus');
+            const face = document.getElementById('fastFace');
+            const painMeter = document.getElementById('fastPain');
+            const timer = document.getElementById('fastTimer');
+            const progress = document.getElementById('fastProgress');
+
+            if (bandage.classList.contains('peeling-fast')) return;
+
+            bandage.classList.add('peeling-fast');
+            status.textContent = 'Quick rip! 💨';
+            face.textContent = '😲';
+
+            fastStartTime = Date.now();
+            let painLevel = 0;
+            let progressLevel = 0;
+
+            // Animate pain and progress over 0.5 seconds
+            fastInterval = setInterval(() => {
+                const elapsed = (Date.now() - fastStartTime) / 1000;
+                timer.textContent = elapsed.toFixed(1) + 's';
+
+                if (elapsed <= 0.5) {
+                    painLevel = 70; // High but brief
+                    progressLevel = (elapsed / 0.5) * 100;
+
+                    painMeter.style.width = painLevel + '%';
+                    painMeter.textContent = Math.round(painLevel) + '%';
+                    progress.style.width = progressLevel + '%';
+
+                    face.textContent = '😲';
+                } else {
+                    clearInterval(fastInterval);
+                    face.textContent = '😊';
+                    status.textContent = 'Done! That was quick and easy! 😌';
+                    painMeter.style.width = '0%';
+                    painMeter.textContent = '0%';
+                }
+            }, 50);
+        }
+
+        function resetSlow() {
+            const bandage = document.getElementById('slowBandage');
+            const status = document.getElementById('slowStatus');
+            const face = document.getElementById('slowFace');
+            const painMeter = document.getElementById('slowPain');
+            const timer = document.getElementById('slowTimer');
+            const progress = document.getElementById('slowProgress');
+
+            if (slowInterval) clearInterval(slowInterval);
+
+            bandage.classList.remove('peeling-slow');
+            status.textContent = 'Ready to remove bandage slowly';
+            face.textContent = '😊';
+            face.classList.remove('pain-animation');
+            painMeter.style.width = '0%';
+            painMeter.textContent = '0%';
+            timer.textContent = '0.0s';
+            progress.style.width = '0%';
+        }
+
+        function resetFast() {
+            const bandage = document.getElementById('fastBandage');
+            const status = document.getElementById('fastStatus');
+            const face = document.getElementById('fastFace');
+            const painMeter = document.getElementById('fastPain');
+            const timer = document.getElementById('fastTimer');
+            const progress = document.getElementById('fastProgress');
+
+            if (fastInterval) clearInterval(fastInterval);
+
+            bandage.classList.remove('peeling-fast');
+            status.textContent = 'Ready to remove bandage quickly';
+            face.textContent = '😊';
+            painMeter.style.width = '0%';
+            painMeter.textContent = '0%';
+            timer.textContent = '0.0s';
+            progress.style.width = '0%';
+        }
+
+        // Educational hints
+        function showHint() {
+            const hints = [
+                "💡 Try both methods and compare the total time in pain!",
+                "💡 Notice: Fast removal hurts more at first, but for much less time!",
+                "💡 The total amount of pain (pain × time) is actually less with fast removal!",
+                "💡 This is why doctors and nurses remove bandages quickly!",
+                "💡 Skipping through the bad part quickly is often better than going slow!"
+            ];
+
+            const randomHint = hints[Math.floor(Math.random() * hints.length)];
+
+            const hint = document.createElement('div');
+            hint.textContent = randomHint;
+            hint.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: rgba(116, 185, 255, 0.9);
+                color: white;
+                padding: 15px;
+                border-radius: 10px;
+                font-weight: bold;
+                max-width: 300px;
+                z-index: 1000;
+                box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            `;
+
+            document.body.appendChild(hint);
+
+            setTimeout(() => {
+                if (hint.parentNode) {
+                    hint.parentNode.removeChild(hint);
+                }
+            }, 4000);
+        }
+
+        // Show hints periodically
+        setInterval(showHint, 12000);
+        setTimeout(showHint, 3000);
+    </script>
+</body>
+
+</html>

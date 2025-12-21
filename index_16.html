@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="triz-base.css">
+    <script defer src="triz-nav.js"></script>
+    <title>Nguyên tắc 16: Giải "thiếu" hoặc "thừa"</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;800;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Nunito', 'Segoe UI', system-ui, sans-serif;
+            background: linear-gradient(145deg, #a3e635 0%, #84cc16 50%, #65a30d 100%);
+            color: #0b1021;
+            margin: 0;
+            padding: 22px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-size: 2.4rem;
+            margin: 12px 0 6px;
+            font-weight: 900;
+        }
+
+        .subtitle {
+            margin: 0 0 16px;
+            color: #365314;
+            font-weight: 700;
+            font-size: 1.15rem;
+        }
+
+        .kid-card {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            border-radius: 20px;
+            padding: 18px 20px;
+            border: 3px solid #fbbf24;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12), inset 0 2px 0 rgba(255, 255, 255, 0.5);
+            margin-bottom: 20px;
+        }
+
+        .kid-card p {
+            margin: 8px 0;
+            font-weight: 700;
+            color: #92400e;
+            font-size: 1.05rem;
+        }
+
+        .kid-card .emoji {
+            font-size: 1.4rem;
+            margin-right: 8px;
+        }
+
+        .demo {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 24px;
+            padding: 24px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.18);
+            border: 3px solid rgba(255, 255, 255, 0.8);
+        }
+
+        .demo-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            align-items: start;
+        }
+
+        .demo-stage {
+            background: linear-gradient(180deg, #f7fee7 0%, #ecfccb 100%);
+            border: 3px dashed #bef264;
+            border-radius: 20px;
+            padding: 30px;
+            min-height: 320px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .jar-container {
+            position: relative;
+        }
+
+        .jar {
+            width: 100px;
+            height: 130px;
+            background: linear-gradient(145deg, rgba(200, 220, 255, 0.6) 0%, rgba(180, 200, 240, 0.4) 100%);
+            border: 4px solid rgba(100, 150, 200, 0.4);
+            border-radius: 12px 12px 20px 20px;
+            position: relative;
+            box-shadow: inset 0 0 30px rgba(255, 255, 255, 0.5), 0 8px 24px rgba(0, 0, 0, 0.15);
+        }
+
+        .jar-contents {
+            position: absolute;
+            bottom: 5px;
+            left: 5px;
+            right: 5px;
+            height: 80px;
+            background: linear-gradient(180deg, #fbbf24 0%, #f59e0b 100%);
+            border-radius: 0 0 14px 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .jar-lid {
+            position: absolute;
+            top: -25px;
+            left: -5px;
+            width: 110px;
+            height: 30px;
+            background: linear-gradient(145deg, #ef4444 0%, #dc2626 100%);
+            border-radius: 8px 8px 4px 4px;
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .lid-grip {
+            position: absolute;
+            top: 5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 2px;
+        }
+
+        .lid-grip::before,
+        .lid-grip::after {
+            content: '';
+            position: absolute;
+            width: 60px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 2px;
+        }
+
+        .lid-grip::before {
+            top: 8px;
+        }
+
+        .lid-grip::after {
+            top: 16px;
+        }
+
+        .partial .jar-lid {
+            top: -35px;
+            transform: rotate(-15deg) translateX(10px);
+            background: linear-gradient(145deg, #22c55e 0%, #16a34a 100%);
+            box-shadow: 0 4px 12px rgba(34, 197, 94, 0.4);
+        }
+
+        .tightness-meter {
+            position: absolute;
+            bottom: -40px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 5px;
+            transition: all 0.4s ease;
+        }
+
+        .meter-bar {
+            width: 15px;
+            height: 25px;
+            background: #ef4444;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .partial .meter-bar {
+            background: #22c55e;
+            height: 15px;
+        }
+
+        .effort-indicator {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            padding: 8px 14px;
+            border-radius: 20px;
+            font-weight: 900;
+            font-size: 0.85rem;
+            background: #ef4444;
+            color: white;
+            transition: all 0.4s ease;
+        }
+
+        .partial .effort-indicator {
+            background: #22c55e;
+        }
+
+        .demo-label {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            transform: none;
+            background: rgba(30, 41, 59, 0.6);
+            color: #f1f5f9;
+            padding: 10px 18px;
+            border-radius: 30px;
+            font-weight: 800;
+            font-size: 0.95rem;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+            white-space: nowrap;
+        }
+
+        .controls {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .primary-btn {
+            background: linear-gradient(145deg, #84cc16 0%, #65a30d 100%);
+            color: white;
+            border: none;
+            border-radius: 16px;
+            padding: 16px 24px;
+            font-weight: 900;
+            font-size: 1.1rem;
+            cursor: pointer;
+            box-shadow: 0 8px 24px rgba(132, 204, 22, 0.4), inset 0 2px 0 rgba(255, 255, 255, 0.2);
+            transition: all 0.2s ease;
+            font-family: inherit;
+        }
+
+        .primary-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 28px rgba(132, 204, 22, 0.5);
+        }
+
+        .status {
+            background: linear-gradient(135deg, #f7fee7 0%, #ecfccb 100%);
+            border-radius: 14px;
+            padding: 14px 18px;
+            font-weight: 800;
+            color: #3f6212;
+            font-size: 1.05rem;
+            border: 2px solid #bef264;
+        }
+
+        .examples {
+            background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+            border-radius: 16px;
+            padding: 16px 18px;
+            border: 2px solid #86efac;
+        }
+
+        .examples h3 {
+            margin: 0 0 12px;
+            color: #166534;
+            font-size: 1.05rem;
+        }
+
+        .example-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .example-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: white;
+            padding: 12px 14px;
+            border-radius: 12px;
+            font-weight: 700;
+            color: #15803d;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.06);
+        }
+
+        .example-item .icon {
+            font-size: 1.5rem;
+        }
+
+        @media (max-width: 800px) {
+            .demo-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>🧂 Nguyên tắc 16: Giải "thiếu" hoặc "thừa"</h1>
+        <p class="subtitle">Use a little less or a little more!</p>
+
+        <div class="kid-card">
+            <p><span class="emoji">💡</span>Ý Tưởng Lớn: Tiny changes make things easier - not too much, not too little!
+            </p>
+            <p><span class="emoji">🎯</span>Thử xem: Don't close a jar lid all the way so you can open it later!</p>
+        </div>
+
+        <div class="demo">
+            <div class="demo-grid">
+                <div class="demo-stage" id="stage">
+                    <div class="effort-indicator" id="effortIndicator">TOO TIGHT! 💪😤</div>
+                    <div class="jar-container">
+                        <div class="jar">
+                            <div class="jar-contents">🍯</div>
+                            <div class="jar-lid">
+                                <div class="lid-grip"></div>
+                            </div>
+                        </div>
+                        <div class="tightness-meter">
+                            <div class="meter-bar"></div>
+                            <div class="meter-bar"></div>
+                            <div class="meter-bar"></div>
+                            <div class="meter-bar"></div>
+                            <div class="meter-bar"></div>
+                        </div>
+                    </div>
+                    <div class="demo-label" id="label">😤 Lid is too tight to open!</div>
+                </div>
+
+                <div class="controls">
+                    <button class="primary-btn" id="toggle">✨ Leave it a bit loose!</button>
+                    <div class="status" id="status">Closed too tight - impossible to open next time!</div>
+
+                    <div class="examples">
+                        <h3>🔍 Tìm trong cuộc sống:</h3>
+                        <div class="example-list">
+                            <div class="example-item">
+                                <span class="icon">🫙</span>
+                                <span>Leave jar lid slightly loose to open later</span>
+                            </div>
+                            <div class="example-item">
+                                <span class="icon">🧼</span>
+                                <span>Pour extra soap for bigger bubbles</span>
+                            </div>
+                            <div class="example-item">
+                                <span class="icon">🎨</span>
+                                <span>Use more paint for brighter colors</span>
+                            </div>
+                            <div class="example-item">
+                                <span class="icon">🛏️</span>
+                                <span>Add an extra blanket when cold</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const stage = document.getElementById('stage');
+        const effortIndicator = document.getElementById('effortIndicator');
+        const label = document.getElementById('label');
+        const status = document.getElementById('status');
+        const toggle = document.getElementById('toggle');
+        let partial = false;
+
+        toggle.addEventListener('click', () => {
+            partial = !partial;
+            stage.classList.toggle('partial', partial);
+
+            if (partial) {
+                effortIndicator.textContent = 'EASY OPEN! 😊';
+                label.textContent = '🎉 Just right - easy to open!';
+                status.textContent = 'A little loose means you can open it easily next time!';
+                toggle.textContent = '🔄 Tighten it all the way';
+            } else {
+                effortIndicator.textContent = 'TOO TIGHT! 💪😤';
+                label.textContent = '😤 Lid is too tight to open!';
+                status.textContent = 'Closed too tight - impossible to open next time!';
+                toggle.textContent = '✨ Leave it a bit loose!';
+            }
+        });
+    </script>
+</body>
+
+</html>

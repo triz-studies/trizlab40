@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="triz-base.css">
+    <script defer src="triz-nav.js"></script>
+    <title>Nguyên tắc 6: Vạn năng</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;800;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Nunito', 'Segoe UI', system-ui, sans-serif;
+            background: linear-gradient(145deg, #22d3ee 0%, #06b6d4 50%, #0891b2 100%);
+            color: #0b1021;
+            margin: 0;
+            padding: 22px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-size: 2.4rem;
+            margin: 12px 0 6px;
+            font-weight: 900;
+        }
+
+        .subtitle {
+            margin: 0 0 16px;
+            color: #164e63;
+            font-weight: 700;
+            font-size: 1.15rem;
+        }
+
+        .kid-card {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            border-radius: 20px;
+            padding: 18px 20px;
+            border: 3px solid #fbbf24;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12), inset 0 2px 0 rgba(255, 255, 255, 0.5);
+            margin-bottom: 20px;
+        }
+
+        .kid-card p {
+            margin: 8px 0;
+            font-weight: 700;
+            color: #92400e;
+            font-size: 1.05rem;
+        }
+
+        .kid-card .emoji {
+            font-size: 1.4rem;
+            margin-right: 8px;
+        }
+
+        .demo {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 24px;
+            padding: 24px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.18);
+            border: 3px solid rgba(255, 255, 255, 0.8);
+        }
+
+        .demo-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            align-items: start;
+        }
+
+        .demo-stage {
+            background: linear-gradient(180deg, #ecfeff 0%, #cffafe 100%);
+            border: 3px dashed #67e8f9;
+            border-radius: 20px;
+            padding: 30px;
+            min-height: 320px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .knife-container {
+            position: relative;
+            width: 180px;
+            height: 200px;
+        }
+
+        .knife-body {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 50px;
+            background: linear-gradient(145deg, #ef4444 0%, #dc2626 100%);
+            border-radius: 8px;
+            box-shadow: 0 6px 20px rgba(239, 68, 68, 0.4), inset 0 2px 0 rgba(255, 255, 255, 0.2);
+        }
+
+        .knife-logo {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 1.2rem;
+        }
+
+        .tool {
+            position: absolute;
+            background: linear-gradient(145deg, #94a3b8 0%, #64748b 100%);
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            transform-origin: bottom center;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .blade {
+            width: 12px;
+            height: 70px;
+            border-radius: 6px 6px 2px 2px;
+            bottom: 45px;
+            left: 30px;
+            transform: rotate(-90deg);
+            clip-path: polygon(0 0, 100% 0, 100% 85%, 50% 100%, 0 85%);
+        }
+
+        .scissors-tool {
+            width: 10px;
+            height: 50px;
+            border-radius: 5px;
+            bottom: 45px;
+            right: 30px;
+            transform: rotate(90deg);
+        }
+
+        .screwdriver {
+            width: 8px;
+            height: 45px;
+            border-radius: 4px 4px 1px 1px;
+            bottom: 48px;
+            left: 50%;
+            margin-left: -4px;
+            transform: rotate(180deg);
+        }
+
+        .opened .blade {
+            transform: rotate(-30deg);
+        }
+
+        .opened .scissors-tool {
+            transform: rotate(30deg);
+        }
+
+        .opened .screwdriver {
+            transform: rotate(0deg);
+        }
+
+        .tool-labels {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .tool-label {
+            position: absolute;
+            background: #22c55e;
+            color: white;
+            padding: 4px 8px;
+            border-radius: 10px;
+            font-weight: 800;
+            font-size: 0.7rem;
+            opacity: 0;
+            transform: scale(0.8);
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .tool-label.blade-label {
+            top: 20px;
+            left: -10px;
+        }
+
+        .tool-label.scissors-label {
+            top: 20px;
+            right: -20px;
+        }
+
+        .tool-label.screwdriver-label {
+            top: 40px;
+            left: 50%;
+            transform: translateX(-50%) scale(0.8);
+        }
+
+        .opened .tool-label {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .opened .tool-label.screwdriver-label {
+            transform: translateX(-50%) scale(1);
+        }
+
+        .job-counter {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            color: white;
+            padding: 8px 14px;
+            border-radius: 20px;
+            font-weight: 900;
+            font-size: 0.9rem;
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+        }
+
+        .demo-label {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            transform: none;
+            background: rgba(30, 41, 59, 0.6);
+            color: #f1f5f9;
+            padding: 10px 18px;
+            border-radius: 30px;
+            font-weight: 800;
+            font-size: 0.95rem;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+            white-space: nowrap;
+        }
+
+        .controls {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .primary-btn {
+            background: linear-gradient(145deg, #ef4444 0%, #dc2626 100%);
+            color: white;
+            border: none;
+            border-radius: 16px;
+            padding: 16px 24px;
+            font-weight: 900;
+            font-size: 1.1rem;
+            cursor: pointer;
+            box-shadow: 0 8px 24px rgba(239, 68, 68, 0.4), inset 0 2px 0 rgba(255, 255, 255, 0.2);
+            transition: all 0.2s ease;
+            font-family: inherit;
+        }
+
+        .primary-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 28px rgba(239, 68, 68, 0.5);
+        }
+
+        .status {
+            background: linear-gradient(135deg, #ecfeff 0%, #cffafe 100%);
+            border-radius: 14px;
+            padding: 14px 18px;
+            font-weight: 800;
+            color: #0e7490;
+            font-size: 1.05rem;
+            border: 2px solid #67e8f9;
+        }
+
+        .examples {
+            background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+            border-radius: 16px;
+            padding: 16px 18px;
+            border: 2px solid #86efac;
+        }
+
+        .examples h3 {
+            margin: 0 0 12px;
+            color: #166534;
+            font-size: 1.05rem;
+        }
+
+        .example-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .example-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: white;
+            padding: 12px 14px;
+            border-radius: 12px;
+            font-weight: 700;
+            color: #15803d;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.06);
+        }
+
+        .example-item .icon {
+            font-size: 1.5rem;
+        }
+
+        @media (max-width: 800px) {
+            .demo-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>🛠️ Nguyên tắc 6: Vạn năng</h1>
+        <p class="subtitle">Một thứ làm nhiều việc!</p>
+
+        <div class="kid-card">
+            <p><span class="emoji">💡</span>Ý Tưởng Lớn: Một công cụ siêu giúp ích nhiều cách!</p>
+            <p><span class="emoji">🎯</span>Thử xem: Dao Thụy Sĩ có lưỡi, kéo, VÀ tuốc nơ vít!</p>
+        </div>
+
+        <div class="demo">
+            <div class="demo-grid">
+                <div class="demo-stage">
+                    <div class="job-counter" id="counter">Việc: 1</div>
+                    <div class="knife-container" id="knife">
+                        <div class="tool-labels">
+                            <span class="tool-label blade-label">✂️ CẮT</span>
+                            <span class="tool-label scissors-label">📄 XÉN</span>
+                            <span class="tool-label screwdriver-label">🔩 VẶN</span>
+                        </div>
+                        <div class="tool blade"></div>
+                        <div class="tool scissors-tool"></div>
+                        <div class="tool screwdriver"></div>
+                        <div class="knife-body">
+                            <div class="knife-logo">🇨🇭</div>
+                        </div>
+                    </div>
+                    <div class="demo-label" id="label">🔧 Một công cụ, một việc</div>
+                </div>
+
+                <div class="controls">
+                    <button class="primary-btn" id="toggle">✨ Mở tất cả công cụ!</button>
+                    <div class="status" id="status">Dao đang đóng - chỉ làm được một việc.</div>
+
+                    <div class="examples">
+                        <h3>🔍 Tìm trong cuộc sống:</h3>
+                        <div class="example-list">
+                            <div class="example-item">
+                                <span class="icon">🔪</span>
+                                <span>Dao Thụy Sĩ = nhiều công cụ trong một</span>
+                            </div>
+                            <div class="example-item">
+                                <span class="icon">📱</span>
+                                <span>Điện thoại là máy ảnh, đèn pin, và máy tính</span>
+                            </div>
+                            <div class="example-item">
+                                <span class="icon">📏</span>
+                                <span>Thước kẻ có thể làm đánh dấu sách VÀ kẻ đường</span>
+                            </div>
+                            <div class="example-item">
+                                <span class="icon">🎒</span>
+                                <span>Ba lô chứa đồ VÀ bảo vệ lưng</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const knife = document.getElementById('knife');
+        const counter = document.getElementById('counter');
+        const label = document.getElementById('label');
+        const status = document.getElementById('status');
+        const toggle = document.getElementById('toggle');
+        let opened = false;
+
+        toggle.addEventListener('click', () => {
+            opened = !opened;
+            knife.classList.toggle('opened', opened);
+
+            if (opened) {
+                counter.textContent = 'Việc: 3+';
+                label.textContent = '🎉 Một công cụ, NHIỀU việc!';
+                status.textContent = 'Cắt, xén, và vặn ốc - tất cả với một công cụ bỏ túi!';
+                toggle.textContent = '🔄 Đóng công cụ';
+            } else {
+                counter.textContent = 'Việc: 1';
+                label.textContent = '🔧 Một công cụ, một việc';
+                status.textContent = 'Dao đang đóng - chỉ làm được một việc.';
+                toggle.textContent = '✨ Mở tất cả công cụ!';
+            }
+        });
+    </script>
+</body>
+
+</html>

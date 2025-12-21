@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="triz-base.css">
+    <script defer src="triz-nav.js"></script>
+    <title>Nguyên tắc 40: Sử dụng vật liệu hợp thành (composite)</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;800;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Nunito', 'Segoe UI', system-ui, sans-serif;
+            background: linear-gradient(145deg, #2dd4bf 0%, #14b8a6 50%, #0d9488 100%);
+            color: #0b1021;
+            margin: 0;
+            padding: 22px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-size: 2.4rem;
+            margin: 12px 0 6px;
+            font-weight: 900;
+        }
+
+        .subtitle {
+            margin: 0 0 16px;
+            color: #134e4a;
+            font-weight: 700;
+            font-size: 1.15rem;
+        }
+
+        .kid-card {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            border-radius: 20px;
+            padding: 18px 20px;
+            border: 3px solid #fbbf24;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12), inset 0 2px 0 rgba(255, 255, 255, 0.5);
+            margin-bottom: 20px;
+        }
+
+        .kid-card p {
+            margin: 8px 0;
+            font-weight: 700;
+            color: #92400e;
+            font-size: 1.05rem;
+        }
+
+        .kid-card .emoji {
+            font-size: 1.4rem;
+            margin-right: 8px;
+        }
+
+        .demo {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 24px;
+            padding: 24px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.18);
+            border: 3px solid rgba(255, 255, 255, 0.8);
+        }
+
+        .demo-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            align-items: start;
+        }
+
+        .demo-stage {
+            background: linear-gradient(180deg, #f0fdfa 0%, #ccfbf1 100%);
+            border: 3px dashed #5eead4;
+            border-radius: 20px;
+            padding: 30px;
+            min-height: 320px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .shield-scene {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .shield-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .shield {
+            position: relative;
+            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .layer {
+            width: 80px;
+            height: 120px;
+            border-radius: 12px 12px 40px 40px;
+            position: absolute;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        /* Single layer state */
+        .single .layer {
+            background: linear-gradient(145deg, #d6d3d1 0%, #a8a29e 100%);
+        }
+
+        .single .layer:nth-child(2),
+        .single .layer:nth-child(3) {
+            opacity: 0;
+            transform: translateX(0);
+        }
+
+        /* Layered state */
+        .layered .layer:nth-child(1) {
+            background: linear-gradient(145deg, #fbbf24 0%, #f59e0b 100%);
+            transform: translateX(-8px);
+            z-index: 3;
+        }
+
+        .layered .layer:nth-child(2) {
+            background: linear-gradient(145deg, #3b82f6 0%, #2563eb 100%);
+            transform: translateX(0);
+            opacity: 1;
+            z-index: 2;
+        }
+
+        .layered .layer:nth-child(3) {
+            background: linear-gradient(145deg, #22c55e 0%, #16a34a 100%);
+            transform: translateX(8px);
+            opacity: 1;
+            z-index: 1;
+        }
+
+        .arrow {
+            font-size: 2.5rem;
+            animation: poke 1s ease-in-out infinite;
+        }
+
+        @keyframes poke {
+
+            0%,
+            100% {
+                transform: translateX(0);
+            }
+
+            50% {
+                transform: translateX(10px);
+            }
+        }
+
+        .result-indicator {
+            font-size: 2rem;
+            transition: all 0.4s ease;
+        }
+
+        .single .result-indicator {
+            animation: wobble 0.5s ease-in-out infinite;
+        }
+
+        @keyframes wobble {
+
+            0%,
+            100% {
+                transform: rotate(0deg);
+            }
+
+            25% {
+                transform: rotate(-5deg);
+            }
+
+            75% {
+                transform: rotate(5deg);
+            }
+        }
+
+        .layered .result-indicator {
+            animation: none;
+        }
+
+        .bend-crack {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 1.5rem;
+            opacity: 0;
+            transition: all 0.4s ease;
+        }
+
+        .single .bend-crack {
+            opacity: 1;
+        }
+
+        .layer-labels {
+            position: absolute;
+            bottom: -50px;
+            display: flex;
+            gap: 5px;
+            font-size: 0.7rem;
+            font-weight: 900;
+            opacity: 0;
+            transition: all 0.4s ease;
+        }
+
+        .layered .layer-labels {
+            opacity: 1;
+        }
+
+        .layer-label {
+            padding: 4px 8px;
+            border-radius: 8px;
+            color: white;
+        }
+
+        .layer-label:nth-child(1) {
+            background: #f59e0b;
+        }
+
+        .layer-label:nth-child(2) {
+            background: #3b82f6;
+        }
+
+        .layer-label:nth-child(3) {
+            background: #22c55e;
+        }
+
+        .strength-meter {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            padding: 8px 14px;
+            border-radius: 20px;
+            font-weight: 900;
+            font-size: 0.85rem;
+            background: #ef4444;
+            color: white;
+            transition: all 0.4s ease;
+        }
+
+        .layered .strength-meter {
+            background: #22c55e;
+        }
+
+        .demo-label {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            transform: none;
+            background: rgba(30, 41, 59, 0.6);
+            color: #f1f5f9;
+            padding: 10px 18px;
+            border-radius: 30px;
+            font-weight: 800;
+            font-size: 0.95rem;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+            white-space: nowrap;
+        }
+
+        .controls {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .primary-btn {
+            background: linear-gradient(145deg, #14b8a6 0%, #0d9488 100%);
+            color: white;
+            border: none;
+            border-radius: 16px;
+            padding: 16px 24px;
+            font-weight: 900;
+            font-size: 1.1rem;
+            cursor: pointer;
+            box-shadow: 0 8px 24px rgba(20, 184, 166, 0.4), inset 0 2px 0 rgba(255, 255, 255, 0.2);
+            transition: all 0.2s ease;
+            font-family: inherit;
+        }
+
+        .primary-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 28px rgba(20, 184, 166, 0.5);
+        }
+
+        .status {
+            background: linear-gradient(135deg, #f0fdfa 0%, #ccfbf1 100%);
+            border-radius: 14px;
+            padding: 14px 18px;
+            font-weight: 800;
+            color: #115e59;
+            font-size: 1.05rem;
+            border: 2px solid #5eead4;
+        }
+
+        .examples {
+            background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+            border-radius: 16px;
+            padding: 16px 18px;
+            border: 2px solid #86efac;
+        }
+
+        .examples h3 {
+            margin: 0 0 12px;
+            color: #166534;
+            font-size: 1.05rem;
+        }
+
+        .example-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .example-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: white;
+            padding: 12px 14px;
+            border-radius: 12px;
+            font-weight: 700;
+            color: #15803d;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.06);
+        }
+
+        .example-item .icon {
+            font-size: 1.5rem;
+        }
+
+        @media (max-width: 800px) {
+            .demo-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>🛡️ Nguyên tắc 40: Sử dụng vật liệu hợp thành (composite)</h1>
+        <p class="subtitle">Xếp lớp các vật khác nhau để siêu chắc!</p>
+
+        <div class="kid-card">
+            <p><span class="emoji">💡</span>Ý Tưởng Lớn: Lớp bánh sandwich bền hơn một lớp mỏng!</p>
+            <p><span class="emoji">🎯</span>Thử xem: Dán các miếng bìa cứng lại để làm khiên chắc!</p>
+        </div>
+
+        <div class="demo">
+            <div class="demo-grid">
+                <div class="demo-stage single" id="stage">
+                    <div class="strength-meter" id="meter">WEAK 😟</div>
+                    <div class="shield-scene">
+                        <div class="shield-container">
+                            <div class="arrow">👉</div>
+                            <div class="shield">
+                                <div class="layer"></div>
+                                <div class="layer"></div>
+                                <div class="layer"></div>
+                                <div class="bend-crack">💥</div>
+                                <div class="layer-labels">
+                                    <span class="layer-label">1</span>
+                                    <span class="layer-label">2</span>
+                                    <span class="layer-label">3</span>
+                                </div>
+                            </div>
+                            <div class="result-indicator" id="resultIcon">😰</div>
+                        </div>
+                    </div>
+                    <div class="demo-label" id="label">📄 One thin layer bends easily</div>
+                </div>
+
+                <div class="controls">
+                    <button class="primary-btn" id="toggle">📚 Add more layers!</button>
+                    <div class="status" id="status">A single thin piece bends and breaks under pressure!</div>
+
+                    <div class="examples">
+                        <h3>🔍 Tìm trong cuộc sống:</h3>
+                        <div class="example-list">
+                            <div class="example-item">
+                                <span class="icon">📦</span>
+                                <span>Bìa cứng gợn sóng có nhiều lớp</span>
+                            </div>
+                            <div class="example-item">
+                                <span class="icon">⛑️</span>
+                                <span>Mũ xe đạp: xốp + vỏ cứng</span>
+                            </div>
+                            <div class="example-item">
+                                <span class="icon">🪵</span>
+                                <span>Các lớp ván ép dán lại</span>
+                            </div>
+                            <div class="example-item">
+                                <span class="icon">🎨</span>
+                                <span>Băng keo + giấy làm đồ thủ công chắc</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const stage = document.getElementById('stage');
+        const meter = document.getElementById('meter');
+        const resultIcon = document.getElementById('resultIcon');
+        const label = document.getElementById('label');
+        const status = document.getElementById('status');
+        const toggle = document.getElementById('toggle');
+        let layered = false;
+
+        toggle.addEventListener('click', () => {
+            layered = !layered;
+            stage.classList.toggle('single', !layered);
+            stage.classList.toggle('layered', layered);
+
+            if (layered) {
+                meter.textContent = 'STRONG! 💪';
+                resultIcon.textContent = '😎';
+                label.textContent = '🎉 Three layers = super strong!';
+                status.textContent = 'Multiple layers together resist bending and breaking!';
+                toggle.textContent = '🔄 Back to one layer';
+            } else {
+                meter.textContent = 'WEAK 😟';
+                resultIcon.textContent = '😰';
+                label.textContent = '📄 One thin layer bends easily';
+                status.textContent = 'A single thin piece bends and breaks under pressure!';
+                toggle.textContent = '📚 Add more layers!';
+            }
+        });
+    </script>
+</body>
+
+</html>
