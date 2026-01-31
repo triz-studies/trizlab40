@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../triz-base.css">
+    <script defer src="../triz-nav.js"></script>
+    <title>Nguyên tắc 38: Sử dụng chất oxy hóa mạnh</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;800;900&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            font-family: 'Nunito', 'Segoe UI', system-ui, sans-serif;
+            background: linear-gradient(145deg, #60a5fa 0%, #3b82f6 50%, #2563eb 100%);
+            color: #0b1021;
+            margin: 0;
+            padding: 22px;
+            min-height: 100vh;
+        }
+        .container { max-width: 1100px; margin: 0 auto; }
+        h1 { font-size: 2.4rem; margin: 12px 0 6px; font-weight: 900; }
+        .subtitle { margin: 0 0 16px; color: #1e3a8a; font-weight: 700; font-size: 1.15rem; }
+        
+        .kid-card {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            border-radius: 20px;
+            padding: 18px 20px;
+            border: 3px solid #fbbf24;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.12), inset 0 2px 0 rgba(255,255,255,0.5);
+            margin-bottom: 20px;
+        }
+        .kid-card p { margin: 8px 0; font-weight: 700; color: #92400e; font-size: 1.05rem; }
+        .kid-card .emoji { font-size: 1.4rem; margin-right: 8px; }
+        
+        .demo {
+            background: rgba(255,255,255,0.95);
+            border-radius: 24px;
+            padding: 24px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.18);
+            border: 3px solid rgba(255,255,255,0.8);
+        }
+        .demo-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            align-items: start;
+        }
+        
+        .demo-stage {
+            background: linear-gradient(180deg, #dbeafe 0%, #bfdbfe 100%);
+            border: 3px dashed #93c5fd;
+            border-radius: 20px;
+            padding: 30px;
+            min-height: 320px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        
+        .bottle-scene {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .water-bottle {
+            width: 80px;
+            height: 150px;
+            background: linear-gradient(180deg, rgba(200,220,255,0.7) 0%, rgba(180,200,240,0.5) 100%);
+            border: 4px solid rgba(100,150,200,0.4);
+            border-radius: 12px 12px 25px 25px;
+            position: relative;
+            box-shadow: inset 0 0 30px rgba(255,255,255,0.5), 0 8px 24px rgba(0,0,0,0.15);
+        }
+        
+        .bottle-neck {
+            width: 30px;
+            height: 25px;
+            background: linear-gradient(180deg, rgba(200,220,255,0.7) 0%, rgba(180,200,240,0.5) 100%);
+            border: 4px solid rgba(100,150,200,0.4);
+            border-bottom: none;
+            border-radius: 8px 8px 0 0;
+            position: absolute;
+            top: -25px;
+            left: 12px;
+            transform: none;
+        }
+        
+        .water {
+            position: absolute;
+            bottom: 5px;
+            left: 5px;
+            right: 5px;
+            height: 100px;
+            background: linear-gradient(180deg, #60a5fa 0%, #3b82f6 100%);
+            border-radius: 0 0 20px 20px;
+            transition: all 0.5s ease;
+        }
+        
+        .dirt-spot {
+            position: absolute;
+            background: #78350f;
+            border-radius: 50%;
+            transition: all 0.5s ease;
+        }
+        
+        .dirt-spot:nth-child(1) { width: 20px; height: 15px; bottom: 30px; left: 15px; }
+        .dirt-spot:nth-child(2) { width: 15px; height: 12px; bottom: 50px; right: 20px; }
+        .dirt-spot:nth-child(3) { width: 18px; height: 14px; bottom: 70px; left: 25px; }
+        
+        .bubbles {
+            position: absolute;
+            bottom: 20px;
+            width: 100%;
+            height: 80px;
+            opacity: 0;
+            transition: all 0.4s ease;
+        }
+        
+        .bubble {
+            position: absolute;
+            background: rgba(255,255,255,0.7);
+            border-radius: 50%;
+            animation: rise-bubble 1.5s ease-in-out infinite;
+        }
+        
+        .bubble:nth-child(1) { width: 10px; height: 10px; left: 20%; bottom: 10px; }
+        .bubble:nth-child(2) { width: 8px; height: 8px; left: 40%; bottom: 20px; animation-delay: 0.3s; }
+        .bubble:nth-child(3) { width: 12px; height: 12px; left: 60%; bottom: 5px; animation-delay: 0.6s; }
+        .bubble:nth-child(4) { width: 6px; height: 6px; left: 30%; bottom: 30px; animation-delay: 0.9s; }
+        .bubble:nth-child(5) { width: 9px; height: 9px; left: 70%; bottom: 15px; animation-delay: 1.2s; }
+        
+        @keyframes rise-bubble {
+            0% { transform: translateY(0) scale(1); opacity: 0.7; }
+            100% { transform: translateY(-60px) scale(0.5); opacity: 0; }
+        }
+        
+        .fizzing .bubbles {
+            opacity: 1;
+        }
+        
+        .fizzing .dirt-spot {
+            opacity: 0;
+            transform: scale(0.3);
+        }
+        
+        .fizzing .water {
+            background: linear-gradient(180deg, #93c5fd 0%, #60a5fa 100%);
+        }
+        
+        .tablet {
+            position: absolute;
+            top: 50px;
+            font-size: 1.5rem;
+            opacity: 0;
+            transform: translateY(-30px);
+            transition: all 0.4s ease;
+        }
+        
+        .fizzing .tablet {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .sparkles {
+            position: absolute;
+            top: -20px;
+            display: flex;
+            gap: 20px;
+            font-size: 1.2rem;
+            opacity: 0;
+            transition: all 0.4s ease 0.3s;
+        }
+        
+        .fizzing .sparkles {
+            opacity: 1;
+        }
+        
+        .clean-meter {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            padding: 8px 14px;
+            border-radius: 20px;
+            font-weight: 900;
+            font-size: 0.85rem;
+            background: #78350f;
+            color: white;
+            transition: all 0.4s ease;
+        }
+        
+        .fizzing .clean-meter {
+            background: #22c55e;
+        }
+        
+        .demo-label {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            transform: none;
+            background: rgba(30, 41, 59, 0.6);
+            color: #f1f5f9;
+            padding: 10px 18px;
+            border-radius: 30px;
+            font-weight: 800;
+            font-size: 0.95rem;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+            white-space: nowrap;
+        }
+        
+        .controls { display: flex; flex-direction: column; gap: 14px; }
+        
+        .primary-btn {
+            background: linear-gradient(145deg, #3b82f6 0%, #2563eb 100%);
+            color: white;
+            border: none;
+            border-radius: 16px;
+            padding: 16px 24px;
+            font-weight: 900;
+            font-size: 1.1rem;
+            cursor: pointer;
+            box-shadow: 0 8px 24px rgba(59,130,246,0.4), inset 0 2px 0 rgba(255,255,255,0.2);
+            transition: all 0.2s ease;
+            font-family: inherit;
+        }
+        .primary-btn:hover { transform: translateY(-3px); box-shadow: 0 12px 28px rgba(59,130,246,0.5); }
+        
+        .status {
+            background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+            border-radius: 14px;
+            padding: 14px 18px;
+            font-weight: 800;
+            color: #1e40af;
+            font-size: 1.05rem;
+            border: 2px solid #93c5fd;
+        }
+        
+        .examples {
+            background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+            border-radius: 16px;
+            padding: 16px 18px;
+            border: 2px solid #86efac;
+        }
+        .examples h3 { margin: 0 0 12px; color: #166534; font-size: 1.05rem; }
+        .example-list { display: flex; flex-direction: column; gap: 10px; }
+        .example-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: white;
+            padding: 12px 14px;
+            border-radius: 12px;
+            font-weight: 700;
+            color: #15803d;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.06);
+        }
+        .example-item .icon { font-size: 1.5rem; }
+        
+        @media (max-width: 800px) {
+            .demo-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>💨 Nguyên tắc 38: Sử dụng chất oxy hóa mạnh</h1>
+        <p class="subtitle">Bọt và khí tăng sức làm sạch!</p>
+        
+        <div class="kid-card">
+            <p><span class="emoji">💡</span>Ý Tưởng Lớn: Bọt sủi chà và nâng bụi bẩn đi!</p>
+            <p><span class="emoji">🎯</span>Thử xem: Xem viên sủi làm sạch chai bẩn!</p>
+        </div>
+        
+        <div class="demo">
+            <div class="demo-grid">
+                <div class="demo-stage" id="stage">
+                    <div class="clean-meter" id="meter">BẨN 🤢</div>
+                    <div class="bottle-scene">
+                        <div class="sparkles">
+                            <span>✨</span><span>✨</span><span>✨</span>
+                        </div>
+                        <div class="tablet">💊</div>
+                        <div class="water-bottle">
+                            <div class="bottle-neck"></div>
+                            <div class="water">
+                                <div class="dirt-spot"></div>
+                                <div class="dirt-spot"></div>
+                                <div class="dirt-spot"></div>
+                                <div class="bubbles">
+                                    <div class="bubble"></div>
+                                    <div class="bubble"></div>
+                                    <div class="bubble"></div>
+                                    <div class="bubble"></div>
+                                    <div class="bubble"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="demo-label" id="label">🤮 Vết bẩn dính bên trong!</div>
+                </div>
+                
+                <div class="controls">
+                    <button class="primary-btn" id="toggle">💊 Thả viên sủi vào!</button>
+                    <div class="status" id="status">Những vết bẩn bị kẹt và không ra được chỉ bằng nước!</div>
+                    
+                    <div class="examples">
+                        <h3>🔍 Tìm trong cuộc sống:</h3>
+                        <div class="example-list">
+                            <div class="example-item">
+                                <span class="icon">💊</span>
+                                <span>Viên sủi làm sạch bình nước</span>
+                            </div>
+                            <div class="example-item">
+                                <span class="icon">🛁</span>
+                                <span>Bọt tắm làm lỏng bụi bẩn</span>
+                            </div>
+                            <div class="example-item">
+                                <span class="icon">🧹</span>
+                                <span>Chất tẩy bọt nâng vết bẩn</span>
+                            </div>
+                            <div class="example-item">
+                                <span class="icon">🦷</span>
+                                <span>Viên sủi răng giả làm sạch niềng</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        const stage = document.getElementById('stage');
+        const meter = document.getElementById('meter');
+        const label = document.getElementById('label');
+        const status = document.getElementById('status');
+        const toggle = document.getElementById('toggle');
+        let fizzing = false;
+
+        toggle.addEventListener('click', () => {
+            fizzing = !fizzing;
+            stage.classList.toggle('fizzing', fizzing);
+            
+            if (fizzing) {
+                meter.textContent = 'SẠCH! ✨';
+                label.textContent = '🎉 Bọt bong bóng đã cọ sạch bóng!';
+                status.textContent = 'Bong bóng oxy sủi đã cuốn hết vết bẩn đi!';
+                toggle.textContent = '🔄 Làm bẩn lại';
+            } else {
+                meter.textContent = 'BẨN 🤢';
+                label.textContent = '🤮 Vết bẩn dính bên trong!';
+                status.textContent = 'Vết bẩn dính chặt và không ra chỉ với nước!';
+                toggle.textContent = '💊 Thả viên sủi vào!';
+            }
+        });
+    </script>
+</body>
+</html>

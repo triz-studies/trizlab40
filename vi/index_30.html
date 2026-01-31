@@ -1,0 +1,2320 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../triz-base.css">
+    <script defer src="../triz-nav.js"></script>
+    <title>Nguyên tắc 30: Sử dụng vỏ dẻo và màng mỏng</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;800;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Nunito', 'Segoe UI', system-ui, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #f5576c 75%, #4facfe 100%);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        @keyframes gradientShift {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 3.2em;
+            margin-bottom: 10px;
+            color: white;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5);
+            animation: titleWave 4s ease-in-out infinite alternate;
+            background: linear-gradient(45deg, #FFD700, #FFA500, #FF6B6B);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        @keyframes titleWave {
+            0% {
+                transform: translateY(-5px) rotate(-1deg) scale(1);
+            }
+
+            100% {
+                transform: translateY(5px) rotate(1deg) scale(1.02);
+            }
+        }
+
+        .subtitle {
+            font-size: 1.6em;
+            margin-bottom: 30px;
+            color: white;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Enhanced Progress Section */
+        .progress-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 25px;
+            margin: 20px 0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 25px;
+            background: #ecf0f1;
+            border-radius: 15px;
+            overflow: hidden;
+            position: relative;
+            border: 3px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(45deg, #e74c3c, #f39c12, #2ecc71);
+            width: 0%;
+            transition: width 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            position: relative;
+        }
+
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent 33%, rgba(255, 255, 255, 0.4) 50%, transparent 66%);
+            animation: progressShine 2s infinite;
+        }
+
+        @keyframes progressShine {
+            0% {
+                transform: translateX(-100%);
+            }
+
+            100% {
+                transform: translateX(100%);
+            }
+        }
+
+        .progress-text {
+            text-align: center;
+            margin-top: 15px;
+            font-weight: bold;
+            color: #2c3e50;
+            font-size: 1.1em;
+        }
+
+        /* Knowledge Quiz Section */
+        .quiz-section {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            margin: 30px 0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s ease;
+        }
+
+        .quiz-section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .quiz-question {
+            font-size: 1.3em;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #2c3e50;
+        }
+
+        .quiz-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .quiz-option {
+            background: linear-gradient(135deg, #74b9ff, #0984e3);
+            color: white;
+            padding: 15px 20px;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            font-family: inherit;
+            font-size: 1em;
+            font-weight: bold;
+        }
+
+        .quiz-option:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .quiz-option.correct {
+            background: linear-gradient(135deg, #00b894, #00a085);
+            animation: correctAnswer 0.6s ease;
+        }
+
+        .quiz-option.incorrect {
+            background: linear-gradient(135deg, #e17055, #d63031);
+            animation: incorrectAnswer 0.6s ease;
+        }
+
+        @keyframes correctAnswer {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        @keyframes incorrectAnswer {
+
+            0%,
+            100% {
+                transform: translateX(0);
+            }
+
+            25% {
+                transform: translateX(-5px);
+            }
+
+            75% {
+                transform: translateX(5px);
+            }
+        }
+
+        /* Enhanced Comparison Section */
+        .comparison-section {
+            display: flex;
+            gap: 30px;
+            margin: 40px 0;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .playhouse-demo {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 25px;
+            padding: 35px;
+            flex: 1;
+            min-width: 400px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .playhouse-demo:hover {
+            transform: translateY(-10px) scale(1.02);
+        }
+
+        .playhouse-demo h2 {
+            color: #2c3e50;
+            margin-bottom: 25px;
+            font-size: 2.2em;
+        }
+
+        /* Enhanced Scene Setup */
+        .building-scene {
+            position: relative;
+            height: 450px;
+            background: linear-gradient(180deg, #87CEEB 0%, #98FB98 60%, #8FBC8F 100%);
+            border-radius: 20px;
+            margin: 20px 0;
+            overflow: hidden;
+            box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.1);
+            border: 3px solid rgba(255, 255, 255, 0.3);
+        }
+
+        /* Enhanced Background Elements */
+        .sun {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            width: 70px;
+            height: 70px;
+            background: radial-gradient(circle, #FFD700, #FFA500);
+            border-radius: 50%;
+            animation: sunShine 4s ease-in-out infinite;
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.6);
+        }
+
+        @keyframes sunShine {
+
+            0%,
+            100% {
+                transform: scale(1);
+                box-shadow: 0 0 30px rgba(255, 215, 0, 0.6);
+            }
+
+            50% {
+                transform: scale(1.1);
+                box-shadow: 0 0 50px rgba(255, 215, 0, 0.8);
+            }
+        }
+
+        .cloud {
+            position: absolute;
+            background: white;
+            border-radius: 50px;
+            opacity: 0.9;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .cloud1 {
+            top: 40px;
+            left: 20px;
+            width: 80px;
+            height: 40px;
+            animation: cloudFloat1 20s linear infinite;
+        }
+
+        .cloud2 {
+            top: 70px;
+            left: -60px;
+            width: 60px;
+            height: 30px;
+            animation: cloudFloat2 25s linear infinite 5s;
+        }
+
+        @keyframes cloudFloat1 {
+            from {
+                transform: translateX(0);
+            }
+
+            to {
+                transform: translateX(500px);
+            }
+        }
+
+        @keyframes cloudFloat2 {
+            from {
+                transform: translateX(0);
+            }
+
+            to {
+                transform: translateX(450px);
+            }
+        }
+
+        .grass {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 50px;
+            background: linear-gradient(to top, #228B22, #32CD32);
+            border-radius: 0 0 20px 20px;
+        }
+
+        .grass::before {
+            content: '🌸 🌼 🌸 🌼 🌸 🦋';
+            position: absolute;
+            top: -15px;
+            left: 20px;
+            font-size: 1.2em;
+            animation: flowerSway 3s ease-in-out infinite;
+        }
+
+        @keyframes flowerSway {
+
+            0%,
+            100% {
+                transform: rotate(-2deg);
+            }
+
+            50% {
+                transform: rotate(2deg);
+            }
+        }
+
+        /* Enhanced Character */
+        .character {
+            position: absolute;
+            bottom: 60px;
+            font-size: 3.5em;
+            transition: all 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            cursor: pointer;
+            filter: drop-shadow(0 8px 15px rgba(0, 0, 0, 0.3));
+            user-select: none;
+            z-index: 10;
+            right: 50%;
+            transform: translateX(50%);
+            border-radius: 50%;
+            padding: 10px;
+        }
+
+        .character:hover {
+            transform: translateX(50%) scale(1.15);
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .character.working {
+            animation: characterWork 1.5s ease-in-out infinite;
+        }
+
+        .character.celebrating {
+            animation: characterCelebrate 0.8s ease-in-out 4;
+        }
+
+        @keyframes characterWork {
+
+            0%,
+            100% {
+                transform: translateX(50%) rotate(-8deg);
+            }
+
+            50% {
+                transform: translateX(50%) rotate(8deg);
+            }
+        }
+
+        @keyframes characterCelebrate {
+
+            0%,
+            100% {
+                transform: translateX(50%) scale(1) rotate(0deg);
+            }
+
+            25% {
+                transform: translateX(50%) scale(1.3) rotate(-10deg);
+            }
+
+            75% {
+                transform: translateX(50%) scale(1.3) rotate(10deg);
+            }
+        }
+
+        /* Enhanced Wooden Playhouse */
+        .wooden-playhouse {
+            position: absolute;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%) scale(0);
+            width: 220px;
+            height: 170px;
+            opacity: 0;
+            transition: all 2.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        .wooden-playhouse.built {
+            opacity: 1;
+            transform: translateX(-50%) scale(1);
+        }
+
+        .house-base {
+            width: 100%;
+            height: 120px;
+            background: linear-gradient(145deg, #8B4513, #A0522D);
+            border-radius: 10px;
+            position: relative;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+            border: 2px solid #654321;
+        }
+
+        .house-roof {
+            position: absolute;
+            top: -35px;
+            left: -25px;
+            width: 0;
+            height: 0;
+            border-left: 135px solid transparent;
+            border-right: 135px solid transparent;
+            border-bottom: 70px solid #654321;
+            filter: drop-shadow(0 8px 15px rgba(0, 0, 0, 0.4));
+        }
+
+        .house-door {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 45px;
+            height: 70px;
+            background: linear-gradient(145deg, #2c3e50, #34495e);
+            border-radius: 8px 8px 0 0;
+            border: 2px solid #1a252f;
+        }
+
+        .house-window {
+            position: absolute;
+            top: 25px;
+            right: 25px;
+            width: 35px;
+            height: 35px;
+            background: #87CEEB;
+            border: 4px solid #654321;
+            border-radius: 8px;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .building-tools {
+            position: absolute;
+            bottom: 45px;
+            left: 25px;
+            font-size: 1.8em;
+            opacity: 0;
+            transition: opacity 1.5s ease;
+        }
+
+        .building-tools.visible {
+            opacity: 1;
+            animation: toolsBounce 1.5s ease-in-out infinite;
+        }
+
+        @keyframes toolsBounce {
+
+            0%,
+            100% {
+                transform: translateY(0) rotate(-5deg);
+            }
+
+            50% {
+                transform: translateY(-15px) rotate(5deg);
+            }
+        }
+
+        /* Enhanced Tent Playhouse */
+        .tent-playhouse {
+            position: absolute;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%) scale(0);
+            width: 200px;
+            height: 140px;
+            opacity: 0;
+            transition: all 2s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        .tent-playhouse.setup {
+            opacity: 1;
+            transform: translateX(-50%) scale(1);
+        }
+
+        .tent-body {
+            width: 100%;
+            height: 120px;
+            background: linear-gradient(145deg, #FF6B6B, #FF8E53, #FFD93D);
+            border-radius: 60px 60px 15px 15px;
+            position: relative;
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.3);
+            animation: tentGentle 6s ease-in-out infinite;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+        }
+
+        @keyframes tentGentle {
+
+            0%,
+            100% {
+                transform: scale(1) rotate(0deg);
+            }
+
+            33% {
+                transform: scale(1.02) rotate(0.5deg);
+            }
+
+            66% {
+                transform: scale(1.01) rotate(-0.5deg);
+            }
+        }
+
+        .tent-entrance {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 55px;
+            height: 80px;
+            background: linear-gradient(145deg, #2c3e50, #34495e);
+            border-radius: 25px 25px 0 0;
+            border: 3px solid #FF6B6B;
+        }
+
+        .tent-poles {
+            position: absolute;
+            top: -15px;
+            left: 25px;
+            right: 25px;
+            height: 8px;
+            background: linear-gradient(90deg, #95a5a6, #bdc3c7);
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .tent-stakes {
+            position: absolute;
+            bottom: -25px;
+            left: 15px;
+            right: 15px;
+            height: 4px;
+            background: #7f8c8d;
+            border-radius: 3px;
+        }
+
+        .tent-bag {
+            position: absolute;
+            bottom: 50px;
+            right: 25px;
+            font-size: 2.5em;
+            opacity: 1;
+            transition: all 1.5s ease;
+            filter: drop-shadow(0 5px 10px rgba(0, 0, 0, 0.3));
+        }
+
+        .tent-bag.hidden {
+            opacity: 0;
+            transform: scale(0.3) rotate(180deg);
+        }
+
+        /* Enhanced Control Buttons */
+        .control-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin: 30px 0;
+            flex-wrap: wrap;
+        }
+
+        .control-button {
+            background: linear-gradient(45deg, #e74c3c, #c0392b);
+            border: none;
+            color: white;
+            padding: 20px 40px;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 35px;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            font-family: inherit;
+            position: relative;
+            overflow: hidden;
+            border: 3px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .control-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        .control-button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.8s ease, height 0.8s ease;
+        }
+
+        .control-button:not(:disabled):hover::before {
+            width: 400px;
+            height: 400px;
+        }
+
+        .control-button:not(:disabled):hover {
+            transform: translateY(-6px) scale(1.05);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .control-button:not(:disabled):active {
+            transform: translateY(-2px) scale(1.02);
+        }
+
+        .control-button.build {
+            background: linear-gradient(45deg, #8B4513, #A0522D, #CD853F);
+        }
+
+        .control-button.setup {
+            background: linear-gradient(45deg, #27ae60, #2ecc71, #58D68D);
+        }
+
+        /* Enhanced Status Display */
+        .status-display {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 25px;
+            padding: 30px;
+            margin: 30px 0;
+            min-height: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6em;
+            font-weight: bold;
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            border: 3px solid rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .status-display::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5), transparent);
+            transition: left 0.8s ease;
+        }
+
+        .status-display.updating::before {
+            left: 100%;
+        }
+
+        /* Enhanced Comparison Metrics */
+        .comparison-metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+            gap: 18px;
+            margin: 25px 0;
+        }
+
+        .metric {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 20px;
+            border-radius: 18px;
+            text-align: center;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            transition: transform 0.4s ease;
+            border: 2px solid rgba(0, 0, 0, 0.1);
+        }
+
+        .metric:hover {
+            transform: translateY(-8px) scale(1.05);
+        }
+
+        .metric-value {
+            font-size: 2.5em;
+            font-weight: bold;
+            margin: 8px 0;
+        }
+
+        .metric-label {
+            font-size: 0.9em;
+            color: #7f8c8d;
+            font-weight: bold;
+        }
+
+        /* Enhanced Problem/Solution Indicators */
+        .problem-indicators,
+        .solution-indicators {
+            position: absolute;
+            top: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .problem-indicators {
+            right: 15px;
+        }
+
+        .solution-indicators {
+            left: 15px;
+        }
+
+        .problem-tag {
+            background: rgba(231, 76, 60, 0.95);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 18px;
+            font-size: 0.8em;
+            font-weight: bold;
+            animation: problemPulse 3s ease-in-out infinite;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        @keyframes problemPulse {
+
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 0.7;
+                transform: scale(1.08);
+            }
+        }
+
+        .solution-tag {
+            background: rgba(46, 204, 113, 0.95);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 18px;
+            font-size: 0.8em;
+            font-weight: bold;
+            animation: solutionGlow 4s ease-in-out infinite;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        @keyframes solutionGlow {
+
+            0%,
+            100% {
+                box-shadow: 0 0 12px rgba(46, 204, 113, 0.6);
+            }
+
+            50% {
+                box-shadow: 0 0 25px rgba(46, 204, 113, 0.9);
+            }
+        }
+
+        /* Enhanced Educational Content */
+        .explanation {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 30px;
+            padding: 40px;
+            margin: 50px 0;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+            text-align: left;
+            backdrop-filter: blur(10px);
+            border: 3px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .explanation h2 {
+            color: #2c3e50;
+            margin-bottom: 30px;
+            text-align: center;
+            font-size: 2.4em;
+        }
+
+        .principle-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 35px 0;
+        }
+
+        .step {
+            background: linear-gradient(135deg, #ff6b6b, #4ecdc4, #45b7d1);
+            color: white;
+            padding: 30px;
+            border-radius: 25px;
+            text-align: center;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+            transition: transform 0.4s ease;
+            border: 3px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .step:hover {
+            transform: translateY(-12px) scale(1.03) rotate(1deg);
+        }
+
+        .step-number {
+            font-size: 3.5em;
+            font-weight: bold;
+            margin-bottom: 18px;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.4);
+        }
+
+        .examples-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin: 35px 0;
+        }
+
+        .example-item {
+            background: linear-gradient(135deg, #667eea, #764ba2, #f093fb);
+            color: white;
+            padding: 30px;
+            border-radius: 22px;
+            text-align: center;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+            transition: all 0.4s ease;
+            cursor: pointer;
+            border: 3px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .example-item:hover {
+            transform: translateY(-12px) rotate(3deg) scale(1.05);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .example-emoji {
+            font-size: 3.5em;
+            margin-bottom: 18px;
+            animation: exampleFloat 6s ease-in-out infinite;
+        }
+
+        @keyframes exampleFloat {
+
+            0%,
+            100% {
+                transform: translateY(0) rotate(0deg);
+            }
+
+            33% {
+                transform: translateY(-12px) rotate(5deg);
+            }
+
+            66% {
+                transform: translateY(-6px) rotate(-3deg);
+            }
+        }
+
+        /* Enhanced Reset Button */
+        .reset-button {
+            background: linear-gradient(45deg, #9b59b6, #8e44ad, #e91e63);
+            border: none;
+            color: white;
+            padding: 18px 35px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 30px;
+            cursor: pointer;
+            margin: 25px auto;
+            display: block;
+            transition: all 0.4s ease;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            border: 3px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .reset-button:hover {
+            transform: translateY(-5px) scale(1.08);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Enhanced Effects */
+        .construction-effect,
+        .setup-effect {
+            position: absolute;
+            font-size: 2em;
+            opacity: 0;
+            pointer-events: none;
+            z-index: 15;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .construction-effect.show {
+            opacity: 1;
+            animation: constructionSplash 2.5s ease-out;
+        }
+
+        @keyframes constructionSplash {
+            0% {
+                transform: translate(-50%, -50%) scale(0.3) rotate(-180deg);
+                opacity: 1;
+            }
+
+            50% {
+                transform: translate(-50%, -50%) scale(1.8) rotate(-90deg);
+                opacity: 0.9;
+            }
+
+            100% {
+                transform: translate(-50%, -50%) scale(2.5) rotate(0deg);
+                opacity: 0;
+            }
+        }
+
+        .setup-effect.show {
+            opacity: 1;
+            animation: setupMagic 2s ease-out;
+        }
+
+        @keyframes setupMagic {
+            0% {
+                transform: translate(-50%, -50%) scale(0) rotate(-360deg);
+                opacity: 1;
+            }
+
+            50% {
+                transform: translate(-50%, -50%) scale(1.5) rotate(-180deg);
+                opacity: 0.95;
+            }
+
+            100% {
+                transform: translate(-50%, -50%) scale(2) rotate(0deg);
+                opacity: 0;
+            }
+        }
+
+        /* Timer Display */
+        .timer-display {
+            position: absolute;
+            top: 15px;
+            left: 12px;
+            transform: none;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 1.2em;
+            font-weight: bold;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .timer-display.visible {
+            opacity: 1;
+        }
+
+        /* Sound Visualization */
+        .sound-wave {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            display: flex;
+            gap: 3px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .sound-wave.active {
+            opacity: 1;
+        }
+
+        .sound-bar {
+            width: 4px;
+            background: #e74c3c;
+            border-radius: 2px;
+            animation: soundBounce 0.5s ease-in-out infinite alternate;
+        }
+
+        .sound-bar:nth-child(1) {
+            height: 20px;
+            animation-delay: 0s;
+        }
+
+        .sound-bar:nth-child(2) {
+            height: 30px;
+            animation-delay: 0.1s;
+        }
+
+        .sound-bar:nth-child(3) {
+            height: 25px;
+            animation-delay: 0.2s;
+        }
+
+        .sound-bar:nth-child(4) {
+            height: 35px;
+            animation-delay: 0.3s;
+        }
+
+        .sound-bar:nth-child(5) {
+            height: 20px;
+            animation-delay: 0.4s;
+        }
+
+        @keyframes soundBounce {
+            0% {
+                transform: scaleY(0.3);
+            }
+
+            100% {
+                transform: scaleY(1);
+            }
+        }
+
+        /* Responsive Design Enhancements */
+        @media (max-width: 768px) {
+            .comparison-section {
+                flex-direction: column;
+            }
+
+            .playhouse-demo {
+                min-width: 320px;
+            }
+
+            .control-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            h1 {
+                font-size: 2.4em;
+            }
+
+            .subtitle {
+                font-size: 1.3em;
+            }
+
+            .building-scene {
+                height: 350px;
+            }
+
+            .character {
+                font-size: 2.8em;
+            }
+        }
+
+        /* Accessibility improvements */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
+        /* Achievement Badges */
+        .achievement-badges {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+
+        .achievement-badge {
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            color: #333;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: bold;
+            font-size: 0.9em;
+            opacity: 0.3;
+            transition: all 0.5s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .achievement-badge.earned {
+            opacity: 1;
+            transform: scale(1.1);
+            animation: badgeEarned 1s ease;
+        }
+
+        @keyframes badgeEarned {
+            0% {
+                transform: scale(0.8) rotate(-10deg);
+            }
+
+            50% {
+                transform: scale(1.2) rotate(5deg);
+            }
+
+            100% {
+                transform: scale(1.1) rotate(0deg);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>🏠 Nguyên tắc 30: Sử dụng vỏ dẻo và màng mỏng 🎪</h1>
+        <p class="subtitle">Ngôi nhà bật lên tương tác - Khám phá sức mạnh của thiết kế linh hoạt!</p>
+
+        <div class="progress-container">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <div class="progress-text" id="progressText">Hãy thử cả hai cách chơi nhà để học nhé! 🏗️</div>
+        </div>
+
+        <div class="achievement-badges">
+            <div class="achievement-badge" id="badge1">🏗️ Thợ xây</div>
+            <div class="achievement-badge" id="badge2">⚡ Bậc thầy tốc độ</div>
+            <div class="achievement-badge" id="badge3">🧠 Chuyên gia TRIZ</div>
+            <div class="achievement-badge" id="badge4">🌟 Nhà sáng tạo</div>
+        </div>
+
+        <div class="comparison-section">
+            <!-- Solid Wooden Playhouse Demo -->
+            <div class="playhouse-demo">
+                <h2>🔨 Cách truyền thống nặng nề</h2>
+                <div class="building-scene">
+                    <div class="timer-display" id="buildTimer">⏱️ 00:00</div>
+                    <div class="sun"></div>
+                    <div class="cloud cloud1"></div>
+                    <div class="cloud cloud2"></div>
+                    <div class="grass"></div>
+
+                    <div class="character" id="buildCharacter" onclick="buildWoodenHouse()" role="button" tabindex="0"
+                        aria-label="Nhấn để xây nhà gỗ">
+                        🧒
+                    </div>
+
+                    <div class="wooden-playhouse" id="woodenHouse">
+                        <div class="house-base">
+                            <div class="house-roof"></div>
+                            <div class="house-door"></div>
+                            <div class="house-window"></div>
+                        </div>
+                    </div>
+
+                    <div class="building-tools" id="buildingTools">🔨 🪚 🔩 📐 ⚒️</div>
+                    <div class="construction-effect" id="constructionEffect">💥</div>
+
+                    <div class="sound-wave" id="buildSoundWave">
+                        <div class="sound-bar"></div>
+                        <div class="sound-bar"></div>
+                        <div class="sound-bar"></div>
+                        <div class="sound-bar"></div>
+                        <div class="sound-bar"></div>
+                    </div>
+
+                    <div class="problem-indicators">
+                        <div class="problem-tag">Vật liệu nặng</div>
+                        <div class="problem-tag">Nhiều Công Cụ</div>
+                        <div class="problem-tag">Khó Di Chuyển</div>
+                        <div class="problem-tag">Tốn nhiều thời gian</div>
+                    </div>
+                </div>
+
+                <div class="control-buttons">
+                    <button class="control-button build" id="buildButton" onclick="buildWoodenHouse()">
+                        🔨 Xây nhà gỗ
+                    </button>
+                </div>
+
+                <div class="comparison-metrics">
+                    <div class="metric">
+                        <div class="metric-value">🪵</div>
+                        <div class="metric-label">Gỗ đặc</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-value" id="buildTimeMetric">⏰</div>
+                        <div class="metric-label">Thời gian xây dựng</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-value">🏋️</div>
+                        <div class="metric-label">Rất nặng</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-value">🔧</div>
+                        <div class="metric-label">Nhiều Công Cụ</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Flexible Tent Playhouse Demo -->
+            <div class="playhouse-demo">
+                <h2>🎪 Giải pháp TRIZ linh hoạt</h2>
+                <div class="building-scene">
+                    <div class="timer-display" id="setupTimer">⏱️ 00:00</div>
+                    <div class="sun"></div>
+                    <div class="cloud cloud1"></div>
+                    <div class="cloud cloud2"></div>
+                    <div class="grass"></div>
+
+                    <div class="character" id="setupCharacter" onclick="setupTent()" role="button" tabindex="0"
+                        aria-label="Nhấn để dựng lều bật lên">
+                        🧒
+                    </div>
+
+                    <div class="tent-playhouse" id="tentHouse">
+                        <div class="tent-body">
+                            <div class="tent-entrance"></div>
+                            <div class="tent-poles"></div>
+                            <div class="tent-stakes"></div>
+                        </div>
+                    </div>
+
+                    <div class="tent-bag" id="tentBag">🎒</div>
+                    <div class="setup-effect" id="setupEffect">✨</div>
+
+                    <div class="sound-wave" id="setupSoundWave">
+                        <div class="sound-bar"></div>
+                        <div class="sound-bar"></div>
+                        <div class="sound-bar"></div>
+                        <div class="sound-bar"></div>
+                        <div class="sound-bar"></div>
+                    </div>
+
+                    <div class="solution-indicators">
+                        <div class="solution-tag">Vải nhẹ</div>
+                        <div class="solution-tag">Lắp đặt nhanh</div>
+                        <div class="solution-tag">Dễ mang theo</div>
+                        <div class="solution-tag">Thiết kế linh hoạt</div>
+                    </div>
+                </div>
+
+                <div class="control-buttons">
+                    <button class="control-button setup" id="setupButton" onclick="setupTent()">
+                        🎪 Lều bật lên
+                    </button>
+                </div>
+
+                <div class="comparison-metrics">
+                    <div class="metric">
+                        <div class="metric-value">🧵</div>
+                        <div class="metric-label">Vải mỏng</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-value" id="setupTimeMetric">⚡</div>
+                        <div class="metric-label">Thời gian lắp đặt</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-value">🪶</div>
+                        <div class="metric-label">Siêu nhẹ</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-value">🙌</div>
+                        <div class="metric-label">Chỉ cần tay</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="status-display" id="statusDisplay">
+            Hãy thử xây nhà gỗ trước, rồi khám phá phép màu TRIZ! 🏠✨
+        </div>
+
+        <div class="quiz-section" id="quizSection">
+            <div class="quiz-question" id="quizQuestion">
+                🧠 Đố nhanh: Ưu điểm chính của việc dùng vỏ dẻo thay cho vật liệu đặc là gì?
+            </div>
+            <div class="quiz-options">
+                <button class="quiz-option" onclick="answerQuiz(0)">Chúng có nhiều màu sắc hơn</button>
+                <button class="quiz-option" onclick="answerQuiz(1)">Chúng nhẹ hơn và dễ mang theo hơn</button>
+                <button class="quiz-option" onclick="answerQuiz(2)">Chúng đắt hơn</button>
+                <button class="quiz-option" onclick="answerQuiz(3)">Chúng bền hơn</button>
+            </div>
+        </div>
+
+        <button class="reset-button" id="resetButton" onclick="resetDemo()">🔄 Làm mới mô phỏng</button>
+
+        <div class="explanation">
+            <h2>🧠 Hiểu về Nguyên tắc 30: Sử dụng vỏ dẻo và màng mỏng</h2>
+
+            <div class="principle-steps">
+                <div class="step">
+                    <div class="step-number">1️⃣</div>
+                    <div><strong>Xác định vấn đề:</strong><br>Vật liệu đặc thì nặng, cần nhiều dụng cụ và khó di chuyển hoặc thay đổi!</div>
+                </div>
+                <div class="step">
+                    <div class="step-number">2️⃣</div>
+                    <div><strong>Áp dụng thay thế:</strong><br>Thay thế cấu trúc đặc bằng vỏ dẻo và màng mỏng có thể thực hiện cùng chức năng!</div>
+                </div>
+                <div class="step">
+                    <div class="step-number">3️⃣</div>
+                    <div><strong>Khám phá lợi ích:</strong><br>Vật liệu mỏng, dẻo có thể nhẹ hơn, triển khai nhanh hơn và thích nghi tốt hơn mà vẫn giữ chức năng!</div>
+                </div>
+            </div>
+
+            <p><strong>Vỏ dẻo</strong> là bề mặt mỏng, uốn cong được mà vẫn giữ vững cấu trúc và rất nhẹ!</p>
+            <p><strong>Màng mỏng</strong> là vật liệu siêu mỏng có thể kéo dãn, gập lại và thích nghi với nhiều hình dạng, nhu cầu!</p>
+            <p>🎯 <strong>Nguyên lý cốt lõi:</strong> Thay vì dùng các bộ phận dày, nặng, cứng, hãy dùng các lớp mỏng, nhẹ, vật liệu dẻo có thể gập, uốn và thích nghi mà vẫn đảm bảo chức năng thiết yếu!</p>
+        </div>
+
+        <div class="explanation">
+            <h2>🌟 Ứng dụng thực tế bạn gặp mỗi ngày!</h2>
+            <div class="examples-grid">
+                <div class="example-item" onclick="showExampleDetail('umbrella')">
+                    <div class="example-emoji">☂️</div>
+                    <strong>Ô che mưa</strong><br>
+                    Vỏ vải mỏng thay vì phải mang mái nhà nặng nề!
+                </div>
+                <div class="example-item" onclick="showExampleDetail('raincoat')">
+                    <div class="example-emoji">🧥</div>
+                    <strong>Áo mưa</strong><br>
+                    Lớp vỏ chống nước dẻo bạn có thể mặc thay vì bảo vệ cứng nhắc!
+                </div>
+                <div class="example-item" onclick="showExampleDetail('bubbles')">
+                    <div class="example-emoji">🫧</div>
+                    <strong>Bong bóng xà phòng</strong><br>
+                    Màng xà phòng siêu mỏng giữ không khí thành hình cầu hoàn hảo!
+                </div>
+                <div class="example-item" onclick="showExampleDetail('balloons')">
+                    <div class="example-emoji">🎈</div>
+                    <strong>Bóng bay</strong><br>
+                    Vỏ dẻo có thể phồng lên và xẹp xuống để chứa khí!
+                </div>
+                <div class="example-item" onclick="showExampleDetail('tarp')">
+                    <div class="example-emoji">🏕️</div>
+                    <strong>Bạt che & phủ</strong><br>
+                    Lớp màng mỏng bảo vệ thay cho mái nhà đặc nặng!
+                </div>
+                <div class="example-item" onclick="showExampleDetail('inflatable')">
+                    <div class="example-emoji">🛟</div>
+                    <strong>Thiết bị bơm hơi</strong><br>
+                    Vỏ dẻo bơm hơi dùng cho an toàn và giải trí!
+                </div>
+                <div class="example-item" onclick="showExampleDetail('greenhouse')">
+                    <div class="example-emoji">🌱</div>
+                    <strong>Màng nhà kính</strong><br>
+                    Màng nhựa mỏng thay cho kính nặng!
+                </div>
+                <div class="example-item" onclick="showExampleDetail('membrane')">
+                    <div class="example-emoji">🏢</div>
+                    <strong>Màng kiến trúc</strong><br>
+                    Vỏ xây dựng dẻo cho các công trình hiện đại nhẹ!
+                </div>
+            </div>
+        </div>
+
+        <div class="explanation">
+            <h2>🎯 Vì sao vỏ dẻo và màng mỏng là cuộc cách mạng!</h2>
+            <p>Nguyên lý TRIZ này giúp ta tạo ra giải pháp:</p>
+            <p>• <strong>Nhẹ hơn rất nhiều và dễ mang theo</strong> 🎒</p>
+            <p>• <strong>Triển khai và thu dọn nhanh hơn</strong> ⚡</p>
+            <p>• <strong>Cần ít dụng cụ và kỹ năng hơn</strong> 🙌</p>
+            <p>• <strong>Thích nghi với nhiều hình dạng và không gian</strong> 🔄</p>
+            <p>• <strong>Hiệu quả kinh tế hơn vật liệu đặc</strong> 💰</p>
+            <p>• <strong>Dễ cất giữ khi không dùng</strong> 📦</p>
+            <p>• <strong>Thân thiện môi trường hơn</strong> 🌱</p>
+            <br>
+            <p><em>Đổi mới thường đến từ việc làm mọi thứ mỏng hơn, dẻo hơn thay vì dày và cứng hơn! 💡</em></p>
+        </div>
+    </div>
+
+    <script>
+        let demoUsage = { wooden: 0, tent: 0 };
+        let isAnimating = false;
+        let hasCompletedBoth = false;
+        let quizAnswered = false;
+        let buildStartTime = 0;
+        let setupStartTime = 0;
+        let achievements = {
+            builder: false,
+            speedMaster: false,
+            trizExpert: false,
+            innovator: false
+        };
+
+        function updateProgress() {
+            const total = demoUsage.wooden + demoUsage.tent;
+            const percentage = Math.min((total / 2) * 100, 100);
+
+            const progressFill = document.getElementById('progressFill');
+            const progressText = document.getElementById('progressText');
+
+            progressFill.style.width = percentage + '%';
+
+            if (total === 0) {
+                progressText.textContent = 'Hãy thử cả hai cách chơi nhà để học nhé! 🏗️';
+            } else if (total === 1) {
+                progressText.textContent = 'Tuyệt vời! Giờ hãy thử cách còn lại để thấy sự khác biệt! 🌟';
+                earnAchievement('builder');
+            }
+        }
+
+        function earnAchievement(type) {
+            if (!achievements[type]) {
+                achievements[type] = true;
+                const badge = document.getElementById('badge' + (type === 'builder' ? '1' : type === 'speedMaster' ? '2' : type === 'trizExpert' ? '3' : '4'));
+                badge.classList.add('earned');
+
+                // Show achievement notification
+                const notification = document.createElement('div');
+                notification.innerHTML = `🏆 Thành tựu đạt được: ${badge.textContent}!`;
+                notification.style.cssText = `
+                    position: fixed;
+                    top: 20px;
+                    right: 20px;
+                    background: linear-gradient(135deg, #FFD700, #FFA500);
+                    color: #333;
+                    padding: 15px 25px;
+                    border-radius: 20px;
+                    font-weight: bold;
+                    z-index: 2000;
+                    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+                    animation: achievementSlide 0.5s ease-out;
+                `;
+
+                addKeyframes('achievementSlide', `
+                    from { transform: translateX(120%); opacity: 0; }
+                    to { transform: translateX(0); opacity: 1; }
+                `);
+
+                document.body.appendChild(notification);
+
+                setTimeout(() => {
+                    notification.style.animation = 'achievementSlideOut 0.5s ease-in';
+                    addKeyframes('achievementSlideOut', `
+                        from { transform: translateX(0); opacity: 1; }
+                        to { transform: translateX(120%); opacity: 0; }
+                    `);
+                    setTimeout(() => {
+                        if (notification.parentNode) {
+                            notification.parentNode.removeChild(notification);
+                        }
+                    }, 500);
+                }, 3000);
+            }
+        }
+
+        function showQuiz() {
+            const quizSection = document.getElementById('quizSection');
+            quizSection.classList.add('visible');
+        }
+
+        function answerQuiz(selectedIndex) {
+            if (quizAnswered) return;
+
+            const options = document.querySelectorAll('.quiz-option');
+            const correctIndex = 1; // "Chúng nhẹ hơn và dễ mang theo hơn"
+
+            quizAnswered = true;
+
+            options.forEach((option, index) => {
+                if (index === correctIndex) {
+                    option.classList.add('correct');
+                } else if (index === selectedIndex && index !== correctIndex) {
+                    option.classList.add('incorrect');
+                }
+                option.disabled = true;
+            });
+
+            if (selectedIndex === correctIndex) {
+                earnAchievement('trizExpert');
+                setTimeout(() => {
+                    document.getElementById('quizQuestion').innerHTML = '🎉 Correct! You understand the core benefit of flexible shells!';
+                }, 1000);
+            } else {
+                setTimeout(() => {
+                    document.getElementById('quizQuestion').innerHTML = '💡 Đáp án đúng là: Chúng nhẹ hơn và dễ mang theo hơn!';
+                }, 1000);
+            }
+        }
+
+        function disableButtons() {
+            document.getElementById('buildButton').disabled = true;
+            document.getElementById('setupButton').disabled = true;
+        }
+
+        function enableButtons() {
+            document.getElementById('buildButton').disabled = false;
+            document.getElementById('setupButton').disabled = false;
+        }
+
+        function updateTimer(timerId, startTime) {
+            const timer = document.getElementById(timerId);
+            const elapsed = Math.floor((Date.now() - startTime) / 1000);
+            const minutes = Math.floor(elapsed / 60);
+            const seconds = elapsed % 60;
+            timer.textContent = `⏱️ ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        function showTimer(timerId) {
+            document.getElementById(timerId).classList.add('visible');
+        }
+
+        function hideTimer(timerId) {
+            document.getElementById(timerId).classList.remove('visible');
+        }
+
+        function showSoundWave(elementId) {
+            document.getElementById(elementId).classList.add('active');
+        }
+
+        function hideSoundWave(elementId) {
+            document.getElementById(elementId).classList.remove('active');
+        }
+
+        function buildWoodenHouse() {
+            if (isAnimating) return;
+
+            isAnimating = true;
+            disableButtons();
+            buildStartTime = Date.now();
+
+            const character = document.getElementById('buildCharacter');
+            const woodenHouse = document.getElementById('woodenHouse');
+            const buildingTools = document.getElementById('buildingTools');
+            const constructionEffect = document.getElementById('constructionEffect');
+            const statusDisplay = document.getElementById('statusDisplay');
+
+            demoUsage.wooden++;
+            updateProgress();
+
+            showTimer('buildTimer');
+            showSoundWave('buildSoundWave');
+
+            const timerInterval = setInterval(() => {
+                updateTimer('buildTimer', buildStartTime);
+            }, 1000);
+
+            statusDisplay.classList.add('updating');
+            statusDisplay.innerHTML = '🔨 Gathering heavy tools... hammers, saws, nails, lumber... 🪚';
+
+            // Show tools and character working
+            buildingTools.classList.add('visible');
+            character.classList.add('working');
+
+            setTimeout(() => {
+                statusDisplay.innerHTML = '💪 Measuring, cutting, hammering... *BANG BANG* *BZZZZT* This requires skill and strength! 😅';
+                constructionEffect.classList.add('show');
+                createConstructionNoise();
+            }, 2500);
+
+            setTimeout(() => {
+                constructionEffect.classList.remove('show');
+            }, 3000);
+
+            setTimeout(() => {
+                statusDisplay.innerHTML = '⏰ Still building... drilling, nailing, adjusting... This is taking forever! 😰';
+                constructionEffect.classList.add('show');
+            }, 5000);
+
+            setTimeout(() => {
+                constructionEffect.classList.remove('show');
+            }, 5500);
+
+            setTimeout(() => {
+                statusDisplay.innerHTML = '🏠 Finally finished! Heavy wooden playhouse built... but that was exhausting work! 😤';
+                woodenHouse.classList.add('built');
+                character.classList.remove('working');
+                character.classList.add('celebrating');
+                createSuccessEffect('build');
+                clearInterval(timerInterval);
+                hideTimer('buildTimer');
+                hideSoundWave('buildSoundWave');
+
+                const finalTime = Math.floor((Date.now() - buildStartTime) / 1000);
+                document.getElementById('buildTimeMetric').innerHTML = `${finalTime}s`;
+            }, 7500);
+
+            setTimeout(() => {
+                statusDisplay.innerHTML = '💭 This wooden house is strong and permanent, but it took so much effort and can\'t be moved! 🤔';
+                character.classList.remove('celebrating');
+                buildingTools.classList.remove('visible');
+                enableButtons();
+                isAnimating = false;
+                showEducationalTip('wooden');
+            }, 10000);
+        }
+
+        function setupTent() {
+            if (isAnimating) return;
+
+            isAnimating = true;
+            disableButtons();
+            setupStartTime = Date.now();
+
+            const character = document.getElementById('setupCharacter');
+            const tentHouse = document.getElementById('tentHouse');
+            const tentBag = document.getElementById('tentBag');
+            const setupEffect = document.getElementById('setupEffect');
+            const statusDisplay = document.getElementById('statusDisplay');
+
+            demoUsage.tent++;
+            updateProgress();
+
+            showTimer('setupTimer');
+            showSoundWave('setupSoundWave');
+
+            const timerInterval = setInterval(() => {
+                updateTimer('setupTimer', setupStartTime);
+            }, 1000);
+
+            statusDisplay.classList.add('updating');
+            statusDisplay.innerHTML = '🎒 Grabbing the lightweight tent bag... it weighs almost nothing! ✨';
+
+            // Character picks up bag
+            character.classList.add('working');
+
+            setTimeout(() => {
+                statusDisplay.innerHTML = '📦 Unfolding the flexible tent fabric... just shake it out! *WHOOSH* 💨';
+                tentBag.classList.add('hidden');
+                setupEffect.classList.add('show');
+                createSetupMagic();
+            }, 2000);
+
+            setTimeout(() => {
+                setupEffect.classList.remove('show');
+            }, 2500);
+
+            setTimeout(() => {
+                statusDisplay.innerHTML = '🎪 *POP!* The tent springs into shape automatically! Just click the poles! *SNAP* ⚡';
+                tentHouse.classList.add('setup');
+                setupEffect.classList.add('show');
+            }, 3500);
+
+            setTimeout(() => {
+                setupEffect.classList.remove('show');
+            }, 4000);
+
+            setTimeout(() => {
+                statusDisplay.innerHTML = '🎉 AMAZING! Instant playhouse in seconds! Light, flexible, and ready for fun! 🌈';
+                character.classList.remove('working');
+                character.classList.add('celebrating');
+                createSuccessEffect('setup');
+                clearInterval(timerInterval);
+                hideTimer('setupTimer');
+                hideSoundWave('setupSoundWave');
+
+                const finalTime = Math.floor((Date.now() - setupStartTime) / 1000);
+                document.getElementById('setupTimeMetric').innerHTML = `${finalTime}s`;
+
+                if (finalTime < 5) {
+                    earnAchievement('innovator');
+                }
+            }, 5000);
+
+            setTimeout(() => {
+                statusDisplay.innerHTML = '✨ Tuyệt vời! Vải mỏng này thực hiện cùng chức năng như gỗ nặng nhưng lại nhẹ và lắp đặt nhanh! 🚀';
+                character.classList.remove('celebrating');
+                enableButtons();
+                isAnimating = false;
+                showEducationalTip('tent');
+            }, 7500);
+        }
+
+        function createConstructionNoise() {
+            const sounds = ['💥', '🔨', '⚡', '💢', '🪚', '🔩'];
+
+            for (let i = 0; i < 12; i++) {
+                setTimeout(() => {
+                    const noise = document.createElement('div');
+                    noise.textContent = sounds[Math.floor(Math.random() * sounds.length)];
+                    noise.style.cssText = `
+                        position: fixed;
+                        bottom: ${200 + Math.random() * 150}px;
+                        left: ${35 + Math.random() * 30}%;
+                        font-size: ${1.5 + Math.random() * 1}em;
+                        z-index: 1000;
+                        pointer-events: none;
+                        animation: noiseFloat 2s ease-out forwards;
+                    `;
+
+                    addKeyframes('noiseFloat', `
+                        0% { opacity: 1; transform: translateY(0) rotate(0deg) scale(1); }
+                        100% { opacity: 0; transform: translateY(-100px) rotate(360deg) scale(0.5); }
+                    `);
+
+                    document.body.appendChild(noise);
+
+                    setTimeout(() => {
+                        if (noise.parentNode) {
+                            noise.parentNode.removeChild(noise);
+                        }
+                    }, 2000);
+                }, i * 150);
+            }
+        }
+
+        function createSetupMagic() {
+            const magic = ['✨', '🌟', '💫', '⭐', '🪄', '💎', '🔮'];
+
+            for (let i = 0; i < 20; i++) {
+                setTimeout(() => {
+                    const sparkle = document.createElement('div');
+                    sparkle.textContent = magic[Math.floor(Math.random() * magic.length)];
+                    sparkle.style.cssText = `
+                        position: fixed;
+                        bottom: ${150 + Math.random() * 200}px;
+                        left: ${40 + Math.random() * 20}%;
+                        font-size: ${1 + Math.random() * 1.5}em;
+                        z-index: 1000;
+                        pointer-events: none;
+                        animation: magicTwinkle 2.5s ease-out forwards;
+                    `;
+
+                    addKeyframes('magicTwinkle', `
+                        0% { opacity: 1; transform: scale(0) rotate(0deg); }
+                        50% { opacity: 1; transform: scale(1.3) rotate(180deg); }
+                        100% { opacity: 0; transform: scale(0.3) rotate(720deg); }
+                    `);
+
+                    document.body.appendChild(sparkle);
+
+                    setTimeout(() => {
+                        if (sparkle.parentNode) {
+                            sparkle.parentNode.removeChild(sparkle);
+                        }
+                    }, 2500);
+                }, i * 80);
+            }
+        }
+
+        function createSuccessEffect(type) {
+            const celebrations = type === 'build' ? ['🎉', '🏆', '💪', '🔨', '🏠'] : ['🎪', '✨', '🌟', '🎈', '⚡', '🚀'];
+
+            for (let i = 0; i < 25; i++) {
+                const celebrate = document.createElement('div');
+                celebrate.textContent = celebrations[Math.floor(Math.random() * celebrations.length)];
+                celebrate.style.cssText = `
+                    position: fixed;
+                    bottom: ${180 + Math.random() * 150}px;
+                    left: ${35 + Math.random() * 30}%;
+                    font-size: ${1.2 + Math.random() * 1}em;
+                    z-index: 1000;
+                    pointer-events: none;
+                    animation: celebrationBurst 3s ease-out forwards;
+                `;
+
+                addKeyframes('celebrationBurst', `
+                    0% { opacity: 1; transform: scale(0.3) translateY(0) rotate(0deg); }
+                    50% { opacity: 1; transform: scale(1.5) translateY(-60px) rotate(180deg); }
+                    100% { opacity: 0; transform: scale(0.8) translateY(-150px) rotate(720deg); }
+                `);
+
+                document.body.appendChild(celebrate);
+
+                setTimeout(() => {
+                    if (celebrate.parentNode) {
+                        celebrate.parentNode.removeChild(celebrate);
+                    }
+                }, 3000);
+            }
+        }
+
+        function resetDemo() {
+            if (isAnimating) return;
+
+            demoUsage = { wooden: 0, tent: 0 };
+            hasCompletedBoth = false;
+            quizAnswered = false;
+
+            // Reset wooden house elements
+            const woodenHouse = document.getElementById('woodenHouse');
+            const buildingTools = document.getElementById('buildingTools');
+            const buildCharacter = document.getElementById('buildCharacter');
+
+            woodenHouse.classList.remove('built');
+            buildingTools.classList.remove('visible');
+            buildCharacter.classList.remove('working', 'celebrating');
+
+            // Reset tent elements
+            const tentHouse = document.getElementById('tentHouse');
+            const tentBag = document.getElementById('tentBag');
+            const setupCharacter = document.getElementById('setupCharacter');
+
+            tentHouse.classList.remove('setup');
+            tentBag.classList.remove('hidden');
+            setupCharacter.classList.remove('working', 'celebrating');
+
+            // Reset timers and sound waves
+            hideTimer('buildTimer');
+            hideTimer('setupTimer');
+            hideSoundWave('buildSoundWave');
+            hideSoundWave('setupSoundWave');
+
+            // Reset quiz
+            const quizSection = document.getElementById('quizSection');
+            quizSection.classList.remove('visible');
+            const options = document.querySelectorAll('.quiz-option');
+            options.forEach(option => {
+                option.classList.remove('correct', 'incorrect');
+                option.disabled = false;
+            });
+            document.getElementById('quizQuestion').innerHTML = '🧠 Quick Quiz: What\'s the main advantage of using flexible shells over solid materials?';
+
+            // Reset metrics
+            document.getElementById('buildTimeMetric').innerHTML = '⏰';
+            document.getElementById('setupTimeMetric').innerHTML = '⚡';
+
+            document.getElementById('statusDisplay').innerHTML = 'Hãy thử xây nhà gỗ trước, rồi khám phá phép màu TRIZ! 🏠✨';
+            document.getElementById('statusDisplay').classList.remove('updating');
+
+            updateProgress();
+            enableButtons();
+
+            showResetConfirmation();
+        }
+
+        function showResetConfirmation() {
+            const confirmation = document.createElement('div');
+            confirmation.innerHTML = '🔄 Đã làm mới mô phỏng! Hãy trải nghiệm lại cả hai cách để làm chủ TRIZ! 🏗️';
+            confirmation.style.cssText = `
+                position: fixed;
+                top: 20px;
+                left: 12px;
+                transform: none;
+                background: linear-gradient(135deg, #9b59b6, #8e44ad);
+                color: white;
+                padding: 18px 30px;
+                border-radius: 25px;
+                font-weight: bold;
+                z-index: 1000;
+                box-shadow: 0 12px 35px rgba(0,0,0,0.3);
+                animation: slideDown 0.6s ease-out;
+                border: 3px solid rgba(255,255,255,0.2);
+            `;
+
+            addKeyframes('slideDown', `
+                from { transform: translateX(-50%) translateY(-100%); opacity: 0; }
+                to { transform: translateX(-50%) translateY(0); opacity: 1; }
+            `);
+
+            document.body.appendChild(confirmation);
+
+            setTimeout(() => {
+                confirmation.style.animation = 'slideUp 0.6s ease-in';
+                addKeyframes('slideUp', `
+                    from { transform: translateX(-50%) translateY(0); opacity: 1; }
+                    to { transform: translateX(-50%) translateY(-100%); opacity: 0; }
+                `);
+                setTimeout(() => {
+                    if (confirmation.parentNode) {
+                        confirmation.parentNode.removeChild(confirmation);
+                    }
+                }, 600);
+            }, 4000);
+        }
+
+        function showEducationalTip(type) {
+            const tips = {
+                wooden: [
+                    "💡 Lưu ý: Vật liệu đặc như gỗ cần nhiều dụng cụ chuyên biệt và tốn nhiều thời gian!",
+                    "💡 Vật liệu nặng giúp chắc chắn nhưng làm giảm tính di động và dễ sử dụng!",
+                    "💡 Xây dựng truyền thống đòi hỏi kỹ năng, lên kế hoạch và nỗ lực liên tục!",
+                    "💡 Khi đã xây xong, cấu trúc đặc rất khó di chuyển hoặc thay đổi!",
+                    "💡 Cách cũ: nhiều vật liệu, nhiều dụng cụ, nhiều thời gian, nhiều phức tạp!"
+                ],
+                tent: [
+                    "💡 Đây là Nguyên tắc TRIZ 30: Vỏ dẻo và màng mỏng!",
+                    "💡 Vải mỏng thực hiện cùng chức năng che chắn như gỗ dày nhưng có ưu thế vượt trội!",
+                    "💡 Vật liệu dẻo có thể thích nghi với nhiều hình dạng, không gian và nhu cầu!",
+                    "💡 Kỹ thuật thông minh: cùng chức năng, nhưng nhẹ hơn, nhanh hơn, thân thiện hơn!",
+                    "💡 Nguyên lý đổi mới: thay vật liệu đặc bằng vật liệu dẻo để mở ra khả năng mới!",
+                    "💡 Cách TRIZ: ít vật liệu, ít dụng cụ, ít thời gian, linh hoạt hơn!"
+                ]
+            };
+
+            const tipList = tips[type];
+            const randomTip = tipList[Math.floor(Math.random() * tipList.length)];
+
+            const tip = document.createElement('div');
+            tip.textContent = randomTip;
+            tip.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: linear-gradient(135deg, #667eea, #764ba2);
+                color: white;
+                padding: 25px 30px;
+                border-radius: 25px;
+                font-weight: bold;
+                max-width: 400px;
+                z-index: 1000;
+                box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+                font-size: 15px;
+                line-height: 1.7;
+                border: 3px solid rgba(255,255,255,0.3);
+                backdrop-filter: blur(15px);
+                animation: tipSlideIn 0.7s ease-out;
+            `;
+
+            addKeyframes('tipSlideIn', `
+                from { transform: translateX(120%); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            `);
+
+            document.body.appendChild(tip);
+
+            setTimeout(() => {
+                tip.style.animation = 'tipSlideOut 0.7s ease-in';
+                addKeyframes('tipSlideOut', `
+                    from { transform: translateX(0); opacity: 1; }
+                    to { transform: translateX(120%); opacity: 0; }
+                `);
+                setTimeout(() => {
+                    if (tip.parentNode) {
+                        tip.parentNode.removeChild(tip);
+                    }
+                }, 700);
+            }, 6000);
+        }
+
+        function showCongratulations() {
+            const congratsMessage = document.createElement('div');
+            congratsMessage.innerHTML = `
+                <div style="font-size: 2.5em; margin-bottom: 15px;">🎉</div>
+                <div style="font-size: 1.4em; margin-bottom: 15px;"><strong>Thành tựu xuất sắc!</strong></div>
+                <div style="margin-bottom: 10px;">Bạn đã làm chủ Nguyên tắc TRIZ số 30!</div>
+                <div style="margin-bottom: 10px;">Giờ bạn đã hiểu cách vỏ dẻo và màng mỏng</div>
+                <div>có thể cách mạng hóa thiết kế bằng cách thay thế vật liệu nặng, cứng! 🎪✨</div>
+            `;
+            congratsMessage.style.cssText = `
+                position: fixed;
+                top: 50%;
+                left: 12px;
+                transform: translate(-50%, -50%);
+                background: linear-gradient(135deg, #FFD700, #FFA500, #FF6B6B, #4ECDC4);
+                color: #333;
+                padding: 40px;
+                border-radius: 35px;
+                font-weight: bold;
+                max-width: 500px;
+                z-index: 2000;
+                box-shadow: 0 25px 60px rgba(0,0,0,0.4);
+                text-align: center;
+                font-size: 16px;
+                line-height: 1.7;
+                border: 5px solid white;
+                animation: celebrationPop 1s ease-out;
+            `;
+
+            addKeyframes('celebrationPop', `
+                0% { transform: translate(-50%, -50%) scale(0) rotate(-720deg); opacity: 0; }
+                60% { transform: translate(-50%, -50%) scale(1.1) rotate(-20deg); opacity: 0.9; }
+                100% { transform: translate(-50%, -50%) scale(1) rotate(0deg); opacity: 1; }
+            `);
+
+            document.body.appendChild(congratsMessage);
+
+            // Add enhanced confetti effect
+            createConfetti();
+
+            setTimeout(() => {
+                congratsMessage.style.animation = 'celebrationFade 0.8s ease-in';
+                addKeyframes('celebrationFade', `
+                    from { opacity: 1; transform: translate(-50%, -50%) scale(1) rotate(0deg); }
+                    to { opacity: 0; transform: translate(-50%, -50%) scale(0.8) rotate(15deg); }
+                `);
+                setTimeout(() => {
+                    if (congratsMessage.parentNode) {
+                        congratsMessage.parentNode.removeChild(congratsMessage);
+                    }
+                }, 800);
+            }, 7000);
+        }
+
+        function createConfetti() {
+            const colors = ['#FFD700', '#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FECA57', '#FF9FF3', '#54A0FF'];
+            const symbols = ['🎪', '🧵', '✨', '🌟', '🎈', '🎊', '🎉', '🏆', '💫', '⭐'];
+
+            for (let i = 0; i < 80; i++) {
+                const confetti = document.createElement('div');
+                const isSymbol = Math.random() > 0.4;
+
+                if (isSymbol) {
+                    confetti.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+                    confetti.style.fontSize = '24px';
+                } else {
+                    confetti.style.width = '12px';
+                    confetti.style.height = '12px';
+                    confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.borderRadius = '50%';
+                }
+
+                confetti.style.cssText += `
+                    position: fixed;
+                    top: -20px;
+                    left: ${Math.random() * 100}%;
+                    z-index: 1500;
+                    pointer-events: none;
+                    animation: confettiFall ${3 + Math.random() * 4}s linear forwards;
+                `;
+
+                document.body.appendChild(confetti);
+
+                setTimeout(() => {
+                    if (confetti.parentNode) {
+                        confetti.parentNode.removeChild(confetti);
+                    }
+                }, 7000);
+            }
+
+            addKeyframes('confettiFall', `
+                to {
+                    transform: translateY(110vh) rotate(1440deg);
+                    opacity: 0;
+                }
+            `);
+        }
+
+        function showExampleDetail(type) {
+            const details = {
+                umbrella: "☂️ Ô che mưa thể hiện hoàn hảo Nguyên tắc TRIZ 30: lớp vải mỏng căng trên khung nhẹ thay cho việc phải mang mái nhà nặng nề!",
+                raincoat: "🧥 Áo mưa là lớp vỏ chống nước dẻo, linh hoạt, di chuyển theo cơ thể - vượt trội hơn hẳn bảo vệ cứng nhắc, cồng kềnh!",
+                bubbles: "🫧 Bong bóng xà phòng cho thấy màng siêu mỏng (chỉ dày vài phân tử!) có thể dùng sức căng bề mặt để giữ không khí thành hình cầu hoàn hảo - vỏ dẻo tự nhiên!",
+                balloons: "🎈 Bóng bay là vỏ dẻo có thể phồng lên chứa nhiều khí khác nhau mà vẫn nhẹ và vui nhộn!",
+                tarp: "🏕️ Bạt che & phủ dùng màng mỏng chống nước để bảo vệ như mái nhà đặc nhưng có thể cuộn lại, dễ mang theo và thích nghi nhiều hình dạng!",
+                inflatable: "🛟 Thiết bị bơm hơi dùng vỏ dẻo chứa khí tạo bề mặt an toàn, đàn hồi cho vui chơi - an toàn và linh hoạt hơn vật liệu đặc!",
+                greenhouse: "🌱 Nhà kính hiện đại dùng màng nhựa mỏng thay cho kính nặng - vẫn truyền sáng và bảo vệ thời tiết nhưng nhẹ hơn, dễ lắp đặt hơn nhiều!",
+                membrane: "🏢 Kiến trúc hiện đại sử dụng màng dẻo để tạo nên công trình nhẹ, ấn tượng mà vật liệu truyền thống không thể làm được!"
+            };
+
+            const detail = document.createElement('div');
+            detail.innerHTML = details[type];
+            detail.style.cssText = `
+                position: fixed;
+                bottom: 30px;
+                left: 30px;
+                background: linear-gradient(135deg, #FF6B6B, #4ECDC4, #45B7D1);
+                color: white;
+                padding: 25px;
+                border-radius: 25px;
+                font-weight: bold;
+                max-width: 420px;
+                z-index: 1000;
+                box-shadow: 0 15px 45px rgba(0,0,0,0.3);
+                font-size: 14px;
+                line-height: 1.8;
+                border: 3px solid rgba(255,255,255,0.4);
+                backdrop-filter: blur(20px);
+                animation: detailSlideUp 1s ease-out;
+            `;
+
+            addKeyframes('detailSlideUp', `
+                from { transform: translateY(100%) scale(0.8); opacity: 0; }
+                to { transform: translateY(0) scale(1); opacity: 1; }
+            `);
+
+            document.body.appendChild(detail);
+
+            setTimeout(() => {
+                detail.style.animation = 'detailSlideDown 0.8s ease-in';
+                addKeyframes('detailSlideDown', `
+                    from { opacity: 1; transform: translateY(0) scale(1); }
+                    to { opacity: 0; transform: translateY(60px) scale(0.9); }
+                `);
+                setTimeout(() => {
+                    if (detail.parentNode) {
+                        detail.parentNode.removeChild(detail);
+                    }
+                }, 800);
+            }, 5000);
+        }
+
+        function addKeyframes(name, keyframes) {
+            if (!document.querySelector(`#${name}Styles`)) {
+                const style = document.createElement('style');
+                style.id = name + 'Styles';
+                style.textContent = `@keyframes ${name} { ${keyframes} }`;
+                document.head.appendChild(style);
+            }
+        }
+
+        // Enhanced interactions and animations
+        document.addEventListener('DOMContentLoaded', function () {
+            // Add keyboard support
+            document.addEventListener('keydown', function (e) {
+                if (e.key === '1' && !isAnimating) {
+                    buildWoodenHouse();
+                } else if (e.key === '2' && !isAnimating) {
+                    setupTent();
+                } else if (e.key === 'r' || e.key === 'R') {
+                    resetDemo();
+                } else if (e.key === 'q' || e.key === 'Q') {
+                    if (!quizAnswered && hasCompletedBoth) {
+                        showQuiz();
+                    }
+                }
+            });
+
+            // Add character interaction on click
+            const characters = document.querySelectorAll('.character');
+            characters.forEach(character => {
+                character.addEventListener('click', function () {
+                    if (!isAnimating) {
+                        const expressions = ['😊', '🤔', '😎', '🤗', '💪', '🧠', '🎉'];
+                        const randomExpression = expressions[Math.floor(Math.random() * expressions.length)];
+                        const originalContent = this.innerHTML;
+
+                        this.innerHTML = randomExpression;
+
+                        setTimeout(() => {
+                            this.innerHTML = originalContent;
+                        }, 2000);
+                    }
+                });
+
+                // Add keyboard accessibility
+                character.addEventListener('keydown', function (e) {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        this.click();
+                    }
+                });
+            });
+
+            // Initialize progress
+            updateProgress();
+
+            // Add accessibility announcements
+            const statusDisplay = document.getElementById('statusDisplay');
+            const observer = new MutationObserver(function (mutations) {
+                mutations.forEach(function (mutation) {
+                    if (mutation.type === 'childList' || mutation.type === 'characterData') {
+                        // Announce status changes to screen readers
+                        const announcement = document.createElement('div');
+                        announcement.setAttribute('aria-live', 'polite');
+                        announcement.setAttribute('aria-atomic', 'true');
+                        announcement.className = 'sr-only';
+                        announcement.textContent = statusDisplay.textContent;
+                        document.body.appendChild(announcement);
+
+                        setTimeout(() => {
+                            if (announcement.parentNode) {
+                                document.body.removeChild(announcement);
+                            }
+                        }, 100);
+                    }
+                });
+            });
+
+            observer.observe(statusDisplay, {
+                childList: true,
+                subtree: true,
+                characterData: true
+            });
+        });
+
+        function showWelcomeMessage() {
+            const welcome = document.createElement('div');
+            welcome.innerHTML = `
+                <div style="font-size: 1.8em; margin-bottom: 10px;">👋 Xin chào!</div>
+                <div style="margin-bottom: 10px;">Khám phá Nguyên tắc TRIZ 30 bằng cách thử cả hai cách chơi nhà.</div>
+                <div>Nhấn vào nhân vật hoặc nút để bắt đầu!</div>
+                <div style="margin-top: 15px; font-size: 0.9em; opacity: 0.8;">💡 Mẹo: Dùng phím tắt 1, 2, R, và Q</div>
+            `;
+            welcome.style.cssText = `
+                position: fixed;
+                top: 50%;
+                left: 12px;
+                transform: translate(-50%, -50%);
+                background: linear-gradient(135deg, #667eea, #764ba2);
+                color: white;
+                padding: 30px;
+                border-radius: 25px;
+                font-weight: bold;
+                max-width: 450px;
+                z-index: 2000;
+                box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+                text-align: center;
+                font-size: 16px;
+                line-height: 1.6;
+                border: 3px solid rgba(255,255,255,0.3);
+                animation: welcomePop 0.8s ease-out;
+            `;
+
+            addKeyframes('welcomePop', `
+                0% { transform: translate(-50%, -50%) scale(0.8); opacity: 0; }
+                100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+            `);
+
+            document.body.appendChild(welcome);
+
+            // Add click to dismiss
+            welcome.addEventListener('click', function () {
+                welcome.style.animation = 'welcomeFade 0.5s ease-in';
+                addKeyframes('welcomeFade', `
+                    from { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+                    to { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
+                `);
+                setTimeout(() => {
+                    if (welcome.parentNode) {
+                        welcome.parentNode.removeChild(welcome);
+                    }
+                }, 500);
+            });
+
+            setTimeout(() => {
+                if (welcome.parentNode) {
+                    welcome.click();
+                }
+            }, 8000);
+        }
+
+        // Show periodic educational facts
+        function showRandomFact() {
+            const facts = [
+                "🎪 Bạn có biết? Những chiếc lều di động đầu tiên do người du mục phát minh hơn 5000 năm trước - họ đã hiểu TRIZ trước khi có tên gọi!",
+                "🫧 Vật lý kỳ diệu: Bong bóng xà phòng luôn thành hình cầu vì sức căng bề mặt tự động làm nhỏ diện tích nhất!",
+                "☂️ Sự kiện lịch sử: Ô gập đầu tiên xuất hiện ở Paris năm 1852, cách mạng hóa việc che mưa cá nhân!",
+                "🏢 Kỳ tích kỹ thuật: Mái sân vận động hiện đại dùng màng dẻo có thể che diện tích lớn hơn 10 sân bóng chỉ với ít trụ đỡ!",
+                "🎈 Vật liệu thông minh: Một quả bóng bay có thể phồng to hơn 100 lần thể tích ban đầu mà vẫn giữ được cấu trúc!",
+                "🌱 Sáng tạo xanh: Màng nhà kính hiện đại có thể trong suốt 98% mà vẫn chống UV và chịu thời tiết tốt!",
+                "🏕️ Công nghệ dã ngoại: Lều cắm trại tiên tiến ngày nay nặng chưa đến 1kg mà vẫn che được nhiều người trong điều kiện khắc nghiệt!",
+                "🛟 Kỹ thuật an toàn: Phao cứu sinh bơm hơi có thể bung ra dưới 60 giây và chịu tải lớn hơn nhiều lần trọng lượng bản thân!"
+            ];
+
+            if (Math.random() > 0.7 && !isAnimating) { // Show less frequently and not during animations
+                const randomFact = facts[Math.floor(Math.random() * facts.length)];
+
+                const factBubble = document.createElement('div');
+                factBubble.textContent = randomFact;
+                factBubble.style.cssText = `
+                    position: fixed;
+                    bottom: 30px;
+                    left: 30px;
+                    background: linear-gradient(135deg, #667eea, #764ba2);
+                    color: white;
+                    padding: 25px;
+                    border-radius: 25px;
+                    font-weight: bold;
+                    max-width: 420px;
+                    z-index: 1000;
+                    box-shadow: 0 15px 45px rgba(0,0,0,0.3);
+                    font-size: 14px;
+                    line-height: 1.8;
+                    border: 3px solid rgba(255,255,255,0.4);
+                    backdrop-filter: blur(20px);
+                    animation: factFloat 1s ease-out;
+                `;
+
+                addKeyframes('factFloat', `
+                    from { transform: translateY(100%) scale(0.8); opacity: 0; }
+                    to { transform: translateY(0) scale(1); opacity: 1; }
+                `);
+
+                document.body.appendChild(factBubble);
+
+                setTimeout(() => {
+                    factBubble.style.animation = 'factSink 0.8s ease-in';
+                    addKeyframes('factSink', `
+                        from { opacity: 1; transform: translateY(0) scale(1); }
+                        to { opacity: 0; transform: translateY(100px) scale(0.8); }
+                    `);
+                    setTimeout(() => {
+                        if (factBubble.parentNode) {
+                            factBubble.parentNode.removeChild(factBubble);
+                        }
+                    }, 800);
+                }, 5000);
+            }
+        }
+
+        // Show first fact after 15 seconds, then every 45 seconds
+        setTimeout(showRandomFact, 15000);
+        setInterval(showRandomFact, 45000);
+    </script>
+</body>
+
+</html>

@@ -1,10 +1,15 @@
 (function () {
-    // Skip navbar when loaded inside an iframe (e.g., in triz-app.html SPA)
+    // Skip navbar when loaded inside an iframe (e.g., in trizlab4kids.html SPA)
     if (window.self !== window.top) {
         return; // Exit early if inside iframe
     }
 
-    const principles = [
+    // Detect current language from URL path (/vi/ or /en/)
+    const langMatch = window.location.pathname.match(/\/(vi|en)\//);
+    const currentLang = langMatch ? langMatch[1] : 'vi';
+
+    // Vietnamese principles data
+    const principlesVI = [
         { id: 1, title: 'Phân nhỏ', file: 'index_01.html', summary: 'Chia vật lớn thành nhiều phần nhỏ.' },
         { id: 2, title: 'Tách khỏi', file: 'index_02.html', summary: 'Bỏ phần gây phiền phức đi.' },
         { id: 3, title: 'Phẩm chất cục bộ', file: 'index_03.html', summary: 'Làm một chỗ đặc biệt tốt.' },
@@ -46,6 +51,53 @@
         { id: 39, title: 'Thay đổi độ trơ', file: 'index_39.html', summary: 'Dùng khí trơ để giữ an toàn và ổn định.' },
         { id: 40, title: 'Sử dụng vật liệu hợp thành', file: 'index_40.html', summary: 'Xếp lớp các vật liệu khác nhau để siêu bền.' },
     ];
+
+    // English principles data
+    const principlesEN = [
+        { id: 1, title: 'Segmentation', file: 'index_01.html', summary: 'Break large objects into many small pieces.' },
+        { id: 2, title: 'Taking Out', file: 'index_02.html', summary: 'Remove the problematic part and dispose of it.' },
+        { id: 3, title: 'Local Quality', file: 'index_03.html', summary: 'Make one particular area very special.' },
+        { id: 4, title: 'Asymmetry', file: 'index_04.html', summary: 'Have different sides work better together.' },
+        { id: 5, title: 'Merging', file: 'index_05.html', summary: 'Combine things so they work together.' },
+        { id: 6, title: 'Universality', file: 'index_06.html', summary: 'One tool that does many jobs.' },
+        { id: 7, title: 'Nesting', file: 'index_07.html', summary: 'Put one thing inside another to save space.' },
+        { id: 8, title: 'Counterweight', file: 'index_08.html', summary: 'Add weight on the other side to balance.' },
+        { id: 9, title: 'Preliminary Tension', file: 'index_09.html', summary: 'Cushion first before impact happens.' },
+        { id: 10, title: 'Preliminary Action', file: 'index_10.html', summary: 'Get ready early to start fast.' },
+        { id: 11, title: 'Beforehand Cushioning', file: 'index_11.html', summary: 'Use soft materials to catch falls.' },
+        { id: 12, title: 'Equipotentiality', file: 'index_12.html', summary: 'Keep the path flat and easy.' },
+        { id: 13, title: 'The Opposite', file: 'index_13.html', summary: 'Flip it around to get new results.' },
+        { id: 14, title: 'Spheroidality', file: 'index_14.html', summary: 'Round shapes slide easily and safely.' },
+        { id: 15, title: 'Flexibility', file: 'index_15.html', summary: 'Let it adjust to what\'s needed.' },
+        { id: 16, title: 'Partial or Overdone Action', file: 'index_16.html', summary: 'Purposely use too little or a bit too much.' },
+        { id: 17, title: 'Moving to a New Dimension', file: 'index_17.html', summary: 'Use up and down space, not just flat.' },
+        { id: 18, title: 'Mechanical Vibration', file: 'index_18.html', summary: 'Shake or vibrate to help it work.' },
+        { id: 19, title: 'Periodic Action', file: 'index_19.html', summary: 'Change continuous effort to rhythm to save energy.' },
+        { id: 20, title: 'Continuity of Useful Action', file: 'index_20.html', summary: 'Turn stop-and-go action into continuous flow.' },
+        { id: 21, title: 'Rushing Through', file: 'index_21.html', summary: 'Skip slow steps to avoid waste.' },
+        { id: 22, title: 'Convert Harm into Benefit', file: 'index_22.html', summary: 'Turn a bad point into a good point.' },
+        { id: 23, title: 'Feedback', file: 'index_23.html', summary: 'Sense and adjust in real time.' },
+        { id: 24, title: 'Intermediary', file: 'index_24.html', summary: 'Use an intermediate layer to connect parts.' },
+        { id: 25, title: 'Self-Service', file: 'index_25.html', summary: 'Let the system provide what it needs.' },
+        { id: 26, title: 'Copying', file: 'index_26.html', summary: 'Copy when the original is expensive or risky.' },
+        { id: 27, title: 'Cheap Short-Living', file: 'index_27.html', summary: 'Use disposable cheap items instead of expensive ones.' },
+        { id: 28, title: 'Mechanics Substitution', file: 'index_28.html', summary: 'Replace physical motion with sensors or automation.' },
+        { id: 29, title: 'Pneumatics and Hydraulics', file: 'index_29.html', summary: 'Use air or liquid to cushion or create force.' },
+        { id: 30, title: 'Flexible Shells and Thin Films', file: 'index_30.html', summary: 'Wrap with soft layers to protect without bulk.' },
+        { id: 31, title: 'Porous Materials', file: 'index_31.html', summary: 'Add small holes so things pass through.' },
+        { id: 32, title: 'Color Changes', file: 'index_32.html', summary: 'Use colors to send messages.' },
+        { id: 33, title: 'Homogeneity', file: 'index_33.html', summary: 'Make from the same material to work together.' },
+        { id: 34, title: 'Discarding and Recovering', file: 'index_34.html', summary: 'Use it all up or recycle when done.' },
+        { id: 35, title: 'Parameter Changes', file: 'index_35.html', summary: 'Change temperature, pressure, or other settings.' },
+        { id: 36, title: 'Phase Transition', file: 'index_36.html', summary: 'Use freezing, melting, or boiling to help.' },
+        { id: 37, title: 'Thermal Expansion', file: 'index_37.html', summary: 'Heat makes things expand; cold makes them shrink.' },
+        { id: 38, title: 'Accelerated Oxidation', file: 'index_38.html', summary: 'Add more oxygen or energy for strong reaction.' },
+        { id: 39, title: 'Inert Atmosphere', file: 'index_39.html', summary: 'Use inert gas to stay safe and stable.' },
+        { id: 40, title: 'Composite Materials', file: 'index_40.html', summary: 'Layer different materials together to be super strong.' },
+    ];
+
+    // Select principles based on language
+    const principles = currentLang === 'en' ? principlesEN : principlesVI;
 
     const match = window.location.pathname.match(/index_(\d+)\.html$/);
     const currentId = match ? Number(match[1]) : null;

@@ -1,0 +1,1975 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../triz-base.css">
+    <script defer src="../triz-nav.js"></script>
+    <title>Nguyên tắc 29: Sử dụng các kết cấu khí và lỏng</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Space Grotesk', 'Avenir Next', 'Segoe UI', system-ui, sans-serif;
+            background: linear-gradient(135deg, #87CEEB 0%, #98FB98 50%, #F0E68C 100%);
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2.8em;
+            margin-bottom: 10px;
+            color: #2c3e50;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
+            animation: titleFloat 4s ease-in-out infinite alternate;
+        }
+
+        @keyframes titleFloat {
+            0% {
+                transform: translateY(-5px) rotate(-1deg);
+            }
+
+            100% {
+                transform: translateY(5px) rotate(1deg);
+            }
+        }
+
+        .subtitle {
+            font-size: 1.4em;
+            margin-bottom: 30px;
+            color: #e74c3c;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .progress-container {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background: #ecf0f1;
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(45deg, #3498db, #2980b9);
+            width: 0%;
+            transition: width 1s ease;
+            position: relative;
+        }
+
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent 33%, rgba(255, 255, 255, 0.3) 50%, transparent 66%);
+            animation: progressShine 2s infinite;
+        }
+
+        @keyframes progressShine {
+            0% {
+                transform: translateX(-100%);
+            }
+
+            100% {
+                transform: translateX(100%);
+            }
+        }
+
+        .progress-text {
+            text-align: center;
+            margin-top: 10px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .comparison-section {
+            display: flex;
+            gap: 30px;
+            margin: 40px 0;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .landing-demo {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 25px;
+            padding: 35px;
+            flex: 1;
+            min-width: 400px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+
+        .landing-demo:hover {
+            transform: translateY(-10px);
+        }
+
+        .landing-demo h2 {
+            color: #2c3e50;
+            margin-bottom: 25px;
+            font-size: 2em;
+        }
+
+        /* Tree and Scene Setup */
+        .tree-scene {
+            position: relative;
+            height: 400px;
+            background: linear-gradient(180deg, #87CEEB 0%, #98FB98 60%, #8FBC8F 100%);
+            border-radius: 20px;
+            margin: 20px 0;
+            overflow: hidden;
+            box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .tree {
+            position: absolute;
+            bottom: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 180px;
+            background: linear-gradient(145deg, #8B4513, #A0522D);
+            border-radius: 10px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .tree-crown {
+            position: absolute;
+            top: -40px;
+            left: -60px;
+            width: 180px;
+            height: 120px;
+            background: radial-gradient(ellipse, #228B22, #32CD32);
+            border-radius: 50%;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .apple {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: radial-gradient(circle, #ff4757, #ff3838);
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .apple1 {
+            top: 20px;
+            left: 40px;
+            animation: appleSwing 3s ease-in-out infinite;
+        }
+
+        .apple2 {
+            top: 35px;
+            left: 100px;
+            animation: appleSwing 3s ease-in-out infinite 0.5s;
+        }
+
+        .apple3 {
+            top: 50px;
+            left: 70px;
+            animation: appleSwing 3s ease-in-out infinite 1s;
+        }
+
+        @keyframes appleSwing {
+
+            0%,
+            100% {
+                transform: rotate(-5deg);
+            }
+
+            50% {
+                transform: rotate(5deg);
+            }
+        }
+
+        /* Full-body Bé Character */
+        .character {
+            position: absolute;
+            width: 60px;
+            height: 100px;
+            transition: all 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            cursor: pointer;
+            filter: drop-shadow(0 5px 10px rgba(0, 0, 0, 0.3));
+            user-select: none;
+            z-index: 10;
+            bottom: 20px;
+            right: 50%;
+            transform: translateX(50%);
+        }
+
+        .character:hover {
+            transform: translateX(50%) scale(1.1);
+        }
+
+        .character.climbing {
+            bottom: 180px;
+            right: 50%;
+            transform: translateX(50%);
+        }
+
+        .character.falling {
+            animation: characterFall 2s ease-in forwards;
+        }
+
+        .character.bouncing {
+            animation: characterBounce 1.5s ease-out;
+        }
+
+        .character.hurt {
+            animation: characterHurt 0.5s ease-in-out 3;
+        }
+
+        /* Bé Head */
+        .kid-head {
+            position: absolute;
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(145deg, #FFDAB9, #FFCBA4);
+            border-radius: 50%;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            box-shadow: inset -3px -3px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Bé Hair */
+        .kid-hair {
+            position: absolute;
+            width: 40px;
+            height: 22px;
+            background: linear-gradient(180deg, #4a3728, #6b4423);
+            border-radius: 50% 50% 30% 30%;
+            top: -4px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1;
+        }
+
+        .kid-hair::before {
+            content: '';
+            position: absolute;
+            width: 8px;
+            height: 12px;
+            background: #4a3728;
+            border-radius: 50%;
+            top: 10px;
+            left: -2px;
+        }
+
+        .kid-hair::after {
+            content: '';
+            position: absolute;
+            width: 8px;
+            height: 12px;
+            background: #4a3728;
+            border-radius: 50%;
+            top: 10px;
+            right: -2px;
+        }
+
+        /* Bé Face */
+        .kid-face {
+            position: absolute;
+            width: 36px;
+            height: 36px;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 2;
+        }
+
+        .kid-eye {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: #333;
+            border-radius: 50%;
+            top: 14px;
+        }
+
+        .kid-eye.left {
+            left: 8px;
+        }
+
+        .kid-eye.right {
+            right: 8px;
+        }
+
+        .kid-eye::after {
+            content: '';
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: white;
+            border-radius: 50%;
+            top: 1px;
+            left: 1px;
+        }
+
+        .kid-mouth {
+            position: absolute;
+            width: 10px;
+            height: 5px;
+            border: 2px solid #e74c3c;
+            border-top: none;
+            border-radius: 0 0 10px 10px;
+            bottom: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .kid-cheek {
+            position: absolute;
+            width: 6px;
+            height: 4px;
+            background: rgba(255, 150, 150, 0.5);
+            border-radius: 50%;
+            top: 18px;
+        }
+
+        .kid-cheek.left {
+            left: 3px;
+        }
+
+        .kid-cheek.right {
+            right: 3px;
+        }
+
+        /* Bé Body (T-shirt) */
+        .kid-body {
+            position: absolute;
+            width: 32px;
+            height: 30px;
+            background: linear-gradient(145deg, #3498db, #2980b9);
+            border-radius: 8px 8px 4px 4px;
+            top: 34px;
+            left: 50%;
+            transform: translateX(-50%);
+            box-shadow: inset -2px -2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .kid-body::after {
+            content: '⭐';
+            position: absolute;
+            font-size: 12px;
+            top: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        /* Bé Arms */
+        .kid-arm {
+            position: absolute;
+            width: 10px;
+            height: 28px;
+            background: linear-gradient(145deg, #FFDAB9, #FFCBA4);
+            border-radius: 5px;
+            top: 36px;
+            transform-origin: top center;
+        }
+
+        .kid-arm.left {
+            left: 2px;
+            transform: rotate(15deg);
+            animation: armSwing 1s ease-in-out infinite alternate;
+        }
+
+        .kid-arm.right {
+            right: 2px;
+            transform: rotate(-15deg);
+            animation: armSwing 1s ease-in-out infinite alternate-reverse;
+        }
+
+        @keyframes armSwing {
+            0% {
+                transform: rotate(15deg);
+            }
+
+            100% {
+                transform: rotate(25deg);
+            }
+        }
+
+        /* Bé Hand */
+        .kid-hand {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: linear-gradient(145deg, #FFDAB9, #FFCBA4);
+            border-radius: 50%;
+            bottom: -4px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        /* Bé Legs */
+        .kid-leg {
+            position: absolute;
+            width: 12px;
+            height: 26px;
+            background: linear-gradient(145deg, #2c3e50, #34495e);
+            border-radius: 4px;
+            top: 62px;
+        }
+
+        .kid-leg.left {
+            left: 12px;
+            animation: legWalk 0.5s ease-in-out infinite alternate;
+        }
+
+        .kid-leg.right {
+            right: 12px;
+            animation: legWalk 0.5s ease-in-out infinite alternate-reverse;
+        }
+
+        @keyframes legWalk {
+            0% {
+                transform: rotate(-5deg);
+            }
+
+            100% {
+                transform: rotate(5deg);
+            }
+        }
+
+        /* Bé Shoes */
+        .kid-shoe {
+            position: absolute;
+            width: 14px;
+            height: 8px;
+            background: linear-gradient(145deg, #e74c3c, #c0392b);
+            border-radius: 4px 12px 4px 4px;
+            bottom: -3px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .kid-shoe::after {
+            content: '';
+            position: absolute;
+            width: 4px;
+            height: 2px;
+            background: white;
+            border-radius: 2px;
+            top: 2px;
+            left: 2px;
+        }
+
+        /* Animation for climbing - arms reaching */
+        .character.climbing .kid-arm.left {
+            animation: armReach 0.8s ease-in-out infinite alternate;
+        }
+
+        .character.climbing .kid-arm.right {
+            animation: armReach 0.8s ease-in-out infinite alternate-reverse;
+        }
+
+        @keyframes armReach {
+            0% {
+                transform: rotate(-30deg);
+            }
+
+            100% {
+                transform: rotate(-60deg);
+            }
+        }
+
+        /* Hurt expression */
+        .character.hurt .kid-mouth {
+            border-radius: 10px 10px 0 0;
+            border: 2px solid #e74c3c;
+            border-bottom: none;
+            top: 24px;
+            bottom: auto;
+        }
+
+        .character.hurt .kid-eye {
+            height: 2px;
+            top: 15px;
+        }
+
+        /* Happy bounce expression */
+        .character.bouncing .kid-eye {
+            animation: eyeHappy 0.3s ease-in-out infinite;
+        }
+
+        @keyframes eyeHappy {
+
+            0%,
+            100% {
+                transform: scaleY(1);
+            }
+
+            50% {
+                transform: scaleY(0.5);
+            }
+        }
+
+        /* Happy Wave Interaction */
+        .character.happy-wave .kid-arm.left {
+            animation: waveArm 0.4s ease-in-out 2 !important;
+        }
+
+        .character.happy-wave .kid-eye {
+            animation: eyeHappy 0.2s ease-in-out infinite !important;
+        }
+
+        @keyframes waveArm {
+
+            0%,
+            100% {
+                transform: rotate(-30deg);
+            }
+
+            50% {
+                transform: rotate(-80deg);
+            }
+        }
+
+        @keyframes characterFall {
+            0% {
+                bottom: 180px;
+                right: 50%;
+                transform: translateX(50%) rotate(0deg);
+            }
+
+            25% {
+                transform: translateX(50%) rotate(90deg);
+            }
+
+            50% {
+                transform: translateX(50%) rotate(180deg);
+            }
+
+            75% {
+                transform: translateX(50%) rotate(270deg);
+            }
+
+            100% {
+                bottom: 20px;
+                right: 50%;
+                transform: translateX(50%) rotate(360deg);
+            }
+        }
+
+        @keyframes characterBounce {
+            0% {
+                bottom: 20px;
+                right: 50%;
+                transform: translateX(50%) scale(1);
+            }
+
+            30% {
+                bottom: 80px;
+                right: 50%;
+                transform: translateX(50%) scale(1.1, 0.9);
+            }
+
+            60% {
+                bottom: 20px;
+                right: 50%;
+                transform: translateX(50%) scale(0.9, 1.1);
+            }
+
+            80% {
+                bottom: 40px;
+                right: 50%;
+                transform: translateX(50%) scale(1.05);
+            }
+
+            100% {
+                bottom: 20px;
+                right: 50%;
+                transform: translateX(50%) scale(1);
+            }
+        }
+
+        @keyframes characterHurt {
+
+            0%,
+            100% {
+                transform: translateX(50%) rotate(0deg) scale(1);
+            }
+
+            25% {
+                transform: translateX(50%) rotate(-15deg) scale(1.05);
+            }
+
+            75% {
+                transform: translateX(50%) rotate(15deg) scale(1.05);
+            }
+        }
+
+        /* Hard Landing Surface */
+        .hard-surface {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 20px;
+            background: linear-gradient(145deg, #7f8c8d, #95a5a6);
+            border-radius: 0 0 20px 20px;
+        }
+
+        /* Soft Air Pillow */
+        .air-pillow {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px;
+            height: 40px;
+            background: linear-gradient(145deg, #3498db, #2980b9);
+            border-radius: 50px;
+            opacity: 0;
+            transition: all 0.8s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .air-pillow.inflated {
+            opacity: 1;
+            transform: translateX(-50%) scale(1);
+        }
+
+        .air-pillow.compressed {
+            transform: translateX(-50%) scaleY(0.5);
+        }
+
+        .air-pillow::before {
+            content: '💨';
+            position: absolute;
+            top: -20px;
+            left: 10px;
+            font-size: 1.5em;
+            animation: airBubbles 2s ease-in-out infinite;
+        }
+
+        .air-pillow::after {
+            content: '💨';
+            position: absolute;
+            top: -20px;
+            right: 10px;
+            font-size: 1.5em;
+            animation: airBubbles 2s ease-in-out infinite 0.5s;
+        }
+
+        @keyframes airBubbles {
+
+            0%,
+            100% {
+                transform: translateY(0) scale(1);
+                opacity: 1;
+            }
+
+            50% {
+                transform: translateY(-15px) scale(1.2);
+                opacity: 0.7;
+            }
+        }
+
+        /* Control Buttons */
+        .control-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 25px 0;
+            flex-wrap: wrap;
+        }
+
+        .control-button {
+            background: linear-gradient(45deg, #e74c3c, #c0392b);
+            border: none;
+            color: white;
+            padding: 18px 35px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 30px;
+            cursor: pointer;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            font-family: inherit;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .control-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+
+        .control-button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 12px;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s ease, height 0.6s ease;
+        }
+
+        .control-button:not(:disabled):hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .control-button:not(:disabled):hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .control-button.safe {
+            background: linear-gradient(45deg, #27ae60, #2ecc71);
+        }
+
+        .control-button.inflate {
+            background: linear-gradient(45deg, #3498db, #2980b9);
+        }
+
+        /* Status Display */
+        .status-display {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 25px;
+            margin: 25px 0;
+            min-height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4em;
+            font-weight: bold;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .status-display::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .status-display.updating::before {
+            left: 100%;
+        }
+
+        /* Comparison Metrics */
+        .comparison-metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .metric {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 15px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .metric:hover {
+            transform: translateY(-5px);
+        }
+
+        .metric-value {
+            font-size: 2em;
+            font-weight: bold;
+            margin: 5px 0;
+        }
+
+        .metric-label {
+            font-size: 0.9em;
+            color: #7f8c8d;
+        }
+
+        /* Problem/Solution Indicators */
+        .problem-indicators {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .problem-tag {
+            background: rgba(231, 76, 60, 0.9);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 15px;
+            font-size: 0.7em;
+            font-weight: bold;
+            animation: problemPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes problemPulse {
+
+            0%,
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 0.7;
+                transform: scale(1.05);
+            }
+        }
+
+        .solution-indicators {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .solution-tag {
+            background: rgba(46, 204, 113, 0.9);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 15px;
+            font-size: 0.7em;
+            font-weight: bold;
+            animation: solutionGlow 3s ease-in-out infinite;
+        }
+
+        @keyframes solutionGlow {
+
+            0%,
+            100% {
+                box-shadow: 0 0 8px rgba(46, 204, 113, 0.5);
+            }
+
+            50% {
+                box-shadow: 0 0 20px rgba(46, 204, 113, 0.8);
+            }
+        }
+
+        /* Educational Content */
+        .explanation {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 25px;
+            padding: 35px;
+            margin: 40px 0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            text-align: left;
+        }
+
+        .explanation h2 {
+            color: #2c3e50;
+            margin-bottom: 25px;
+            text-align: center;
+            font-size: 2.2em;
+        }
+
+        .principle-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+
+        .step {
+            background: linear-gradient(135deg, #ff6b6b, #4ecdc4);
+            color: white;
+            padding: 25px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .step:hover {
+            transform: translateY(-8px) scale(1.02);
+        }
+
+        .step-number {
+            font-size: 3em;
+            font-weight: bold;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .examples-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .example-item {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 25px;
+            border-radius: 18px;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .example-item:hover {
+            transform: translateY(-8px) rotate(2deg);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+        }
+
+        .example-emoji {
+            font-size: 3em;
+            margin-bottom: 15px;
+            animation: exampleFloat 4s ease-in-out infinite;
+        }
+
+        @keyframes exampleFloat {
+
+            0%,
+            100% {
+                transform: translateY(0) rotate(0deg);
+            }
+
+            50% {
+                transform: translateY(-10px) rotate(5deg);
+            }
+        }
+
+        /* Reset Button */
+        .reset-button {
+            background: linear-gradient(45deg, #9b59b6, #8e44ad);
+            border: none;
+            color: white;
+            padding: 15px 30px;
+            font-size: 14px;
+            font-weight: bold;
+            border-radius: 25px;
+            cursor: pointer;
+            margin: 20px auto;
+            display: block;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .reset-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Sound visualization */
+        .impact-effect {
+            position: absolute;
+            bottom: 20px;
+            left: 12px;
+            transform: none;
+            font-size: 2em;
+            opacity: 0;
+            pointer-events: none;
+            z-index: 15;
+        }
+
+        .impact-effect.show {
+            opacity: 1;
+            animation: impactSplash 1s ease-out;
+        }
+
+        @keyframes impactSplash {
+            0% {
+                transform: translateX(-50%) scale(0.5);
+                opacity: 1;
+            }
+
+            50% {
+                transform: translateX(-50%) scale(1.5);
+                opacity: 0.8;
+            }
+
+            100% {
+                transform: translateX(-50%) scale(2);
+                opacity: 0;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .comparison-section {
+                flex-direction: column;
+            }
+
+            .landing-demo {
+                min-width: 320px;
+            }
+
+            .control-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            h1 {
+                font-size: 2.2em;
+            }
+
+            .subtitle {
+                font-size: 1.2em;
+            }
+        }
+
+        /* Accessibility improvements */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>🎈 Nguyên tắc 29: Sử dụng các kết cấu khí và lỏng 💧</h1>
+        <p class="subtitle">Gối hạ cánh siêu mềm - Không khí cứu nguy!</p>
+
+        <div class="progress-container">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <div class="progress-text" id="progressText">Hãy thử cả hai cách hạ cánh để học nhé! 🪂</div>
+        </div>
+
+        <div class="comparison-section">
+            <!-- Hard Landing Demo -->
+            <div class="landing-demo">
+                <h2>😱 Hạ Cánh Cứng - Ơ!</h2>
+                <div class="tree-scene">
+                    <div class="tree">
+                        <div class="tree-crown">
+                            <div class="apple apple1">🍎</div>
+                            <div class="apple apple2">🍎</div>
+                            <div class="apple apple3">🍎</div>
+                        </div>
+                    </div>
+                    <div class="character climbing" id="hardCharacter" onclick="jumpHard()" role="button" tabindex="0"
+                        aria-label="Nhấn để nhảy xuống nền đất cứng">
+                        <!-- Full-body Bé -->
+                        <div class="kid-hair"></div>
+                        <div class="kid-head"></div>
+                        <div class="kid-face">
+                            <div class="kid-eye left"></div>
+                            <div class="kid-eye right"></div>
+                            <div class="kid-cheek left"></div>
+                            <div class="kid-cheek right"></div>
+                            <div class="kid-mouth"></div>
+                        </div>
+                        <div class="kid-body"></div>
+                        <div class="kid-arm left">
+                            <div class="kid-hand"></div>
+                        </div>
+                        <div class="kid-arm right">
+                            <div class="kid-hand"></div>
+                        </div>
+                        <div class="kid-leg left">
+                            <div class="kid-shoe"></div>
+                        </div>
+                        <div class="kid-leg right">
+                            <div class="kid-shoe"></div>
+                        </div>
+                    </div>
+                    <div class="hard-surface"></div>
+                    <div class="impact-effect" id="hardImpact">💥</div>
+                    <div class="problem-indicators">
+                        <div class="problem-tag">Bề mặt cứng!</div>
+                        <div class="problem-tag">Va chạm đau</div>
+                        <div class="problem-tag">Nguy cơ chấn thương</div>
+                    </div>
+                </div>
+
+                <div class="control-buttons">
+                    <button class="control-button" id="hardButton" onclick="jumpHard()">😱 Nhảy xuống nền cứng</button>
+                </div>
+
+                <div class="comparison-metrics">
+                    <div class="metric">
+                        <div class="metric-value">🪨</div>
+                        <div class="metric-label">Vật liệu rắn</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-value">💥</div>
+                        <div class="metric-label">Tác Động Cứng</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-value">😢</div>
+                        <div class="metric-label">Độ đau</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Soft Air Pillow Demo -->
+            <div class="landing-demo">
+                <h2>🎈 Gối Không Khí Mềm - Tuyệt Vời!</h2>
+                <div class="tree-scene">
+                    <div class="tree">
+                        <div class="tree-crown">
+                            <div class="apple apple1">🍎</div>
+                            <div class="apple apple2">🍎</div>
+                            <div class="apple apple3">🍎</div>
+                        </div>
+                    </div>
+                    <div class="character climbing" id="softCharacter" onclick="jumpSoft()" role="button" tabindex="0"
+                        aria-label="Nhấn để nhảy xuống gối hơi mềm">
+                        <!-- Full-body Bé -->
+                        <div class="kid-hair"></div>
+                        <div class="kid-head"></div>
+                        <div class="kid-face">
+                            <div class="kid-eye left"></div>
+                            <div class="kid-eye right"></div>
+                            <div class="kid-cheek left"></div>
+                            <div class="kid-cheek right"></div>
+                            <div class="kid-mouth"></div>
+                        </div>
+                        <div class="kid-body"></div>
+                        <div class="kid-arm left">
+                            <div class="kid-hand"></div>
+                        </div>
+                        <div class="kid-arm right">
+                            <div class="kid-hand"></div>
+                        </div>
+                        <div class="kid-leg left">
+                            <div class="kid-shoe"></div>
+                        </div>
+                        <div class="kid-leg right">
+                            <div class="kid-shoe"></div>
+                        </div>
+                    </div>
+                    <div class="hard-surface"></div>
+                    <div class="air-pillow" id="airPillow"></div>
+                    <div class="impact-effect" id="softImpact">🌟</div>
+                    <div class="solution-indicators">
+                        <div class="solution-tag">Gối không khí!</div>
+                        <div class="solution-tag">Hạ cánh mềm</div>
+                        <div class="solution-tag">Nảy vui</div>
+                    </div>
+                </div>
+
+                <div class="control-buttons">
+                    <button class="control-button inflate" id="inflateButton" onclick="inflatePillow()">🎈 Bơm gối không khí</button>
+                    <button class="control-button safe" id="softButton" onclick="jumpSoft()" disabled>😊 Nhảy xuống gối mềm</button>
+                </div>
+
+                <div class="comparison-metrics">
+                    <div class="metric">
+                        <div class="metric-value">💨</div>
+                        <div class="metric-label">Không khí/khí</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-value">🤗</div>
+                        <div class="metric-label">Va chạm nhẹ</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-value">😄</div>
+                        <div class="metric-label">Độ vui</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="status-display" id="statusDisplay">
+            Hãy thử nhảy xuống nền cứng trước, sau đó bơm gối không khí và cảm nhận sự khác biệt! 🌈
+        </div>
+
+        <button class="reset-button" id="resetButton" onclick="resetDemo()">🔄 Đặt lại demo</button>
+
+        <div class="explanation">
+            <h2>🧠 Điều kỳ diệu của "Khí nén và Thủy lực" là gì?</h2>
+
+            <div class="principle-steps">
+                <div class="step">
+                    <div class="step-number">1️⃣</div>
+                    <div><strong>Vấn đề:</strong><br>Vật liệu rắn (gỗ, bê tông, mút) rất cứng và nặng!</div>
+                </div>
+                <div class="step">
+                    <div class="step-number">2️⃣</div>
+                    <div><strong>Thay thế:</strong><br>Thay các phần rắn bằng không khí (khí nén) hoặc nước (thủy lực)!</div>
+                </div>
+                <div class="step">
+                    <div class="step-number">3️⃣</div>
+                    <div><strong>Điều kỳ diệu:</strong><br>Chất lỏng và khí có thể mềm, nảy và siêu nhẹ!</div>
+                </div>
+            </div>
+
+            <p><strong>Khí nén</strong> sử dụng không khí hoặc khí nén để làm việc!</p>
+            <p><strong>Thủy lực</strong> dùng chất lỏng có áp suất (như nước hoặc dầu) để tạo lực!</p>
+            <p>🎯 <strong>Ý chính:</strong> Thay vì dùng phần rắn nặng, hãy dùng chất lỏng nhẹ, linh hoạt, có thể di chuyển và thích nghi!</p>
+        </div>
+
+        <div class="explanation">
+            <h2>🌟 Thêm ví dụ tuyệt vời bạn gặp hàng ngày!</h2>
+            <div class="examples-grid">
+                <div class="example-item" onclick="showExampleDetail('bouncy')">
+                    <div class="example-emoji">🏰</div>
+                    <strong>Lâu đài hơi</strong><br>
+                    Được bơm đầy không khí thay vì nhựa cứng - nhảy an toàn và vui!
+                </div>
+                <div class="example-item" onclick="showExampleDetail('pool')">
+                    <div class="example-emoji">🏊</div>
+                    <strong>Phao bơi</strong><br>
+                    Nhẹ và nổi vì chứa đầy không khí!
+                </div>
+                <div class="example-item" onclick="showExampleDetail('water')">
+                    <div class="example-emoji">🎈</div>
+                    <strong>Bóng nước</strong><br>
+                    Thủy lực! Nước bên trong làm bóng vỡ tung tóe và vui nhộn!
+                </div>
+                <div class="example-item" onclick="showExampleDetail('car')">
+                    <div class="example-emoji">🚗</div>
+                    <strong>Phanh ô tô</strong><br>
+                    Dầu thủy lực giúp bạn dừng xe an toàn!
+                </div>
+                <div class="example-item" onclick="showExampleDetail('tires')">
+                    <div class="example-emoji">🛞</div>
+                    <strong>Lốp xe</strong><br>
+                    Áp suất không khí giúp xe đi êm và nảy!
+                </div>
+                <div class="example-item" onclick="showExampleDetail('exercise')">
+                    <div class="example-emoji">⚽</div>
+                    <strong>Bóng tập thể dục</strong><br>
+                    Bơm đầy không khí để tập luyện an toàn, nảy!
+                </div>
+                <div class="example-item" onclick="showExampleDetail('bubble')">
+                    <div class="example-emoji">🫧</div>
+                    <strong>Màng xốp hơi</strong><br>
+                    Các túi khí nhỏ bảo vệ đồ dễ vỡ!
+                </div>
+                <div class="example-item" onclick="showExampleDetail('mattress')">
+                    <div class="example-emoji">🛏️</div>
+                    <strong>Đệm hơi</strong><br>
+                    Ngủ êm mà không cần mút nặng!
+                </div>
+            </div>
+        </div>
+
+        <div class="explanation">
+                <h2>🎯 Tại sao khí nén và thủy lực lại thông minh!</h2>
+                <p>Dùng không khí và nước thay cho vật liệu rắn giúp ta:</p>
+                <p>• <strong>Làm mọi thứ nhẹ hơn, dễ mang hơn</strong> 🎒</p>
+                <p>• <strong>Tạo bề mặt mềm, an toàn</strong> để bảo vệ chúng ta 🛡️</p>
+                <p>• <strong>Thêm sự nảy vui và chuyển động</strong> ⚡</p>
+                <p>• <strong>Tiết kiệm chỗ</strong> - xả hơi khi không dùng! 📦</p>
+                <p>• <strong>Hấp thụ va chạm êm ái</strong> thay vì va mạnh 💫</p>
+                <br>
+                <p><em>Đôi khi giải pháp tốt nhất là thay thế phần rắn nặng bằng giải pháp thông minh, linh hoạt! 💡</em></p>
+        </div>
+    </div>
+
+    <script>
+        let demoUsage = { hard: 0, soft: 0 };
+        let isAnimating = false;
+        let isPillowInflated = false;
+        let hasCompletedBoth = false;
+
+        function updateProgress() {
+            const total = demoUsage.hard + demoUsage.soft;
+            const percentage = Math.min((total / 2) * 100, 100);
+
+            const progressFill = document.getElementById('progressFill');
+            const progressText = document.getElementById('progressText');
+
+            progressFill.style.width = percentage + '%';
+
+            if (total === 0) {
+                progressText.textContent = 'Hãy thử cả hai cách hạ cánh để học nhé! 🪂';
+            } else if (total === 1) {
+                progressText.textContent = 'Tuyệt! Giờ hãy thử cách hạ cánh còn lại! 🌟';
+            }
+        }
+
+        function disableButtons() {
+            document.getElementById('hardButton').disabled = true;
+            document.getElementById('inflateButton').disabled = true;
+            document.getElementById('softButton').disabled = true;
+        }
+
+        function enableButtons() {
+            document.getElementById('hardButton').disabled = false;
+            document.getElementById('inflateButton').disabled = isPillowInflated; // Should be enabled when NOT inflated
+            document.getElementById('softButton').disabled = !isPillowInflated;
+        }
+
+        function inflatePillow() {
+            if (isAnimating || isPillowInflated) return;
+
+            const airPillow = document.getElementById('airPillow');
+            const statusDisplay = document.getElementById('statusDisplay');
+            const inflateButton = document.getElementById('inflateButton');
+            const softButton = document.getElementById('softButton');
+
+            statusDisplay.classList.add('updating');
+            statusDisplay.innerHTML = '🎈 Đang bơm gối không khí... *vù vù* *phù phù* 💨';
+
+            // Show inflation animation
+            airPillow.classList.add('inflated');
+            isPillowInflated = true;
+
+            // Create inflation sound effect
+            createInflationEffect();
+
+            setTimeout(() => {
+                statusDisplay.innerHTML = '✨ Tuyệt vời! Gối không khí đã sẵn sàng cho hạ cánh mềm! 🌟';
+                inflateButton.textContent = '✅ Gối đã sẵn sàng!';
+                inflateButton.disabled = true;
+                softButton.disabled = false;
+                softButton.style.background = 'linear-gradient(45deg, #27ae60, #2ecc71)';
+                showEducationalTip('inflation');
+            }, 2000);
+        }
+
+        function jumpHard() {
+            if (isAnimating) return;
+
+            isAnimating = true;
+            disableButtons();
+
+            const character = document.getElementById('hardCharacter');
+            const statusDisplay = document.getElementById('statusDisplay');
+            const impactEffect = document.getElementById('hardImpact');
+
+            demoUsage.hard++;
+            updateProgress();
+
+            statusDisplay.classList.add('updating');
+            statusDisplay.innerHTML = '🧗 Sẵn sàng nhảy từ cây táo... 3... 2... 1... 🍎';
+
+            setTimeout(() => {
+                statusDisplay.innerHTML = '😰 Rơi nhanh xuống nền cứng... *RẦM!* 💥';
+                character.classList.remove('climbing');
+                character.classList.add('falling');
+            }, 2000);
+
+            setTimeout(() => {
+                statusDisplay.innerHTML = '😢 Ái! Đau quá! Nền cứng không hề hấp thụ lực! 🤕';
+                character.classList.remove('falling');
+                character.classList.add('hurt');
+                impactEffect.classList.add('show');
+                createImpactShake();
+            }, 4000);
+
+            setTimeout(() => {
+                statusDisplay.innerHTML = '💔 Bề mặt cứng không hấp thụ lực - chỉ gây đau thôi! Hãy thử cách mềm hơn nhé... 🏥';
+                resetCharacterAnimation('hard');
+                enableButtons();
+                isAnimating = false;
+                showEducationalTip('hard');
+            }, 7000);
+        }
+
+        function jumpSoft() {
+            if (isAnimating || !isPillowInflated) return;
+
+            isAnimating = true;
+            disableButtons();
+
+            const character = document.getElementById('softCharacter');
+            const statusDisplay = document.getElementById('statusDisplay');
+            const airPillow = document.getElementById('airPillow');
+            const impactEffect = document.getElementById('softImpact');
+
+            demoUsage.soft++;
+            updateProgress();
+
+            statusDisplay.classList.add('updating');
+            statusDisplay.innerHTML = '🧗 Sẵn sàng nhảy xuống gối không khí mềm... 3... 2... 1... 🎈';
+
+            setTimeout(() => {
+                statusDisplay.innerHTML = '😊 Rơi nhẹ nhàng xuống gối không khí nảy... *vù* 💨';
+                character.classList.remove('climbing');
+                character.classList.add('falling');
+            }, 2000);
+
+            setTimeout(() => {
+                statusDisplay.innerHTML = '🤗 *BOING* Hạ cánh thật mềm và nảy! Không khí bị nén rồi bật lại! ✨';
+                character.classList.remove('falling');
+                character.classList.add('bouncing');
+                airPillow.classList.add('compressed');
+                impactEffect.classList.add('show');
+                createBounceEffect();
+            }, 4000);
+
+            setTimeout(() => {
+                airPillow.classList.remove('compressed');
+            }, 4500);
+
+            setTimeout(() => {
+                statusDisplay.innerHTML = '🎉 Tuyệt vời! Gối không khí hấp thụ va chạm và làm mọi thứ mềm mại, vui nhộn! 🌈';
+                resetCharacterAnimation('soft');
+                enableButtons();
+                isAnimating = false;
+                showEducationalTip('soft');
+            }, 7000);
+        }
+
+        function resetCharacterAnimation(type) {
+            const character = document.getElementById(type + 'Character');
+            const impactEffect = document.getElementById(type + 'Impact');
+
+            character.classList.remove('falling', 'bouncing', 'hurt');
+            character.classList.add('climbing');
+            impactEffect.classList.remove('show');
+        }
+
+        function resetDemo() {
+            if (isAnimating) return;
+
+            demoUsage = { hard: 0, soft: 0 };
+            hasCompletedBoth = false;
+            isPillowInflated = false;
+
+            resetCharacterAnimation('hard');
+            resetCharacterAnimation('soft');
+
+            const airPillow = document.getElementById('airPillow');
+            const inflateButton = document.getElementById('inflateButton');
+            const softButton = document.getElementById('softButton');
+
+            airPillow.classList.remove('inflated', 'compressed');
+            inflateButton.textContent = '🎈 Inflate Air Pillow';
+            inflateButton.disabled = false;
+            softButton.disabled = true;
+            softButton.style.background = 'linear-gradient(45deg, #3498db, #2980b9)';
+
+            document.getElementById('statusDisplay').innerHTML = 'Hãy thử nhảy xuống nền cứng trước, sau đó bơm gối không khí và cảm nhận sự khác biệt! 🌈';
+            document.getElementById('statusDisplay').classList.remove('updating');
+
+            updateProgress();
+            enableButtons();
+
+            showResetConfirmation();
+        }
+
+        function createInflationEffect() {
+            for (let i = 0; i < 15; i++) {
+                setTimeout(() => {
+                    const bubble = document.createElement('div');
+                    bubble.textContent = '💨';
+                    bubble.style.cssText = `
+                        position: fixed;
+                        bottom: 200px;
+                        left: ${45 + Math.random() * 10}%;
+                        font-size: ${1 + Math.random() * 0.5}em;
+                        z-index: 1000;
+                        pointer-events: none;
+                        animation: bubbleFloat 2s ease-out forwards;
+                    `;
+
+                    addKeyframes('bubbleFloat', `
+                        0% { opacity: 1; transform: translateY(0) scale(0.5); }
+                        100% { opacity: 0; transform: translateY(-100px) scale(1.5); }
+                    `);
+
+                    document.body.appendChild(bubble);
+
+                    setTimeout(() => {
+                        if (bubble.parentNode) {
+                            bubble.parentNode.removeChild(bubble);
+                        }
+                    }, 2000);
+                }, i * 100);
+            }
+        }
+
+        function createImpactShake() {
+            document.body.style.animation = 'screenShake 0.5s ease-in-out';
+
+            addKeyframes('screenShake', `
+                0%, 100% { transform: translateX(0); }
+                25% { transform: translateX(-5px); }
+                75% { transform: translateX(5px); }
+            `);
+
+            setTimeout(() => {
+                document.body.style.animation = '';
+            }, 500);
+        }
+
+        function createBounceEffect() {
+            const sparkles = ['✨', '🌟', '💫', '⭐'];
+
+            for (let i = 0; i < 10; i++) {
+                const sparkle = document.createElement('div');
+                sparkle.textContent = sparkles[Math.floor(Math.random() * sparkles.length)];
+                sparkle.style.cssText = `
+                    position: fixed;
+                    bottom: ${150 + Math.random() * 100}px;
+                    left: ${45 + Math.random() * 10}%;
+                    font-size: ${1 + Math.random() * 0.8}em;
+                    z-index: 1000;
+                    pointer-events: none;
+                    animation: sparkleFloat 1.5s ease-out forwards;
+                `;
+
+                addKeyframes('sparkleFloat', `
+                    0% { opacity: 1; transform: translateY(0) rotate(0deg); }
+                    100% { opacity: 0; transform: translateY(-80px) rotate(360deg); }
+                `);
+
+                document.body.appendChild(sparkle);
+
+                setTimeout(() => {
+                    if (sparkle.parentNode) {
+                        sparkle.parentNode.removeChild(sparkle);
+                    }
+                }, 1500);
+            }
+        }
+
+        function showResetConfirmation() {
+            const confirmation = document.createElement('div');
+            confirmation.innerHTML = '🔄 Đã đặt lại demo! Hãy thử lại các cách hạ cánh nhé! 🪂';
+            confirmation.style.cssText = `
+                position: fixed;
+                top: 20px;
+                left: 12px;
+                transform: none;
+                background: linear-gradient(135deg, #9b59b6, #8e44ad);
+                color: white;
+                padding: 15px 25px;
+                border-radius: 20px;
+                font-weight: bold;
+                z-index: 1000;
+                box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+                animation: slideDown 0.5s ease-out;
+            `;
+
+            addKeyframes('slideDown', `
+                from { transform: translateX(-50%) translateY(-100%); opacity: 0; }
+                to { transform: translateX(-50%) translateY(0); opacity: 1; }
+            `);
+
+            document.body.appendChild(confirmation);
+
+            setTimeout(() => {
+                confirmation.style.animation = 'slideUp 0.5s ease-in forwards';
+                addKeyframes('slideUp', `
+                    from { transform: translateX(-50%) translateY(0); opacity: 1; }
+                    to { transform: translateX(-50%) translateY(-100%); opacity: 0; }
+                `);
+                setTimeout(() => {
+                    if (confirmation.parentNode) {
+                        confirmation.parentNode.removeChild(confirmation);
+                    }
+                }, 500);
+            }, 3000);
+        }
+
+        function showEducationalTip(type) {
+            const tips = {
+                inflation: [
+                    "💡 Tuyệt vời! Không khí chiếm chỗ và tạo thành lớp đệm mềm!",
+                    "💡 Khí nén dùng không khí nén để làm việc - như chiếc gối mềm này!",
+                    "💡 Không khí nhẹ hơn mút đặc rất nhiều mà vẫn hiệu quả!",
+                    "💡 Có thể xả hơi khi không dùng - tiết kiệm chỗ!"
+                ],
+                hard: [
+                    "💡 Lưu ý: Vật liệu rắn không hấp thụ lực - mà truyền lực vào bạn!",
+                    "💡 Bề mặt cứng không nén lại hay lún xuống khi bạn tiếp đất!",
+                    "💡 Bê tông, gỗ, kim loại rất chắc nhưng không mềm!",
+                    "💡 Đó là lý do ta cần giải pháp an toàn hơn!"
+                ],
+                soft: [
+                    "💡 Tuyệt vời! Đây là Nguyên tắc 29: Sử dụng các kết cấu khí và lỏng!",
+                    "💡 Không khí bị nén khi bạn tiếp đất, rồi bật lại - đệm hoàn hảo!",
+                    "💡 Khí và chất lỏng hấp thụ và phân tán lực rất êm!",
+                    "💡 Hạ cánh mềm bảo vệ ta, còn bề mặt cứng thì gây đau!",
+                    "💡 Không khí bên trong làm tất cả - không cần vật liệu nặng!"
+                ]
+            };
+
+            const tipList = tips[type];
+            const randomTip = tipList[Math.floor(Math.random() * tipList.length)];
+
+            const tip = document.createElement('div');
+            tip.textContent = randomTip;
+            tip.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: linear-gradient(135deg, #667eea, #764ba2);
+                color: white;
+                padding: 20px 25px;
+                border-radius: 20px;
+                font-weight: bold;
+                max-width: 360px;
+                z-index: 1000;
+                box-shadow: 0 10px 35px rgba(0,0,0,0.3);
+                font-size: 15px;
+                line-height: 1.6;
+                border: 3px solid rgba(255,255,255,0.3);
+                backdrop-filter: blur(15px);
+                animation: tipSlideIn 0.6s ease-out;
+            `;
+
+            addKeyframes('tipSlideIn', `
+                from { transform: translateX(120%); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            `);
+
+            document.body.appendChild(tip);
+
+            setTimeout(() => {
+                tip.style.animation = 'tipSlideOut 0.6s ease-in';
+                addKeyframes('tipSlideOut', `
+                    from { transform: translateX(0); opacity: 1; }
+                    to { transform: translateX(120%); opacity: 0; }
+                `);
+                setTimeout(() => {
+                    if (tip.parentNode) {
+                        tip.parentNode.removeChild(tip);
+                    }
+                }, 600);
+            }, 5000);
+        }
+
+        function showCongratulations() {
+            const congratsMessage = document.createElement('div');
+            congratsMessage.innerHTML = `
+                <div style="font-size: 2em; margin-bottom: 10px;">🎉</div>
+                <div style="font-size: 1.2em; margin-bottom: 10px;"><strong>Chúc mừng!</strong></div>
+                <div>Bạn đã thành thạo Nguyên tắc 29!</div>
+                <div>Bạn đã hiểu cách không khí và nước làm mọi thứ tốt hơn! 🎈💧</div>
+            `;
+            congratsMessage.style.cssText = `
+                position: fixed;
+                top: 50%;
+                left: 12px;
+                transform: translate(-50%, -50%);
+                background: linear-gradient(135deg, #FFD700, #FFA500, #FF6B6B);
+                color: #333;
+                padding: 35px;
+                border-radius: 30px;
+                font-weight: bold;
+                max-width: 450px;
+                z-index: 2000;
+                box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+                text-align: center;
+                font-size: 16px;
+                line-height: 1.6;
+                border: 5px solid white;
+                animation: celebrationBounce 0.8s ease-out;
+            `;
+
+            addKeyframes('celebrationBounce', `
+                0% { transform: translate(-50%, -50%) scale(0) rotate(-360deg); opacity: 0; }
+                60% { transform: translate(-50%, -50%) scale(1.1) rotate(-10deg); opacity: 0.9; }
+                100% { transform: translate(-50%, -50%) scale(1) rotate(0deg); opacity: 1; }
+            `);
+
+            document.body.appendChild(congratsMessage);
+
+            // Add confetti effect
+            createConfetti();
+
+            setTimeout(() => {
+                congratsMessage.style.animation = 'celebrationFade 0.7s ease-in';
+                addKeyframes('celebrationFade', `
+                    from { opacity: 1; transform: translate(-50%, -50%) scale(1) rotate(0deg); }
+                    to { opacity: 0; transform: translate(-50%, -50%) scale(0.8) rotate(10deg); }
+                `);
+                setTimeout(() => {
+                    if (congratsMessage.parentNode) {
+                        congratsMessage.parentNode.removeChild(congratsMessage);
+                    }
+                }, 700);
+            }, 6000);
+        }
+
+        function createConfetti() {
+            const colors = ['#FFD700', '#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FECA57'];
+            const symbols = ['🎈', '💨', '✨', '🌟', '💧', '🎊'];
+
+            for (let i = 0; i < 50; i++) {
+                const confetti = document.createElement('div');
+                const isSymbol = Math.random() > 0.5;
+
+                if (isSymbol) {
+                    confetti.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+                    confetti.style.fontSize = '20px';
+                } else {
+                    confetti.style.width = '10px';
+                    confetti.style.height = '10px';
+                    confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                }
+
+                confetti.style.cssText += `
+                    position: fixed;
+                    top: -10px;
+                    left: ${Math.random() * 100}%;
+                    z-index: 1500;
+                    pointer-events: none;
+                    animation: confettiFall ${2 + Math.random() * 3}s linear forwards;
+                `;
+
+                document.body.appendChild(confetti);
+
+                setTimeout(() => {
+                    if (confetti.parentNode) {
+                        confetti.parentNode.removeChild(confetti);
+                    }
+                }, 5000);
+            }
+
+            addKeyframes('confettiFall', `
+                to {
+                    transform: translateY(100vh) rotate(720deg);
+                    opacity: 0;
+                }
+            `);
+        }
+
+        function showExampleDetail(type) {
+            const details = {
+                bouncy: "🏰 Lâu đài hơi dùng áp suất không khí để tạo bề mặt nhảy an toàn, vui vẻ. Tốt hơn nhựa cứng rất nhiều!",
+                pool: "🏊 Phao bơi nhẹ vì chứa đầy không khí, không phải mút nặng. Hoàn hảo để nổi và vui chơi!",
+                water: "🎈 Bóng nước dùng thủy lực - nước bên trong chuyển động và bắn tung khi bóng vỡ. Rất vui nhộn!",
+                car: "🚗 Phanh ô tô dùng dầu thủy lực để tăng lực từ chân bạn. Rất mạnh và an toàn!",
+                tires: "🛞 Áp suất không khí trong lốp giúp xe đi êm và bám đường. Không có không khí, xe sẽ xóc và nguy hiểm!",
+                exercise: "⚽ Bóng tập thể dục dùng không khí để tạo lực cản và độ nảy. An toàn hơn dụng cụ cứng!",
+                bubble: "🫧 Màng xốp hơi bảo vệ đồ dễ vỡ bằng các túi khí nhỏ. Nhẹ mà đệm rất tốt!",
+                mattress: "🛏️ Đệm hơi vừa êm vừa dễ mang vì dùng không khí thay cho mút nặng!"
+            };
+
+            const detail = document.createElement('div');
+            detail.innerHTML = details[type];
+            detail.style.cssText = `
+                position: fixed;
+                bottom: 30px;
+                left: 30px;
+                background: linear-gradient(135deg, #FF6B6B, #4ECDC4);
+                color: white;
+                padding: 22px;
+                border-radius: 22px;
+                font-weight: bold;
+                max-width: 380px;
+                z-index: 1000;
+                box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+                font-size: 14px;
+                line-height: 1.7;
+                border: 3px solid rgba(255,255,255,0.4);
+                backdrop-filter: blur(20px);
+                animation: detailPop 0.9s ease-out;
+            `;
+
+            addKeyframes('detailPop', `
+                0% { transform: scale(0) rotate(-180deg); opacity: 0; }
+                60% { transform: scale(1.1) rotate(-5deg); opacity: 0.9; }
+                100% { transform: scale(1) rotate(0deg); opacity: 1; }
+            `);
+
+            document.body.appendChild(detail);
+
+            setTimeout(() => {
+                detail.style.animation = 'detailFadeOut 0.7s ease-in';
+                addKeyframes('detailFadeOut', `
+                    from { opacity: 1; transform: scale(1) rotate(0deg); }
+                    to { opacity: 0; transform: scale(0.8) rotate(5deg); }
+                `);
+                setTimeout(() => {
+                    if (detail.parentNode) {
+                        detail.parentNode.removeChild(detail);
+                    }
+                }, 700);
+            }, 4000);
+        }
+
+        function addKeyframes(name, keyframes) {
+            if (!document.querySelector(`#${name}Styles`)) {
+                const style = document.createElement('style');
+                style.id = name + 'Styles';
+                style.textContent = `@keyframes ${name} { ${keyframes} }`;
+                document.head.appendChild(style);
+            }
+        }
+
+        // Enhanced interactions and animations
+        document.addEventListener('DOMContentLoaded', function () {
+            // Add keyboard support
+            document.addEventListener('keydown', function (e) {
+                if (e.key === '1' && !isAnimating) {
+                    jumpHard();
+                } else if (e.key === '2' && !isAnimating && !isPillowInflated) {
+                    inflatePillow();
+                } else if (e.key === '3' && !isAnimating && isPillowInflated) {
+                    jumpSoft();
+                } else if (e.key === 'r' || e.key === 'R') {
+                    resetDemo();
+                }
+            });
+
+            // Add character interaction on click
+            const characters = document.querySelectorAll('.character');
+            characters.forEach(character => {
+                character.addEventListener('click', function () {
+                    if (!isAnimating) {
+                        // Toggle happy expression by briefly adding a bounce effect
+                        this.style.transform = 'translateX(50%) scale(1.15)';
+                        this.classList.add('happy-wave');
+
+                        setTimeout(() => {
+                            this.style.transform = '';
+                            this.classList.remove('happy-wave');
+                        }, 800);
+                    }
+                });
+
+                // Add keyboard accessibility
+                character.addEventListener('keydown', function (e) {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        e.preventDefault();
+                        this.click();
+                    }
+                });
+            });
+
+            // Initialize progress
+            updateProgress();
+
+            // Add accessibility announcements
+            const statusDisplay = document.getElementById('statusDisplay');
+            const observer = new MutationObserver(function (mutations) {
+                mutations.forEach(function (mutation) {
+                    if (mutation.type === 'childList' || mutation.type === 'characterData') {
+                        // Announce status changes to screen readers
+                        const announcement = document.createElement('div');
+                        announcement.setAttribute('aria-live', 'polite');
+                        announcement.setAttribute('aria-atomic', 'true');
+                        announcement.className = 'sr-only';
+                        announcement.textContent = statusDisplay.textContent;
+                        document.body.appendChild(announcement);
+
+                        setTimeout(() => {
+                            document.body.removeChild(announcement);
+                        }, 100);
+                    }
+                });
+            });
+
+            observer.observe(statusDisplay, {
+                childList: true,
+                subtree: true,
+                characterData: true
+            });
+        });
+
+        // Show fun facts periodically
+        function showRandomFact() {
+            const facts = [
+                "💡 Bạn có biết? Lốp khí nén đầu tiên được phát minh năm 1888!",
+                "🎈 Thú vị: Khinh khí cầu dùng không khí nóng để nhẹ hơn không khí xung quanh!",
+                "💧 Kỳ diệu: Hệ thống thủy lực có thể nâng cả ô tô nặng hàng tấn!",
+                "🌊 Công nghệ hay: Giường nước dùng thủy lực để phân bổ trọng lượng đều!",
+                "🚗 Thiết kế thông minh: Hệ thống treo khí trên ô tô tự điều chỉnh để xe đi êm!",
+                "🏥 Y học: Băng bó bơm hơi nhẹ và thoải mái hơn loại cứng!",
+                "🎪 Xiếc: Súng khí nén dùng không khí nén để bắn diễn viên an toàn!",
+                "🛩️ Hàng không: Bộ càng hạ cánh máy bay dùng thủy lực để chịu va chạm lớn!"
+            ];
+
+            if (Math.random() > 0.8) { // Show less frequently
+                const randomFact = facts[Math.floor(Math.random() * facts.length)];
+
+                const factBubble = document.createElement('div');
+                factBubble.textContent = randomFact;
+                factBubble.style.cssText = `
+                    position: fixed;
+                    bottom: 30px;
+                    left: 30px;
+                    background: linear-gradient(135deg, #667eea, #764ba2);
+                    color: white;
+                    padding: 22px;
+                    border-radius: 22px;
+                    font-weight: bold;
+                    max-width: 380px;
+                    z-index: 1000;
+                    box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+                    font-size: 14px;
+                    line-height: 1.7;
+                    border: 3px solid rgba(255,255,255,0.4);
+                    backdrop-filter: blur(20px);
+                    animation: factBubble 0.9s ease-out;
+                `;
+
+                addKeyframes('factBubble', `
+                    from { transform: translateY(100%) scale(0.8); opacity: 0; }
+                    to { transform: translateY(0) scale(1); opacity: 1; }
+                `);
+
+                document.body.appendChild(factBubble);
+
+                setTimeout(() => {
+                    factBubble.style.animation = 'factFadeAway 0.7s ease-in';
+                    addKeyframes('factFadeAway', `
+                        from { opacity: 1; transform: translateY(0) scale(1); }
+                        to { opacity: 0; transform: translateY(-50px) scale(0.9); }
+                    `);
+                    setTimeout(() => {
+                        if (factBubble.parentNode) {
+                            factBubble.parentNode.removeChild(factBubble);
+                        }
+                    }, 700);
+                }, 4000);
+            }
+        }
+
+        // Show first fact after 8 seconds, then every 30 seconds
+        setTimeout(showRandomFact, 8000);
+        setInterval(showRandomFact, 30000);
+    </script>
+</body>
+
+</html>

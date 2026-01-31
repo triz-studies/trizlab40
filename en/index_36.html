@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../triz-base.css">
+    <script defer src="../triz-nav.js"></script>
+    <title>Principle 36: Phase Transition</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;800;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Nunito', 'Segoe UI', system-ui, sans-serif;
+            background: linear-gradient(145deg, #67e8f9 0%, #22d3ee 50%, #06b6d4 100%);
+            color: #0b1021;
+            margin: 0;
+            padding: 22px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-size: 2.4rem;
+            margin: 12px 0 6px;
+            font-weight: 900;
+        }
+
+        .subtitle {
+            margin: 0 0 16px;
+            color: #164e63;
+            font-weight: 700;
+            font-size: 1.15rem;
+        }
+
+        .kid-card {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            border-radius: 20px;
+            padding: 18px 20px;
+            border: 3px solid #fbbf24;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12), inset 0 2px 0 rgba(255, 255, 255, 0.5);
+            margin-bottom: 20px;
+        }
+
+        .kid-card p {
+            margin: 8px 0;
+            font-weight: 700;
+            color: #92400e;
+            font-size: 1.05rem;
+        }
+
+        .kid-card .emoji {
+            font-size: 1.4rem;
+            margin-right: 8px;
+        }
+
+        .demo {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 24px;
+            padding: 24px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.18);
+            border: 3px solid rgba(255, 255, 255, 0.8);
+        }
+
+        .demo-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            align-items: start;
+        }
+
+        .demo-stage {
+            background: linear-gradient(180deg, #ecfeff 0%, #cffafe 100%);
+            border: 3px dashed #67e8f9;
+            border-radius: 20px;
+            padding: 30px;
+            min-height: 320px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .freezer-scene {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .cup {
+            width: 70px;
+            height: 90px;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.8) 0%, rgba(240, 240, 255, 0.6) 100%);
+            border: 3px solid rgba(200, 200, 220, 0.5);
+            border-radius: 8px 8px 15px 15px;
+            position: relative;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .juice {
+            position: absolute;
+            bottom: 5px;
+            left: 5px;
+            right: 5px;
+            height: 65px;
+            background: linear-gradient(180deg, #fb923c 0%, #ea580c 100%);
+            border-radius: 0 0 10px 10px;
+            transition: all 0.5s ease;
+        }
+
+        .stick {
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 12px;
+            height: 50px;
+            background: linear-gradient(90deg, #fef3c7 0%, #fde68a 100%);
+            border-radius: 3px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+            opacity: 0;
+            transition: all 0.5s ease;
+        }
+
+        .snowflakes {
+            position: absolute;
+            top: -50px;
+            font-size: 1.5rem;
+            display: flex;
+            gap: 20px;
+            opacity: 0;
+            transition: all 0.4s ease;
+        }
+
+        .snowflake {
+            animation: float 2s ease-in-out infinite;
+        }
+
+        .snowflake:nth-child(2) {
+            animation-delay: 0.5s;
+        }
+
+        .snowflake:nth-child(3) {
+            animation-delay: 1s;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .frozen .snowflakes {
+            opacity: 1;
+        }
+
+        .frozen .cup {
+            background: linear-gradient(180deg, rgba(200, 230, 255, 0.9) 0%, rgba(180, 220, 255, 0.8) 100%);
+            border-color: rgba(150, 200, 255, 0.6);
+        }
+
+        .frozen .juice {
+            background: linear-gradient(180deg, #fdba74 0%, #f97316 100%);
+            border-radius: 8px 8px 10px 10px;
+        }
+
+        .frozen .stick {
+            opacity: 1;
+        }
+
+        .temp-indicator {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 16px;
+            background: white;
+            border-radius: 30px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            transition: all 0.4s ease;
+        }
+
+        .temp-icon {
+            font-size: 1.5rem;
+        }
+
+        .temp-text {
+            font-weight: 900;
+            color: #ef4444;
+            transition: all 0.4s ease;
+        }
+
+        .frozen .temp-text {
+            color: #0ea5e9;
+        }
+
+        .state-label {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            padding: 8px 14px;
+            border-radius: 20px;
+            font-weight: 900;
+            font-size: 0.85rem;
+            background: #f97316;
+            color: white;
+            transition: all 0.4s ease;
+        }
+
+        .frozen .state-label {
+            background: #0ea5e9;
+        }
+
+        .demo-label {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            transform: none;
+            background: rgba(30, 41, 59, 0.6);
+            color: #f1f5f9;
+            padding: 10px 18px;
+            border-radius: 30px;
+            font-weight: 800;
+            font-size: 0.95rem;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+            white-space: nowrap;
+        }
+
+        .controls {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .primary-btn {
+            background: linear-gradient(145deg, #06b6d4 0%, #0891b2 100%);
+            color: white;
+            border: none;
+            border-radius: 16px;
+            padding: 16px 24px;
+            font-weight: 900;
+            font-size: 1.1rem;
+            cursor: pointer;
+            box-shadow: 0 8px 24px rgba(6, 182, 212, 0.4), inset 0 2px 0 rgba(255, 255, 255, 0.2);
+            transition: all 0.2s ease;
+            font-family: inherit;
+        }
+
+        .primary-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 28px rgba(6, 182, 212, 0.5);
+        }
+
+        .status {
+            background: linear-gradient(135deg, #ecfeff 0%, #cffafe 100%);
+            border-radius: 14px;
+            padding: 14px 18px;
+            font-weight: 800;
+            color: #0e7490;
+            font-size: 1.05rem;
+            border: 2px solid #67e8f9;
+        }
+
+        .examples {
+            background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+            border-radius: 16px;
+            padding: 16px 18px;
+            border: 2px solid #86efac;
+        }
+
+        .examples h3 {
+            margin: 0 0 12px;
+            color: #166534;
+            font-size: 1.05rem;
+        }
+
+        .example-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .example-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: white;
+            padding: 12px 14px;
+            border-radius: 12px;
+            font-weight: 700;
+            color: #15803d;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.06);
+        }
+
+        .example-item .icon {
+            font-size: 1.5rem;
+        }
+
+        @media (max-width: 800px) {
+            .demo-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>❄️ Principle 36: Use phase transition</h1>
+        <p class="subtitle">Freeze, melt, or evaporate to make it better!</p>
+
+        <div class="kid-card">
+            <p><span class="emoji">💡</span>Big Idea: Change solid, liquid, or gas to create new abilities!</p>
+            <p><span class="emoji">🎯</span>Try this: Freeze fruit juice to make tasty popsicles!</p>
+        </div>
+
+        <div class="demo">
+            <div class="demo-grid">
+                <div class="demo-stage" id="stage">
+                    <div class="state-label" id="stateLabel">LIQUID 💧</div>
+                    <div class="freezer-scene">
+                        <div class="snowflakes">
+                            <span class="snowflake">❄️</span>
+                            <span class="snowflake">❄️</span>
+                            <span class="snowflake">❄️</span>
+                        </div>
+                        <div class="cup">
+                            <div class="juice"></div>
+                            <div class="stick"></div>
+                        </div>
+                        <div class="temp-indicator">
+                            <span class="temp-icon" id="tempIcon">🌡️</span>
+                            <span class="temp-text" id="tempText">WARM</span>
+                        </div>
+                    </div>
+                    <div class="demo-label" id="label">🍊 Orange juice in a cup</div>
+                </div>
+
+                <div class="controls">
+                    <button class="primary-btn" id="toggle">❄️ Freeze it!</button>
+                    <div class="status" id="status">Liquid juice is drinkable but not as fun on a hot day!</div>
+
+                    <div class="examples">
+                        <h3>🔍 Find in Real Life:</h3>
+                        <div class="example-list">
+                            <div class="example-item">
+                                <span class="icon">🍦</span>
+                                <span>Freeze fruit juice into popsicles</span>
+                            </div>
+                            <div class="example-item">
+                                <span class="icon">🧊</span>
+                                <span>Ice pack to cool a swollen spot</span>
+                            </div>
+                            <div class="example-item">
+                                <span class="icon">🍫</span>
+                                <span>Melt chocolate and pour into molds</span>
+                            </div>
+                            <div class="example-item">
+                                <span class="icon">♨️</span>
+                                <span>Steam cooks food</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const stage = document.getElementById('stage');
+        const stateLabel = document.getElementById('stateLabel');
+        const tempIcon = document.getElementById('tempIcon');
+        const tempText = document.getElementById('tempText');
+        const label = document.getElementById('label');
+        const status = document.getElementById('status');
+        const toggle = document.getElementById('toggle');
+        let frozen = false;
+
+        toggle.addEventListener('click', () => {
+            frozen = !frozen;
+            stage.classList.toggle('frozen', frozen);
+
+            if (frozen) {
+                stateLabel.textContent = 'SOLID 🧊';
+                tempIcon.textContent = '🥶';
+                tempText.textContent = 'FROZEN';
+                label.textContent = '🍭 Frozen popsicle treat!';
+                status.textContent = 'Solid popsicle is cold and refreshing on a hot day!';
+                toggle.textContent = '☀️ Melt it!';
+            } else {
+                stateLabel.textContent = 'LIQUID 💧';
+                tempIcon.textContent = '🌡️';
+                tempText.textContent = 'WARM';
+                label.textContent = '🍊 Orange juice in a cup';
+                status.textContent = 'Liquid juice is drinkable but not as fun on a hot day!';
+                toggle.textContent = '❄️ Freeze it!';
+            }
+        });
+    </script>
+</body>
+
+</html>

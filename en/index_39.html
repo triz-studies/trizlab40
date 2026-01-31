@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../triz-base.css">
+    <script defer src="../triz-nav.js"></script>
+    <title>Principle 39: Inert Atmosphere</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;800;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Nunito', 'Segoe UI', system-ui, sans-serif;
+            background: linear-gradient(145deg, #a78bfa 0%, #8b5cf6 50%, #7c3aed 100%);
+            color: #0b1021;
+            margin: 0;
+            padding: 22px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-size: 2.4rem;
+            margin: 12px 0 6px;
+            font-weight: 900;
+        }
+
+        .subtitle {
+            margin: 0 0 16px;
+            color: #4c1d95;
+            font-weight: 700;
+            font-size: 1.15rem;
+        }
+
+        .kid-card {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            border-radius: 20px;
+            padding: 18px 20px;
+            border: 3px solid #fbbf24;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12), inset 0 2px 0 rgba(255, 255, 255, 0.5);
+            margin-bottom: 20px;
+        }
+
+        .kid-card p {
+            margin: 8px 0;
+            font-weight: 700;
+            color: #92400e;
+            font-size: 1.05rem;
+        }
+
+        .kid-card .emoji {
+            font-size: 1.4rem;
+            margin-right: 8px;
+        }
+
+        .demo {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 24px;
+            padding: 24px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.18);
+            border: 3px solid rgba(255, 255, 255, 0.8);
+        }
+
+        .demo-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            align-items: start;
+        }
+
+        .demo-stage {
+            background: linear-gradient(180deg, #f5f3ff 0%, #ede9fe 100%);
+            border: 3px dashed #c4b5fd;
+            border-radius: 20px;
+            padding: 30px;
+            min-height: 320px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .bag-scene {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .chip-bag {
+            width: 100px;
+            height: 140px;
+            background: linear-gradient(145deg, #fbbf24 0%, #f59e0b 100%);
+            border-radius: 15px 15px 8px 8px;
+            position: relative;
+            box-shadow: 0 8px 24px rgba(251, 191, 36, 0.4);
+            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            overflow: hidden;
+        }
+
+        .bag-top {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 25px;
+            background: linear-gradient(145deg, #dc2626 0%, #b91c1c 100%);
+            border-radius: 15px 15px 0 0;
+        }
+
+        .bag-label {
+            position: absolute;
+            top: 35px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 2rem;
+        }
+
+        .chips {
+            position: absolute;
+            bottom: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 5px;
+            transition: all 0.4s ease;
+        }
+
+        .chip {
+            width: 20px;
+            height: 15px;
+            background: linear-gradient(145deg, #fef3c7 0%, #fde68a 100%);
+            border-radius: 50%;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .air-puffs {
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            opacity: 1;
+            transition: all 0.4s ease;
+        }
+
+        .puff {
+            font-size: 1rem;
+            animation: float-air 2s ease-in-out infinite;
+        }
+
+        .puff:nth-child(2) {
+            animation-delay: 0.5s;
+        }
+
+        .puff:nth-child(3) {
+            animation-delay: 1s;
+        }
+
+        @keyframes float-air {
+
+            0%,
+            100% {
+                transform: translateY(0);
+                opacity: 0.5;
+            }
+
+            50% {
+                transform: translateY(-5px);
+                opacity: 0.8;
+            }
+        }
+
+        .sealed .chip-bag {
+            height: 100px;
+            width: 90px;
+        }
+
+        .sealed .air-puffs {
+            opacity: 0;
+        }
+
+        .soggy-indicator {
+            position: absolute;
+            bottom: -30px;
+            font-size: 1rem;
+            font-weight: 900;
+            color: #78350f;
+            opacity: 1;
+            transition: all 0.4s ease;
+        }
+
+        .sealed .soggy-indicator {
+            color: #22c55e;
+        }
+
+        .seal-line {
+            position: absolute;
+            top: 22px;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: #991b1b;
+            opacity: 0;
+            transition: all 0.4s ease;
+        }
+
+        .sealed .seal-line {
+            opacity: 1;
+        }
+
+        .fresh-meter {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            padding: 8px 14px;
+            border-radius: 20px;
+            font-weight: 900;
+            font-size: 0.85rem;
+            background: #78350f;
+            color: white;
+            transition: all 0.4s ease;
+        }
+
+        .sealed .fresh-meter {
+            background: #22c55e;
+        }
+
+        .demo-label {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            transform: none;
+            background: rgba(30, 41, 59, 0.6);
+            color: #f1f5f9;
+            padding: 10px 18px;
+            border-radius: 30px;
+            font-weight: 800;
+            font-size: 0.95rem;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+            white-space: nowrap;
+        }
+
+        .controls {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .primary-btn {
+            background: linear-gradient(145deg, #8b5cf6 0%, #7c3aed 100%);
+            color: white;
+            border: none;
+            border-radius: 16px;
+            padding: 16px 24px;
+            font-weight: 900;
+            font-size: 1.1rem;
+            cursor: pointer;
+            box-shadow: 0 8px 24px rgba(139, 92, 246, 0.4), inset 0 2px 0 rgba(255, 255, 255, 0.2);
+            transition: all 0.2s ease;
+            font-family: inherit;
+        }
+
+        .primary-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 28px rgba(139, 92, 246, 0.5);
+        }
+
+        .status {
+            background: linear-gradient(135deg, #f5f3ff 0%, #ede9fe 100%);
+            border-radius: 14px;
+            padding: 14px 18px;
+            font-weight: 800;
+            color: #5b21b6;
+            font-size: 1.05rem;
+            border: 2px solid #c4b5fd;
+        }
+
+        .examples {
+            background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+            border-radius: 16px;
+            padding: 16px 18px;
+            border: 2px solid #86efac;
+        }
+
+        .examples h3 {
+            margin: 0 0 12px;
+            color: #166534;
+            font-size: 1.05rem;
+        }
+
+        .example-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .example-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: white;
+            padding: 12px 14px;
+            border-radius: 12px;
+            font-weight: 700;
+            color: #15803d;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.06);
+        }
+
+        .example-item .icon {
+            font-size: 1.5rem;
+        }
+
+        @media (max-width: 800px) {
+            .demo-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>🎈 Principle 39: Change inertness</h1>
+        <p class="subtitle">Keep outside air out to stay fresh longer!</p>
+
+        <div class="kid-card">
+            <p><span class="emoji">💡</span>Big Idea: Push out air to keep chips crisp and fresh!</p>
+            <p><span class="emoji">🎯</span>Try this: Squeeze all the air out of a chip bag before sealing!</p>
+        </div>
+
+        <div class="demo">
+            <div class="demo-grid">
+                <div class="demo-stage" id="stage">
+                    <div class="fresh-meter" id="meter">MỀM 😫</div>
+                    <div class="bag-scene">
+                        <div class="chip-bag">
+                            <div class="bag-top"></div>
+                            <div class="seal-line"></div>
+                            <div class="bag-label">🥔</div>
+                            <div class="air-puffs">
+                                <span class="puff">💨</span>
+                                <span class="puff">💨</span>
+                                <span class="puff">💨</span>
+                            </div>
+                            <div class="chips">
+                                <div class="chip"></div>
+                                <div class="chip"></div>
+                                <div class="chip"></div>
+                            </div>
+                        </div>
+                        <div class="soggy-indicator" id="soggyText">Không khí làm bánh ỉu!</div>
+                    </div>
+                    <div class="demo-label" id="label">😕 Túi mở = bánh mềm</div>
+                </div>
+
+                <div class="controls">
+                    <button class="primary-btn" id="toggle">🤏 Bóp khí ra & đóng kín!</button>
+                    <div class="status" id="status">Không khí trong túi làm bánh mềm xịu!</div>
+
+                    <div class="examples">
+                        <h3>🔍 Find in Real Life:</h3>
+                        <div class="example-list">
+                            <div class="example-item">
+                                <span class="icon">🥔</span>
+                                <span>Squeeze air out of a chip bag</span>
+                            </div>
+                            <div class="example-item">
+                                <span class="icon">🍪</span>
+                                <span>Seal a cookie box tightly</span>
+                            </div>
+                            <div class="example-item">
+                                <span class="icon">🧄</span>
+                                <span>Vacuum seal leftovers</span>
+                            </div>
+                            <div class="example-item">
+                                <span class="icon">🎈</span>
+                                <span>Helium balloons use special gas</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const stage = document.getElementById('stage');
+        const meter = document.getElementById('meter');
+        const soggyText = document.getElementById('soggyText');
+        const label = document.getElementById('label');
+        const status = document.getElementById('status');
+        const toggle = document.getElementById('toggle');
+        let sealed = false;
+
+        toggle.addEventListener('click', () => {
+            sealed = !sealed;
+            stage.classList.toggle('sealed', sealed);
+
+            if (sealed) {
+                meter.textContent = 'GIÒN! 😋';
+                soggyText.textContent = 'Không khí = tươi giòn!';
+                label.textContent = '🎉 Túi kín = bánh giòn!';
+                status.textContent = 'Không có khí bên trong nghĩa là bánh giòn hoàn hảo!';
+                toggle.textContent = '🔓 Mở túi ra';
+            } else {
+                meter.textContent = 'MỀM 😫';
+                soggyText.textContent = 'Không khí làm bánh ỉu!';
+                label.textContent = '😕 Túi mở = bánh mềm';
+                status.textContent = 'Không khí trong túi làm bánh mềm xịu!';
+                toggle.textContent = '🤏 Bóp khí ra & đóng kín!';
+            }
+        });
+    </script>
+</body>
+
+</html>

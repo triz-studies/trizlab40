@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../triz-base.css">
+    <script defer src="../triz-nav.js"></script>
+    <title>Nguyên tắc 35: Thay đổi các thông số hóa lý của đối tượng</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;800;900&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; }
+        body {
+            font-family: 'Nunito', 'Segoe UI', system-ui, sans-serif;
+            background: linear-gradient(145deg, #fb923c 0%, #f97316 50%, #ea580c 100%);
+            color: #0b1021;
+            margin: 0;
+            padding: 22px;
+            min-height: 100vh;
+        }
+        .container { max-width: 1100px; margin: 0 auto; }
+        h1 { font-size: 2.4rem; margin: 12px 0 6px; font-weight: 900; }
+        .subtitle { margin: 0 0 16px; color: #7c2d12; font-weight: 700; font-size: 1.15rem; }
+        
+        .kid-card {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            border-radius: 20px;
+            padding: 18px 20px;
+            border: 3px solid #fbbf24;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.12), inset 0 2px 0 rgba(255,255,255,0.5);
+            margin-bottom: 20px;
+        }
+        .kid-card p { margin: 8px 0; font-weight: 700; color: #92400e; font-size: 1.05rem; }
+        .kid-card .emoji { font-size: 1.4rem; margin-right: 8px; }
+        
+        .demo {
+            background: rgba(255,255,255,0.95);
+            border-radius: 24px;
+            padding: 24px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.18);
+            border: 3px solid rgba(255,255,255,0.8);
+        }
+        .demo-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            align-items: start;
+        }
+        
+        .demo-stage {
+            background: linear-gradient(180deg, #fff7ed 0%, #ffedd5 100%);
+            border: 3px dashed #fdba74;
+            border-radius: 20px;
+            padding: 30px;
+            min-height: 320px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        
+        .speaker-scene {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 25px;
+        }
+        
+        .speaker {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(145deg, #374151 0%, #1f2937 100%);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+            position: relative;
+        }
+        
+        .speaker-cone {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(145deg, #6b7280 0%, #4b5563 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .speaker-center {
+            width: 20px;
+            height: 20px;
+            background: #1f2937;
+            border-radius: 50%;
+        }
+        
+        .sound-waves {
+            position: absolute;
+            right: -60px;
+            display: flex;
+            gap: 8px;
+            opacity: 0;
+            transition: all 0.4s ease;
+        }
+        
+        .wave {
+            width: 4px;
+            height: 20px;
+            background: #f97316;
+            border-radius: 2px;
+            animation: pulse 0.5s ease-in-out infinite alternate;
+        }
+        
+        .wave:nth-child(2) { height: 30px; animation-delay: 0.1s; }
+        .wave:nth-child(3) { height: 40px; animation-delay: 0.2s; }
+        
+        @keyframes pulse {
+            from { transform: scaleY(0.6); opacity: 0.6; }
+            to { transform: scaleY(1); opacity: 1; }
+        }
+        
+        .loud .sound-waves {
+            opacity: 1;
+        }
+        
+        .loud .wave {
+            height: 30px;
+        }
+        
+        .loud .wave:nth-child(2) { height: 50px; }
+        .loud .wave:nth-child(3) { height: 70px; }
+        
+        .volume-control {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .volume-icon {
+            font-size: 1.8rem;
+            transition: all 0.3s ease;
+        }
+        
+        .volume-bar {
+            width: 150px;
+            height: 20px;
+            background: #e5e7eb;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: inset 0 2px 6px rgba(0,0,0,0.1);
+        }
+        
+        .volume-fill {
+            width: 30%;
+            height: 100%;
+            background: linear-gradient(90deg, #22c55e 0%, #16a34a 100%);
+            border-radius: 10px;
+            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        
+        .loud .volume-fill {
+            width: 90%;
+            background: linear-gradient(90deg, #f97316 0%, #ea580c 100%);
+        }
+        
+        .kid-reaction {
+            font-size: 3rem;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        
+        .loud .kid-reaction {
+            transform: scale(1.2);
+        }
+        
+        .volume-label {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            padding: 8px 14px;
+            border-radius: 20px;
+            font-weight: 900;
+            font-size: 0.85rem;
+            background: #22c55e;
+            color: white;
+            transition: all 0.4s ease;
+        }
+        
+        .loud .volume-label {
+            background: #f97316;
+        }
+        
+        .demo-label {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            transform: none;
+            background: rgba(30, 41, 59, 0.6);
+            color: #f1f5f9;
+            padding: 10px 18px;
+            border-radius: 30px;
+            font-weight: 800;
+            font-size: 0.95rem;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.25);
+            white-space: nowrap;
+        }
+        
+        .controls { display: flex; flex-direction: column; gap: 14px; }
+        
+        .primary-btn {
+            background: linear-gradient(145deg, #f97316 0%, #ea580c 100%);
+            color: white;
+            border: none;
+            border-radius: 16px;
+            padding: 16px 24px;
+            font-weight: 900;
+            font-size: 1.1rem;
+            cursor: pointer;
+            box-shadow: 0 8px 24px rgba(249,115,22,0.4), inset 0 2px 0 rgba(255,255,255,0.2);
+            transition: all 0.2s ease;
+            font-family: inherit;
+        }
+        .primary-btn:hover { transform: translateY(-3px); box-shadow: 0 12px 28px rgba(249,115,22,0.5); }
+        
+        .status {
+            background: linear-gradient(135deg, #fff7ed 0%, #ffedd5 100%);
+            border-radius: 14px;
+            padding: 14px 18px;
+            font-weight: 800;
+            color: #9a3412;
+            font-size: 1.05rem;
+            border: 2px solid #fdba74;
+        }
+        
+        .examples {
+            background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+            border-radius: 16px;
+            padding: 16px 18px;
+            border: 2px solid #86efac;
+        }
+        .examples h3 { margin: 0 0 12px; color: #166534; font-size: 1.05rem; }
+        .example-list { display: flex; flex-direction: column; gap: 10px; }
+        .example-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: white;
+            padding: 12px 14px;
+            border-radius: 12px;
+            font-weight: 700;
+            color: #15803d;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.06);
+        }
+        .example-item .icon { font-size: 1.5rem; }
+        
+        @media (max-width: 800px) {
+            .demo-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔊 Nguyên tắc 35: Thay đổi các thông số hóa lý của đối tượng</h1>
+        <p class="subtitle">Điều chỉnh cho phù hợp tình huống!</p>
+        
+        <div class="kid-card">
+            <p><span class="emoji">💡</span>Ý Tưởng Lớn: Làm to hơn, nhỏ hơn, to tiếng hơn, hoặc nhỏ tiếng hơn cho vừa!</p>
+            <p><span class="emoji">🎯</span>Thử xem: Vặn nhạc nhỏ khi ngủ, to khi khiêu vũ!</p>
+        </div>
+        
+        <div class="demo">
+            <div class="demo-grid">
+                <div class="demo-stage" id="stage">
+                    <div class="volume-label" id="volumeLabel">YÊN TĨNH 🤫</div>
+                    <div class="speaker-scene">
+                        <div class="speaker">
+                            <div class="speaker-cone">
+                                <div class="speaker-center"></div>
+                            </div>
+                            <div class="sound-waves">
+                                <div class="wave"></div>
+                                <div class="wave"></div>
+                                <div class="wave"></div>
+                            </div>
+                        </div>
+                        <div class="volume-control">
+                            <span class="volume-icon" id="volumeIcon">🔈</span>
+                            <div class="volume-bar">
+                                <div class="volume-fill"></div>
+                            </div>
+                        </div>
+                        <div class="kid-reaction" id="kidReaction">😌</div>
+                    </div>
+                    <div class="demo-label" id="label">🌙 Yên tĩnh cho thời gian đọc</div>
+                </div>
+                
+                <div class="controls">
+                    <button class="primary-btn" id="toggle">🔊 Tăng Lên!</button>
+                    <div class="status" id="status">Âm lượng thấp và yên bình cho các hoạt động yên tĩnh!</div>
+                    
+                    <div class="examples">
+                        <h3>🔍 Tìm trong cuộc sống:</h3>
+                        <div class="example-list">
+                            <div class="example-item">
+                                <span class="icon">🔊</span>
+                                <span>Tăng âm lượng khi tiệc, giảm khi ngủ</span>
+                            </div>
+                            <div class="example-item">
+                                <span class="icon">💡</span>
+                                <span>Đèn mờ khi đêm, sáng khi làm bài</span>
+                            </div>
+                            <div class="example-item">
+                                <span class="icon">🚴</span>
+                                <span>Đạp nhanh đường bằng, chậm lên dốc</span>
+                            </div>
+                            <div class="example-item">
+                                <span class="icon">🔍</span>
+                                <span>Phóng to trên máy tính bảng xem chữ nhỏ</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        const stage = document.getElementById('stage');
+        const volumeLabel = document.getElementById('volumeLabel');
+        const volumeIcon = document.getElementById('volumeIcon');
+        const kidReaction = document.getElementById('kidReaction');
+        const label = document.getElementById('label');
+        const status = document.getElementById('status');
+        const toggle = document.getElementById('toggle');
+        let loud = false;
+
+        toggle.addEventListener('click', () => {
+            loud = !loud;
+            stage.classList.toggle('loud', loud);
+            
+            if (loud) {
+                volumeLabel.textContent = 'LOUD! 🎉';
+                volumeIcon.textContent = '🔊';
+                kidReaction.textContent = '🕺';
+                label.textContent = '🎵 Loud for dance party!';
+                status.textContent = 'Volume cranked up - time to dance and have fun!';
+                toggle.textContent = '🔈 Turn it down';
+            } else {
+                volumeLabel.textContent = 'YÊN TĨNH 🤫';
+                volumeIcon.textContent = '🔈';
+                kidReaction.textContent = '😌';
+                label.textContent = '🌙 Yên tĩnh cho thời gian đọc';
+                status.textContent = 'Âm lượng thấp và yên bình cho các hoạt động yên tĩnh!';
+                toggle.textContent = '🔊 Tăng Lên!';
+            }
+        });
+    </script>
+</body>
+</html>

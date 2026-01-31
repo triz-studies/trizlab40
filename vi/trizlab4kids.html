@@ -1,0 +1,1081 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>40 Nguyên Tắc Sáng Tạo TRIZ - Sáng Tạo Cho Trẻ Em</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;800;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Nunito', 'Segoe UI', system-ui, sans-serif;
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            min-height: 100vh;
+            min-height: 100dvh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            padding: 12px 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+
+        .brand-link {
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .brand-icon {
+            font-size: 1.8rem;
+        }
+
+        .brand-text {
+            color: white;
+            font-weight: 900;
+            font-size: 1.2rem;
+        }
+
+        .brand-subtitle {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .search-box {
+            flex: 1;
+            max-width: 250px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 10px 16px;
+            border-radius: 25px;
+            border: none;
+            font-size: 0.95rem;
+            font-family: inherit;
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+            outline: none;
+            transition: background 0.3s;
+        }
+
+        .search-box input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .search-box input:focus {
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        .menu-toggle {
+            display: none;
+            background: rgba(255, 255, 255, 0.15);
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .menu-toggle:hover {
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        .lang-toggle {
+            background: rgba(255, 255, 255, 0.15);
+            border: none;
+            color: white;
+            padding: 10px 14px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: background 0.2s;
+            font-family: inherit;
+            font-weight: 700;
+            font-size: 0.9rem;
+            white-space: nowrap;
+        }
+
+        .lang-toggle:hover {
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        .lang-toggle.active {
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        /* Language Dropdown */
+        .lang-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            border-radius: 12px;
+            margin-top: 8px;
+            min-width: 160px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.2s ease;
+            z-index: 1001;
+            overflow: hidden;
+        }
+
+        .lang-dropdown.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
+        .lang-option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 16px;
+            background: transparent;
+            border: none;
+            color: white;
+            font-family: inherit;
+            font-weight: 700;
+            font-size: 0.95rem;
+            cursor: pointer;
+            width: 100%;
+            text-align: left;
+            transition: background 0.2s;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .lang-option:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .lang-option:active {
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        .lang-option.current {
+            background: rgba(255, 255, 255, 0.2);
+            border-left: 3px solid #60a5fa;
+        }
+
+        .lang-flag {
+            font-size: 1.2rem;
+        }
+
+        .lang-text {
+            flex: 1;
+        }
+
+        .lang-check {
+            font-size: 1rem;
+        }
+
+        .lang-container {
+            position: relative;
+        }
+
+        /* Navigation Grid */
+        .nav-container {
+            background: rgba(30, 41, 59, 0.98);
+            padding: 12px 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
+            max-height: 600px;
+            position: relative;
+            z-index: 50;
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .nav-container.collapsed {
+            max-height: 0;
+            padding: 0 16px;
+            opacity: 0;
+            visibility: hidden;
+            border-bottom: none;
+        }
+
+        .nav-grid {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(10, 1fr);
+            gap: 8px;
+        }
+
+        .nav-trigger {
+            background: rgba(30, 41, 59, 0.98);
+            padding: 12px 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background 0.2s, all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            min-height: 44px;
+            position: sticky;
+            top: 0;
+            z-index: 51;
+            opacity: 1;
+            visibility: visible;
+            max-height: 80px;
+            overflow: hidden;
+        }
+
+        .nav-trigger:hover {
+            background: rgba(30, 41, 59, 0.99);
+        }
+
+        .nav-trigger.hidden {
+            max-height: 0;
+            padding: 0 16px;
+            opacity: 0;
+            visibility: hidden;
+            border-bottom: none;
+        }
+
+        .trigger-content {
+            max-width: 1400px;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            font-weight: 700;
+            color: rgba(255, 255, 255, 0.8);
+            flex-wrap: wrap;
+        }
+
+        .trigger-label {
+            font-size: 0.9rem;
+        }
+
+        .trigger-number {
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 1rem;
+            font-weight: 900;
+            color: white;
+            min-width: 40px;
+            text-align: center;
+        }
+
+        .trigger-title {
+            font-size: 0.95rem;
+            color: rgba(255, 255, 255, 0.85);
+            font-weight: 600;
+            max-width: 300px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .trigger-hint {
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.5);
+            margin-left: auto;
+        }
+
+        .nav-chip {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 10px 6px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            border: 2px solid transparent;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+        }
+
+        .nav-chip:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .nav-chip:active {
+            transform: scale(0.95);
+        }
+
+        .nav-chip.active {
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            border-color: #60a5fa;
+        }
+
+        .nav-chip strong {
+            color: white;
+            font-size: 1rem;
+            font-weight: 900;
+        }
+
+        .nav-chip span {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.6rem;
+            font-weight: 600;
+            text-align: center;
+            line-height: 1.2;
+            max-height: 2.4em;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            line-clamp: 2;
+            -webkit-box-orient: vertical;
+        }
+
+        .nav-chip.active span {
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .nav-chip.hidden {
+            display: none;
+        }
+
+        /* Content Area */
+        .content-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .content-frame {
+            flex: 1;
+            border: none;
+            width: 100%;
+            min-height: calc(100vh - 180px);
+            min-height: calc(100dvh - 180px);
+        }
+
+        /* Welcome Screen */
+        .welcome-screen {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 30px 20px;
+            text-align: center;
+            color: white;
+        }
+
+        .welcome-screen.hidden {
+            display: none;
+        }
+
+        .welcome-icon {
+            font-size: 4rem;
+            margin-bottom: 16px;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .welcome-title {
+            font-size: 2rem;
+            font-weight: 900;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #60a5fa, #a78bfa, #f472b6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .welcome-subtitle {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 24px;
+        }
+
+        .welcome-hint {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 14px 20px;
+            border-radius: 14px;
+            color: rgba(255, 255, 255, 0.8);
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        /* Mobile Bottom Nav */
+        .bottom-nav {
+            display: none;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(30, 41, 59, 0.98);
+            backdrop-filter: blur(10px);
+            padding: 8px 16px;
+            padding-bottom: max(8px, env(safe-area-inset-bottom));
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            z-index: 100;
+        }
+
+        .bottom-nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 8px;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .bottom-nav-btn {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: white;
+            padding: 12px 16px;
+            border-radius: 12px;
+            font-family: inherit;
+            font-weight: 700;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .bottom-nav-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .bottom-nav-btn:active {
+            transform: scale(0.95);
+        }
+
+        .bottom-nav-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        .bottom-nav-current {
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            min-width: 80px;
+        }
+
+        /* Loading State */
+        .loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(15, 23, 42, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+        }
+
+        .loading.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid rgba(255, 255, 255, 0.2);
+            border-top-color: #3b82f6;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Tablet Responsive */
+        @media (max-width: 1024px) {
+            .nav-grid {
+                grid-template-columns: repeat(8, 1fr);
+            }
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .header {
+                padding: 10px 12px;
+            }
+
+            .brand-text {
+                font-size: 1rem;
+            }
+
+            .brand-subtitle {
+                display: none;
+            }
+
+            .search-box {
+                display: none;
+            }
+
+            .menu-toggle {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .nav-container {
+                max-height: 0;
+                padding: 0 12px;
+            }
+
+            .nav-container.open {
+                max-height: 500px;
+                padding: 12px;
+            }
+
+            .nav-grid {
+                grid-template-columns: repeat(5, 1fr);
+                gap: 6px;
+            }
+
+            .nav-chip {
+                padding: 10px 4px;
+            }
+
+            .nav-chip strong {
+                font-size: 1.1rem;
+            }
+
+            .nav-chip span {
+                display: none;
+            }
+
+            .content-frame {
+                min-height: calc(100vh - 120px);
+                min-height: calc(100dvh - 120px);
+                margin-bottom: 70px;
+            }
+
+            .bottom-nav {
+                display: block;
+            }
+
+            .welcome-screen {
+                padding-bottom: 100px;
+            }
+
+            .welcome-icon {
+                font-size: 3rem;
+            }
+
+            .welcome-title {
+                font-size: 1.6rem;
+            }
+
+            .welcome-subtitle {
+                font-size: 0.9rem;
+            }
+        }
+
+        /* Small Mobile */
+        @media (max-width: 400px) {
+            .nav-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+
+            .brand-icon {
+                font-size: 1.5rem;
+            }
+
+            .brand-text {
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header class="header">
+        <div class="header-content">
+            <a href="trizlab4kids.html" class="brand-link">
+                <div class="brand">
+                    <span class="brand-icon">💡</span>
+                    <div>
+                        <div class="brand-text">TRIZ Lab · 40 Nguyên Tắc Sáng Tạo</div>
+                        <div class="brand-subtitle">Sáng tạo cho trẻ em</div>
+                    </div>
+                </div>
+            </a>
+            <div class="search-box">
+                <input type="text" id="search" placeholder="🔍 Tìm nguyên tắc..." />
+            </div>
+            <div class="lang-container">
+                <button class="lang-toggle" id="langToggle" title="Đổi ngôn ngữ">🇻🇳 Tiếng Việt</button>
+                <div class="lang-dropdown" id="langDropdown">
+                    <button class="lang-option current" data-lang="vi" data-flag="🇻🇳" data-text="Tiếng Việt">
+                        <span class="lang-flag">🇻🇳</span>
+                        <span class="lang-text">Tiếng Việt</span>
+                        <span class="lang-check">✓</span>
+                    </button>
+                    <button class="lang-option" data-lang="en" data-flag="🇬🇧" data-text="English">
+                        <span class="lang-flag">🇬🇧</span>
+                        <span class="lang-text">English</span>
+                    </button>
+                </div>
+            </div>
+            <button class="menu-toggle" id="menuToggle">☰</button>
+        </div>
+    </header>
+
+    <div class="nav-trigger" id="navTrigger">
+        <div class="trigger-content">
+            <span class="trigger-label">Nguyên Tắc:</span>
+            <span class="trigger-number" id="triggerNumber">—</span>
+            <span class="trigger-title" id="triggerTitle"></span>
+            <span class="trigger-hint">☝️ Click để mở</span>
+        </div>
+    </div>
+
+    <nav class="nav-container" id="navContainer">
+        <div class="nav-grid" id="navGrid">
+            <!-- Navigation chips will be generated by JavaScript -->
+        </div>
+    </nav>
+
+    <main class="content-container">
+        <div class="welcome-screen" id="welcomeScreen">
+            <div class="welcome-icon">🚀</div>
+            <h1 class="welcome-title">40 Nguyên Tắc Sáng Tạo TRIZ</h1>
+            <p class="welcome-subtitle">Khám phá các phương pháp sáng tạo thông minh!</p>
+            <div class="welcome-hint">👆 Nhấn vào số để xem từng nguyên tắc</div>
+        </div>
+        <iframe class="content-frame" id="contentFrame" style="display: none;"></iframe>
+    </main>
+
+    <!-- Mobile Bottom Navigation -->
+    <nav class="bottom-nav" id="bottomNav">
+        <div class="bottom-nav-content">
+            <button class="bottom-nav-btn" id="prevBtn" disabled>
+                ◀ Trước
+            </button>
+            <button class="bottom-nav-btn bottom-nav-current" id="currentBtn">
+                1/40
+            </button>
+            <button class="bottom-nav-btn" id="nextBtn" disabled>
+                Sau ▶
+            </button>
+        </div>
+    </nav>
+
+    <div class="loading" id="loading">
+        <div class="spinner"></div>
+    </div>
+
+    <script>
+        // Language switcher
+        const langToggle = document.getElementById('langToggle');
+        const langDropdown = document.getElementById('langDropdown');
+        const langOptions = document.querySelectorAll('.lang-option');
+
+        langToggle.addEventListener('click', (e) => {
+            e.stopPropagation();
+            langDropdown.classList.toggle('show');
+            langToggle.classList.toggle('active');
+        });
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', () => {
+            langDropdown.classList.remove('show');
+            langToggle.classList.remove('active');
+        });
+
+        // Prevent dropdown from closing when clicking inside
+        langDropdown.addEventListener('click', (e) => {
+            e.stopPropagation();
+        });
+
+        langOptions.forEach(option => {
+            option.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                const lang = option.dataset.lang;
+                const flag = option.dataset.flag;
+                const text = option.dataset.text;
+                const currentPrincipleNum = window.location.hash.slice(1) || '';
+
+                // Only navigate if switching languages (not clicking on current language)
+                if (lang !== 'vi') {
+                    // Close dropdown first
+                    langDropdown.classList.remove('show');
+                    langToggle.classList.remove('active');
+                    
+                    // Navigate to the other language
+                    const targetPath = currentPrincipleNum ? `../en/trizlab4kids.html#${currentPrincipleNum}` : '../en/trizlab4kids.html';
+                    setTimeout(() => {
+                        window.location.href = targetPath;
+                    }, 100);
+                } else {
+                    // Close dropdown if clicking on current language
+                    langDropdown.classList.remove('show');
+                    langToggle.classList.remove('active');
+                }
+            });
+        });
+
+        // TRIZ Principles Data
+        const principles = [
+            { id: 1, title: "Phân nhỏ", file: "index_01.html" },
+            { id: 2, title: "Tách khỏi", file: "index_02.html" },
+            { id: 3, title: "Phẩm chất cục bộ", file: "index_03.html" },
+            { id: 4, title: "Phản đối xứng", file: "index_04.html" },
+            { id: 5, title: "Kết hợp", file: "index_05.html" },
+            { id: 6, title: "Vạn năng", file: "index_06.html" },
+            { id: 7, title: "Chứa trong", file: "index_07.html" },
+            { id: 8, title: "Phản trọng lượng", file: "index_08.html" },
+            { id: 9, title: "Gây ứng suất sơ bộ", file: "index_09.html" },
+            { id: 10, title: "Thực hiện sơ bộ", file: "index_10.html" },
+            { id: 11, title: "Dự phòng", file: "index_11.html" },
+            { id: 12, title: "Đẳng thế", file: "index_12.html" },
+            { id: 13, title: "Đảo ngược", file: "index_13.html" },
+            { id: 14, title: "Cầu hóa", file: "index_14.html" },
+            { id: 15, title: "Linh động", file: "index_15.html" },
+            { id: 16, title: "Tác động bộ phận", file: "index_16.html" },
+            { id: 17, title: "Chuyển sang chiều khác", file: "index_17.html" },
+            { id: 18, title: "Sử dụng dao động cơ", file: "index_18.html" },
+            { id: 19, title: "Tác động theo chu kỳ", file: "index_19.html" },
+            { id: 20, title: "Liên tục hữu ích", file: "index_20.html" },
+            { id: 21, title: "Vượt nhanh", file: "index_21.html" },
+            { id: 22, title: "Biến hại thành lợi", file: "index_22.html" },
+            { id: 23, title: "Quan hệ phản hồi", file: "index_23.html" },
+            { id: 24, title: "Sử dụng trung gian", file: "index_24.html" },
+            { id: 25, title: "Tự phục vụ", file: "index_25.html" },
+            { id: 26, title: "Sao chép", file: "index_26.html" },
+            { id: 27, title: "Rẻ thay cho đắt", file: "index_27.html" },
+            { id: 28, title: "Thay thế cơ học", file: "index_28.html" },
+            { id: 29, title: "Khí và lỏng", file: "index_29.html" },
+            { id: 30, title: "Vỏ dẻo và màng mỏng", file: "index_30.html" },
+            { id: 31, title: "Vật liệu xốp", file: "index_31.html" },
+            { id: 32, title: "Thay đổi màu sắc", file: "index_32.html" },
+            { id: 33, title: "Đồng nhất", file: "index_33.html" },
+            { id: 34, title: "Phân hủy hoặc tái sinh", file: "index_34.html" },
+            { id: 35, title: "Thay đổi trạng thái", file: "index_35.html" },
+            { id: 36, title: "Chuyển pha", file: "index_36.html" },
+            { id: 37, title: "Giãn nở nhiệt", file: "index_37.html" },
+            { id: 38, title: "Ôxy hóa mạnh", file: "index_38.html" },
+            { id: 39, title: "Môi trường trơ", file: "index_39.html" },
+            { id: 40, title: "Vật liệu composite", file: "index_40.html" }
+        ];
+
+        // DOM Elements
+        const navGrid = document.getElementById('navGrid');
+        const navContainer = document.getElementById('navContainer');
+        const navTrigger = document.getElementById('navTrigger');
+        const triggerNumber = document.getElementById('triggerNumber');
+        const triggerTitle = document.getElementById('triggerTitle');
+        const menuToggle = document.getElementById('menuToggle');
+        const welcomeScreen = document.getElementById('welcomeScreen');
+        const contentFrame = document.getElementById('contentFrame');
+        const loading = document.getElementById('loading');
+        const search = document.getElementById('search');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const currentBtn = document.getElementById('currentBtn');
+
+        let currentPrinciple = null;
+        let navIsVisible = false;
+        let hideNavTimeout = null;
+
+        // Generate Navigation
+        function generateNav() {
+            navGrid.innerHTML = principles.map(p => `
+                <div class="nav-chip" data-id="${p.id}" data-title="${p.title.toLowerCase()}">
+                    <strong>${p.id}</strong>
+                    <span>${p.title}</span>
+                </div>
+            `).join('');
+        }
+
+        // Update bottom navigation
+        function updateBottomNav() {
+            if (currentPrinciple) {
+                prevBtn.disabled = currentPrinciple <= 1;
+                nextBtn.disabled = currentPrinciple >= 40;
+                currentBtn.textContent = `${currentPrinciple}/40`;
+            } else {
+                prevBtn.disabled = true;
+                nextBtn.disabled = true;
+                currentBtn.textContent = '—';
+            }
+        }
+
+        // Load Principle Content
+        function loadPrinciple(id) {
+            const principle = principles.find(p => p.id === id);
+            if (!principle) return;
+
+            // Update active state
+            document.querySelectorAll('.nav-chip').forEach(chip => {
+                chip.classList.toggle('active', parseInt(chip.dataset.id) === id);
+            });
+
+            // Show loading
+            loading.classList.add('show');
+
+            // Hide welcome, show iframe
+            welcomeScreen.style.display = 'none';
+            contentFrame.style.display = 'block';
+
+            // Load content
+            contentFrame.src = principle.file;
+            currentPrinciple = id;
+            triggerNumber.textContent = id;
+            triggerTitle.textContent = principle.title;
+
+            // Update URL hash
+            window.location.hash = `#${id}`;
+
+            // Update bottom nav
+            updateBottomNav();
+
+            // Hide navigation immediately to show banner
+            hideNav(true);
+        }
+
+        // Show navigation
+        function showNav() {
+            navIsVisible = true;
+            navContainer.classList.remove('collapsed');
+            navContainer.classList.add('open');
+            navTrigger.classList.add('hidden');
+            menuToggle.textContent = '✕';
+            clearTimeout(hideNavTimeout);
+        }
+
+        // Hide navigation with delay
+        function hideNav(immediate = false) {
+            navContainer.classList.remove('open');
+            menuToggle.textContent = '☰';
+            clearTimeout(hideNavTimeout);
+
+            const performHide = () => {
+                navIsVisible = false;
+                navContainer.classList.add('collapsed');
+                navTrigger.classList.remove('hidden');
+            };
+
+            if (immediate) {
+                performHide();
+            } else {
+                hideNavTimeout = setTimeout(performHide, 500);
+            }
+        }
+
+        // Auto-hide navigation when hovering away from nav area
+        function setupNavAutoHide() {
+            // Show nav when hovering over trigger
+            navTrigger.addEventListener('mouseenter', showNav);
+            navTrigger.addEventListener('click', showNav);
+
+            // Hide nav when mouse leaves nav container area
+            navContainer.addEventListener('mouseleave', () => {
+                if (navIsVisible && currentPrinciple !== null) {
+                    hideNav();
+                }
+            });
+
+            // Keep nav visible on hover
+            navContainer.addEventListener('mouseenter', () => {
+                clearTimeout(hideNavTimeout);
+                navIsVisible = true;
+            });
+
+            // Hide when clicking outside nav area
+            document.addEventListener('click', (e) => {
+                if (navIsVisible && currentPrinciple !== null && !navContainer.contains(e.target) && !navTrigger.contains(e.target) && e.target !== menuToggle) {
+                    hideNav();
+                }
+            });
+        }
+
+        // Handle iframe load
+        contentFrame.addEventListener('load', () => {
+            loading.classList.remove('show');
+        });
+
+        // Handle navigation clicks
+        navGrid.addEventListener('click', (e) => {
+            const chip = e.target.closest('.nav-chip');
+            if (chip) {
+                loadPrinciple(parseInt(chip.dataset.id));
+            }
+        });
+
+        // Mobile menu toggle
+        menuToggle.addEventListener('click', () => {
+            if (navContainer.classList.contains('open')) {
+                hideNav();
+            } else {
+                showNav();
+            }
+        });
+
+        // Bottom navigation buttons
+        prevBtn.addEventListener('click', () => {
+            if (currentPrinciple && currentPrinciple > 1) {
+                loadPrinciple(currentPrinciple - 1);
+            }
+        });
+
+        nextBtn.addEventListener('click', () => {
+            if (currentPrinciple && currentPrinciple < 40) {
+                loadPrinciple(currentPrinciple + 1);
+            }
+        });
+
+        currentBtn.addEventListener('click', () => {
+            navContainer.classList.toggle('open');
+            menuToggle.textContent = navContainer.classList.contains('open') ? '✕' : '☰';
+        });
+
+        // Search functionality
+        search.addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase().trim();
+            document.querySelectorAll('.nav-chip').forEach(chip => {
+                const id = chip.dataset.id;
+                const title = chip.dataset.title;
+                const matches = query === '' || id.includes(query) || title.includes(query);
+                chip.classList.toggle('hidden', !matches);
+            });
+
+            if (query !== '') {
+                showNav();
+            }
+        });
+
+        // Handle URL hash
+        function handleHash() {
+            const hash = window.location.hash.slice(1);
+            if (hash) {
+                const id = parseInt(hash);
+                if (id >= 1 && id <= 40) {
+                    loadPrinciple(id);
+                }
+            }
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.target.tagName === 'INPUT') return;
+
+            if (currentPrinciple) {
+                if (e.key === 'ArrowLeft' && currentPrinciple > 1) {
+                    loadPrinciple(currentPrinciple - 1);
+                } else if (e.key === 'ArrowRight' && currentPrinciple < 40) {
+                    loadPrinciple(currentPrinciple + 1);
+                }
+            }
+        });
+
+        // Swipe gesture for mobile
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        document.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        }, { passive: true });
+
+        document.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        }, { passive: true });
+
+        function handleSwipe() {
+            const swipeThreshold = 80;
+            const diff = touchEndX - touchStartX;
+
+            if (Math.abs(diff) < swipeThreshold) return;
+            if (!currentPrinciple) return;
+
+            if (diff > 0 && currentPrinciple > 1) {
+                // Swipe right - go to previous
+                loadPrinciple(currentPrinciple - 1);
+            } else if (diff < 0 && currentPrinciple < 40) {
+                // Swipe left - go to next
+                loadPrinciple(currentPrinciple + 1);
+            }
+        }
+
+        // Initialize
+        generateNav();
+        const initialHash = window.location.hash.slice(1);
+        if (initialHash) {
+            navContainer.classList.add('collapsed');
+            navTrigger.classList.remove('hidden');
+            navIsVisible = false;
+        } else {
+            navContainer.classList.remove('collapsed');
+            navContainer.classList.add('open');
+            navTrigger.classList.add('hidden');
+            menuToggle.textContent = '✕';
+            navIsVisible = true;
+        }
+        setupNavAutoHide();
+        handleHash();
+        updateBottomNav();
+        window.addEventListener('hashchange', handleHash);
+    </script>
+</body>
+
+</html>

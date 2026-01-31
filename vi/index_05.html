@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../triz-base.css">
+    <script defer src="../triz-nav.js"></script>
+    <title>Nguyên tắc 5: Kết hợp</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;800;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Nunito', 'Segoe UI', system-ui, sans-serif;
+            background: linear-gradient(145deg, #fb7185 0%, #f43f5e 50%, #e11d48 100%);
+            color: #0b1021;
+            margin: 0;
+            padding: 22px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-size: 2.4rem;
+            margin: 12px 0 6px;
+            font-weight: 900;
+        }
+
+        .subtitle {
+            margin: 0 0 16px;
+            color: #881337;
+            font-weight: 700;
+            font-size: 1.15rem;
+        }
+
+        .kid-card {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            border-radius: 20px;
+            padding: 18px 20px;
+            border: 3px solid #fbbf24;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12), inset 0 2px 0 rgba(255, 255, 255, 0.5);
+            margin-bottom: 20px;
+        }
+
+        .kid-card p {
+            margin: 8px 0;
+            font-weight: 700;
+            color: #92400e;
+            font-size: 1.05rem;
+        }
+
+        .kid-card .emoji {
+            font-size: 1.4rem;
+            margin-right: 8px;
+        }
+
+        .demo {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 24px;
+            padding: 24px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.18);
+            border: 3px solid rgba(255, 255, 255, 0.8);
+        }
+
+        .demo-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            align-items: start;
+        }
+
+        .demo-stage {
+            background: linear-gradient(180deg, #fff1f2 0%, #fecdd3 100%);
+            border: 3px dashed #fda4af;
+            border-radius: 20px;
+            padding: 30px;
+            min-height: 320px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .utensils-container {
+            display: flex;
+            align-items: flex-end;
+            gap: 40px;
+            transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .utensil {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.2));
+        }
+
+        .spoon-head {
+            width: 60px;
+            height: 80px;
+            background: linear-gradient(135deg, #e2e8f0 0%, #cbd5e1 30%, #94a3b8 60%, #64748b 100%);
+            border-radius: 50% 50% 48% 48%;
+            box-shadow:
+                inset 0 15px 30px rgba(255, 255, 255, 0.6),
+                inset 0 -10px 20px rgba(0, 0, 0, 0.1),
+                0 8px 20px rgba(0, 0, 0, 0.25);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .spoon-head::before {
+            content: '';
+            position: absolute;
+            top: 8px;
+            left: 10px;
+            width: 25px;
+            height: 35px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.8), transparent);
+            border-radius: 50%;
+        }
+
+        .fork-head {
+            width: 55px;
+            height: 75px;
+            display: flex;
+            gap: 3px;
+            justify-content: center;
+            padding-top: 5px;
+        }
+
+        .fork-tine {
+            width: 10px;
+            height: 55px;
+            background: linear-gradient(180deg, #e2e8f0 0%, #cbd5e1 30%, #94a3b8 60%, #64748b 100%);
+            border-radius: 5px 5px 2px 2px;
+            box-shadow:
+                inset 2px 0 4px rgba(255, 255, 255, 0.5),
+                inset -1px 0 3px rgba(0, 0, 0, 0.1),
+                0 4px 8px rgba(0, 0, 0, 0.15);
+            position: relative;
+        }
+
+        .fork-tine::before {
+            content: '';
+            position: absolute;
+            top: 5px;
+            left: 2px;
+            width: 3px;
+            height: 20px;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.6), transparent);
+            border-radius: 2px;
+        }
+
+        .fork-base {
+            width: 42px;
+            height: 20px;
+            background: linear-gradient(180deg, #94a3b8 0%, #64748b 100%);
+            border-radius: 0 0 8px 8px;
+            margin-top: -5px;
+        }
+
+        .handle {
+            width: 14px;
+            height: 100px;
+            background: linear-gradient(90deg, #e2e8f0 0%, #cbd5e1 20%, #94a3b8 50%, #64748b 80%, #475569 100%);
+            border-radius: 0 0 10px 10px;
+            box-shadow:
+                inset 3px 0 6px rgba(255, 255, 255, 0.4),
+                inset -2px 0 4px rgba(0, 0, 0, 0.2),
+                0 8px 16px rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+
+        .handle::before {
+            content: '';
+            position: absolute;
+            top: 10px;
+            left: 3px;
+            width: 4px;
+            height: 80px;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.5), transparent);
+            border-radius: 4px;
+        }
+
+        .plus-sign {
+            font-size: 3rem;
+            font-weight: 900;
+            color: #f43f5e;
+            text-shadow: 0 4px 8px rgba(244, 63, 94, 0.4);
+            transition: all 0.5s ease;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.1);
+            }
+        }
+
+        .spork {
+            opacity: 0;
+            transform: scale(0) rotate(-10deg);
+            position: absolute;
+            transition: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+            filter: drop-shadow(0 12px 24px rgba(251, 191, 36, 0.4));
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .spork-head {
+            width: 65px;
+            height: 85px;
+            background: linear-gradient(135deg, #fef3c7 0%, #fde047 25%, #fbbf24 50%, #f59e0b 75%, #d97706 100%);
+            border-radius: 50% 50% 45% 45%;
+            position: relative;
+            box-shadow:
+                inset 0 15px 30px rgba(255, 255, 255, 0.6),
+                inset 0 -10px 20px rgba(0, 0, 0, 0.1),
+                0 10px 30px rgba(251, 191, 36, 0.5);
+            overflow: hidden;
+        }
+
+        .spork-head::before {
+            content: '';
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            width: 20px;
+            height: 30px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.7), transparent);
+            border-radius: 50%;
+        }
+
+        .spork-tines {
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 5px;
+        }
+
+        .spork-tine {
+            width: 8px;
+            height: 28px;
+            background: linear-gradient(180deg, #fef3c7 0%, #fde047 30%, #fbbf24 60%, #f59e0b 100%);
+            border-radius: 4px 4px 1px 1px;
+            box-shadow:
+                inset 2px 0 3px rgba(255, 255, 255, 0.5),
+                0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .spork .handle {
+            background: linear-gradient(90deg, #fef3c7 0%, #fde047 20%, #fbbf24 50%, #f59e0b 80%, #d97706 100%);
+            box-shadow:
+                inset 3px 0 6px rgba(255, 255, 255, 0.5),
+                inset -2px 0 4px rgba(0, 0, 0, 0.15),
+                0 10px 20px rgba(251, 191, 36, 0.4);
+        }
+
+        .spork .handle::before {
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.6), transparent);
+        }
+
+        .merged .utensil {
+            opacity: 0;
+            transform: scale(0.3) translateX(-50px) rotate(-20deg);
+        }
+
+        .merged .utensil:last-child {
+            transform: scale(0.3) translateX(50px) rotate(20deg);
+        }
+
+        .merged .plus-sign {
+            opacity: 0;
+            transform: scale(0) rotate(180deg);
+        }
+
+        .merged .spork {
+            opacity: 1;
+            transform: scale(1.1) rotate(0deg);
+            animation: sparkle 0.6s ease-out;
+        }
+
+        @keyframes sparkle {
+            0% {
+                transform: scale(0) rotate(-10deg);
+                filter: brightness(2);
+            }
+
+            50% {
+                transform: scale(1.2) rotate(5deg);
+                filter: brightness(1.5);
+            }
+
+            100% {
+                transform: scale(1.1) rotate(0deg);
+                filter: brightness(1);
+            }
+        }
+
+        .demo-label {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            transform: none;
+            background: rgba(30, 41, 59, 0.6);
+            color: #f1f5f9;
+            padding: 10px 18px;
+            border-radius: 30px;
+            font-weight: 800;
+            font-size: 0.95rem;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+            white-space: nowrap;
+        }
+
+        .controls {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .primary-btn {
+            background: linear-gradient(145deg, #fbbf24 0%, #f59e0b 100%);
+            color: #78350f;
+            border: none;
+            border-radius: 16px;
+            padding: 16px 24px;
+            font-weight: 900;
+            font-size: 1.1rem;
+            cursor: pointer;
+            box-shadow: 0 8px 24px rgba(251, 191, 36, 0.4), inset 0 2px 0 rgba(255, 255, 255, 0.3);
+            transition: all 0.2s ease;
+            font-family: inherit;
+        }
+
+        .primary-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 28px rgba(251, 191, 36, 0.5);
+        }
+
+        .status {
+            background: linear-gradient(135deg, #fff1f2 0%, #fecdd3 100%);
+            border-radius: 14px;
+            padding: 14px 18px;
+            font-weight: 800;
+            color: #9f1239;
+            font-size: 1.05rem;
+            border: 2px solid #fda4af;
+        }
+
+        .examples {
+            background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+            border-radius: 16px;
+            padding: 16px 18px;
+            border: 2px solid #86efac;
+        }
+
+        .examples h3 {
+            margin: 0 0 12px;
+            color: #166534;
+            font-size: 1.05rem;
+        }
+
+        .example-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .example-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: white;
+            padding: 12px 14px;
+            border-radius: 12px;
+            font-weight: 700;
+            color: #15803d;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.06);
+        }
+
+        .example-item .icon {
+            font-size: 1.5rem;
+        }
+
+        @media (max-width: 800px) {
+            .demo-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>🤝 Nguyên tắc 5: Kết hợp</h1>
+        <p class="subtitle">Để các phần làm việc cùng nhau như một!</p>
+
+        <div class="kid-card">
+            <p><span class="emoji">💡</span>Ý Tưởng Lớn: Hai thứ ghép lại có thể làm nhiều hơn!</p>
+            <p><span class="emoji">🎯</span>Thử xem: Spork là thìa VÀ dĩa - hai trong một!</p>
+        </div>
+
+        <div class="demo">
+            <div class="demo-grid">
+                <div class="demo-stage">
+                    <div class="utensils-container" id="utensils">
+                        <div class="utensil spoon">
+                            <div class="spoon-head"></div>
+                            <div class="handle"></div>
+                        </div>
+                        <div class="plus-sign">+</div>
+                        <div class="utensil fork">
+                            <div class="fork-head">
+                                <div class="fork-tine"></div>
+                                <div class="fork-tine"></div>
+                                <div class="fork-tine"></div>
+                                <div class="fork-tine"></div>
+                            </div>
+                            <div class="handle"></div>
+                        </div>
+                        <div class="spork">
+                            <div class="spork-head">
+                                <div class="spork-tines">
+                                    <div class="spork-tine"></div>
+                                    <div class="spork-tine"></div>
+                                    <div class="spork-tine"></div>
+                                </div>
+                            </div>
+                            <div class="handle"></div>
+                        </div>
+                    </div>
+                    <div class="demo-label" id="label">🥄🍴 Hai dụng cụ chiếm chỗ</div>
+                </div>
+
+                <div class="controls">
+                    <button class="primary-btn" id="toggle">✨ Ghép lại!</button>
+                    <div class="status" id="status">Mang cả thìa VÀ dĩa thật phiền.</div>
+
+                    <div class="examples">
+                        <h3>🔍 Tìm trong cuộc sống:</h3>
+                        <div class="example-list">
+                            <div class="example-item">
+                                <span class="icon">🥄</span>
+                                <span>Spork = thìa + dĩa trong một dụng cụ</span>
+                            </div>
+                            <div class="example-item">
+                                <span class="icon">✏️</span>
+                                <span>Bút chì có tẩy ở đầu</span>
+                            </div>
+                            <div class="example-item">
+                                <span class="icon">📱</span>
+                                <span>Điện thoại = máy ảnh + máy nghe nhạc + game</span>
+                            </div>
+                            <div class="example-item">
+                                <span class="icon">🛋️</span>
+                                <span>Ghế sofa giường = ghế + giường</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const utensils = document.getElementById('utensils');
+        const label = document.getElementById('label');
+        const status = document.getElementById('status');
+        const toggle = document.getElementById('toggle');
+        let merged = false;
+
+        toggle.addEventListener('click', () => {
+            merged = !merged;
+            utensils.classList.toggle('merged', merged);
+
+            if (merged) {
+                label.textContent = '🎉 SPORK! Hai việc, một dụng cụ!';
+                status.textContent = 'Bây giờ bạn có thể múc VÀ xĩa chỉ với một thứ!';
+                toggle.textContent = '🔄 Tách chúng ra';
+            } else {
+                label.textContent = '🥄🍴 Hai dụng cụ chiếm chỗ';
+                status.textContent = 'Mang cả thìa VÀ dĩa thật phiền.';
+                toggle.textContent = '✨ Ghép lại!';
+            }
+        });
+    </script>
+</body>
+
+</html>

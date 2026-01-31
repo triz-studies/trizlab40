@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../triz-base.css">
+    <script defer src="../triz-nav.js"></script>
+    <title>Nguyên tắc 25: Tự phục vụ</title>
+    <style>
+        :root {
+            --primary-gradient: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            --accent-color: #ffd700;
+            --light-color: #ffeb3b;
+            --glass-bg: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --shadow-dark: rgba(0, 0, 0, 0.3);
+            --text-secondary: #a8c8ff;
+            --wheel-color: #444;
+            --spoke-color: #555;
+            --transition-smooth: all 0.3s ease;
+            --border-radius-lg: 20px;
+            --border-radius-md: 15px;
+            --border-radius-sm: 5px;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: 'Space Grotesk', 'Avenir Next', 'Segoe UI', system-ui, sans-serif;
+            background: var(--primary-gradient);
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 900px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .header {
+            margin-bottom: 40px;
+        }
+
+        .header__title {
+            font-size: clamp(2rem, 5vw, 2.5rem);
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px var(--shadow-dark);
+            font-weight: 700;
+        }
+
+        .header__subtitle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+        }
+
+        .demo-panel {
+            background: var(--glass-bg);
+            border-radius: var(--border-radius-lg);
+            padding: 40px;
+            margin: 30px 0;
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            box-shadow: 0 8px 32px var(--shadow-dark);
+        }
+
+        .principle-badge {
+            display: inline-block;
+            background: var(--accent-color);
+            color: #1e3c72;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: bold;
+            margin-bottom: 30px;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .speed-control {
+            margin-bottom: 40px;
+        }
+
+        .speed-control__label {
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            color: var(--accent-color);
+            font-weight: 600;
+        }
+
+        .speed-control__slider {
+            width: min(300px, 80%);
+            height: 8px;
+            border-radius: 4px;
+            background: #333;
+            outline: none;
+            margin: 0 20px;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+
+        .speed-control__slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--accent-color);
+            cursor: pointer;
+            box-shadow: 0 2px 6px var(--shadow-dark);
+            transition: var(--transition-smooth);
+        }
+
+        .speed-control__slider::-webkit-slider-thumb:hover {
+            transform: scale(1.1);
+        }
+
+        .speed-control__slider::-moz-range-thumb {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--accent-color);
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 2px 6px var(--shadow-dark);
+        }
+
+        .speed-control__display {
+            font-size: 1.2rem;
+            margin-top: 15px;
+            color: var(--accent-color);
+            font-weight: 600;
+        }
+
+        .bicycle-system {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 60px;
+            margin: 40px 0;
+            flex-wrap: wrap;
+        }
+
+        .wheel-assembly {
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .wheel {
+            width: 200px;
+            height: 200px;
+            border: 8px solid var(--wheel-color);
+            border-radius: 50%;
+            position: relative;
+            background: radial-gradient(circle, #666 0%, #333 70%);
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
+        }
+
+        .wheel__hub {
+            position: absolute;
+            top: 50%;
+            left: 12px;
+            width: 20px;
+            height: 20px;
+            background: #888;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 3;
+        }
+
+        .wheel__spoke {
+            position: absolute;
+            width: 2px;
+            height: 90px;
+            background: var(--spoke-color);
+            top: 50%;
+            left: 12px;
+            transform-origin: 50% 100%;
+            transform: translate(-50%, -100%);
+        }
+
+        .wheel__spoke:nth-child(2) { transform: translate(-50%, -100%) rotate(45deg); }
+        .wheel__spoke:nth-child(3) { transform: translate(-50%, -100%) rotate(90deg); }
+        .wheel__spoke:nth-child(4) { transform: translate(-50%, -100%) rotate(135deg); }
+        .wheel__spoke:nth-child(5) { transform: translate(-50%, -100%) rotate(180deg); }
+        .wheel__spoke:nth-child(6) { transform: translate(-50%, -100%) rotate(225deg); }
+        .wheel__spoke:nth-child(7) { transform: translate(-50%, -100%) rotate(270deg); }
+        .wheel__spoke:nth-child(8) { transform: translate(-50%, -100%) rotate(315deg); }
+
+        .dynamo {
+            position: absolute;
+            bottom: -30px;
+            right: 10px;
+            width: 40px;
+            height: 30px;
+            background: var(--wheel-color);
+            border-radius: var(--border-radius-sm);
+            border: 2px solid #666;
+            transform-origin: center;
+        }
+
+        .dynamo__contact {
+            position: absolute;
+            top: -5px;
+            left: 12px;
+            width: 8px;
+            height: 15px;
+            background: #888;
+            transform: none;
+            border-radius: 2px;
+        }
+
+        .power-line {
+            position: absolute;
+            right: -25px;
+            top: 50%;
+            width: 50px;
+            height: 3px;
+            background: var(--accent-color);
+            transform: translateY(-50%);
+            opacity: 0.7;
+            transition: var(--transition-smooth);
+        }
+
+        .light-fixture {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .light-bulb {
+            width: 80px;
+            height: 80px;
+            background: radial-gradient(circle, var(--light-color) 0%, #ffc107 70%);
+            border-radius: 50%;
+            position: relative;
+            box-shadow: 0 0 20px rgba(255, 235, 59, 0.6);
+            transition: var(--transition-smooth);
+        }
+
+        .light-bulb__base {
+            position: absolute;
+            bottom: -15px;
+            left: 12px;
+            width: 30px;
+            height: 20px;
+            background: #333;
+            transform: none;
+            border-radius: 0 0 var(--border-radius-sm) var(--border-radius-sm);
+        }
+
+
+
+        .info-panel {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: var(--border-radius-md);
+            padding: 30px;
+            margin-top: 30px;
+            text-align: left;
+        }
+
+        .info-panel__title {
+            color: var(--accent-color);
+            margin-bottom: 15px;
+            font-size: 1.4rem;
+            font-weight: 600;
+        }
+
+        .info-panel__text {
+            margin-bottom: 15px;
+        }
+
+        .info-panel__list {
+            margin: 15px 0;
+            padding-left: 20px;
+        }
+
+        .info-panel__list-item {
+            margin-bottom: 8px;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes sparkle {
+            0% { 
+                opacity: 1; 
+                transform: scale(1); 
+            }
+            100% { 
+                opacity: 0; 
+                transform: scale(0.3) translateY(-10px); 
+            }
+        }
+
+        .rotating {
+            animation: rotate linear infinite;
+        }
+
+        .sparkle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: var(--accent-color);
+            border-radius: 50%;
+            animation: sparkle 0.5s ease-out forwards;
+            pointer-events: none;
+        }
+
+        @media (max-width: 768px) {
+            .bicycle-system {
+                flex-direction: column;
+                gap: 30px;
+            }
+            
+            .demo-panel {
+                padding: 20px;
+            }
+            
+            .wheel {
+                width: 150px;
+                height: 150px;
+            }
+            
+            .wheel__spoke {
+                height: 67px;
+            }
+            
+            .wheel-assembly {
+                align-self: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1 class="header__title">🚴‍♂️ Nguyên tắc 25: Tự phục vụ</h1>
+            <p class="header__subtitle">Trình diễn đèn xe đạp tự phát điện bằng dynamo</p>
+        </header>
+        
+        <main class="demo-panel">
+            <div class="principle-badge">Nguyên tắc 25: Tự phục vụ</div>
+            
+            <section class="speed-control">
+                <div class="speed-control__label">Điều chỉnh tốc độ xe đạp</div>
+                <input 
+                    type="range" 
+                    id="speedSlider" 
+                    class="speed-control__slider" 
+                    min="0" 
+                    max="100" 
+                    value="0"
+                    aria-label="Điều chỉnh tốc độ xe đạp"
+                >
+                <div class="speed-control__display">
+                    Tốc độ: <span id="speedValue">0</span> km/h
+                </div>
+            </section>
+
+            <section class="bicycle-system">
+                <div class="wheel-assembly">
+                    <div class="wheel" id="wheel" role="img" aria-label="Bánh xe đạp">
+                        <div class="wheel__spoke"></div>
+                        <div class="wheel__spoke"></div>
+                        <div class="wheel__spoke"></div>
+                        <div class="wheel__spoke"></div>
+                        <div class="wheel__spoke"></div>
+                        <div class="wheel__spoke"></div>
+                        <div class="wheel__spoke"></div>
+                        <div class="wheel__spoke"></div>
+                        <div class="wheel__hub"></div>
+                    </div>
+                    <div class="dynamo">
+                        <div class="dynamo__contact"></div>
+                    </div>
+                    <div class="power-line"></div>
+                </div>
+
+                <div class="light-fixture" role="img" aria-label="Đèn xe đạp">
+                    <div class="light-bulb" id="lightBulb">
+                        <div class="light-bulb__base"></div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <aside class="info-panel">
+            <h3 class="info-panel__title">🔧 Tự phục vụ hoạt động như thế nào ở đây:</h3>
+            <p class="info-panel__text">
+                <strong>Vấn đề:</strong> Đèn xe đạp cần nguồn điện, nhưng mang pin theo vừa nặng vừa phải thay thế.
+            </p>
+            <p class="info-panel__text">
+                <strong>Giải pháp TRIZ:</strong> Hệ thống tự phục vụ! Bánh xe quay sinh ra điện nhờ dynamo.
+            </p>
+            <p class="info-panel__text"><strong>Lợi ích của tự phục vụ:</strong></p>
+            <ul class="info-panel__list">
+                <li class="info-panel__list-item">Không cần pin ngoài</li>
+                <li class="info-panel__list-item">Tự động hoạt động - độ sáng đèn phù hợp với tốc độ đạp</li>
+                <li class="info-panel__list-item">Tạo điện bền vững, không cần bảo trì</li>
+                <li class="info-panel__list-item">Đạp càng nhanh, đèn càng sáng!</li>
+            </ul>
+            
+            <h3 class="info-panel__title">🌟 Ứng dụng thực tế:</h3>
+            <p class="info-panel__text">
+                Nguyên lý này xuất hiện trong nhiều hệ thống: đồng hồ tự lên dây, phanh tái sinh trên ô tô điện, máy tính dùng năng lượng mặt trời, và cửa tự động tạo điện từ chính chuyển động sử dụng.
+            </p>
+        </aside>
+    </div>
+
+    <script>
+        class BicycleDynamoDemo {
+            constructor() {
+                this.elements = {
+                    speedSlider: document.getElementById('speedSlider'),
+                    speedValue: document.getElementById('speedValue'),
+                    wheel: document.getElementById('wheel'),
+                    lightBulb: document.getElementById('lightBulb'),
+                    powerLine: document.querySelector('.power-line'),
+                    dynamo: document.querySelector('.dynamo')
+                };
+                
+                this.currentSpeed = 0;
+                this.init();
+            }
+
+            init() {
+                this.elements.speedSlider.addEventListener('input', (e) => this.handleSpeedChange(e));
+                this.updateSystem();
+            }
+
+            handleSpeedChange(event) {
+                this.currentSpeed = parseInt(event.target.value);
+                this.elements.speedValue.textContent = this.currentSpeed;
+                this.updateSystem();
+                
+                if (this.currentSpeed > 0) {
+                    this.createSparkles();
+                }
+            }
+
+            updateSystem() {
+                this.updateWheelRotation();
+                this.updateLightSystem();
+                this.updatePowerLine();
+            }
+
+            updateWheelRotation() {
+                if (this.currentSpeed > 0) {
+                    const rotationSpeed = Math.max(0.1, 2 - (this.currentSpeed / 50));
+                    this.elements.wheel.style.animationDuration = `${rotationSpeed}s`;
+                    this.elements.wheel.classList.add('rotating');
+                } else {
+                    this.elements.wheel.classList.remove('rotating');
+                }
+            }
+
+            updateLightSystem() {
+                const intensity = this.currentSpeed / 100;
+                const brightness = Math.min(1, intensity * 1.5);
+                
+                // Update light bulb
+                this.elements.lightBulb.style.opacity = Math.max(0.3, brightness);
+                this.elements.lightBulb.style.boxShadow = 
+                    `0 0 ${20 + (brightness * 40)}px rgba(255, 235, 59, ${brightness * 0.8})`;
+            }
+
+            updatePowerLine() {
+                const intensity = this.currentSpeed / 100;
+                const brightness = Math.min(1, intensity * 1.5);
+                
+                this.elements.powerLine.style.boxShadow = 
+                    `0 0 ${5 + (brightness * 10)}px rgba(255, 215, 0, ${brightness})`;
+                this.elements.powerLine.style.opacity = Math.max(0.3, brightness);
+            }
+
+            createSparkles() {
+                const sparkleCount = Math.floor(Math.random() * 3) + 1;
+                
+                for (let i = 0; i < sparkleCount; i++) {
+                    setTimeout(() => this.createSingleSparkle(), i * 100);
+                }
+            }
+
+            createSingleSparkle() {
+                const sparkle = document.createElement('div');
+                sparkle.className = 'sparkle';
+                sparkle.style.top = `${Math.random() * 20}px`;
+                sparkle.style.left = `${Math.random() * 30}px`;
+                
+                this.elements.dynamo.appendChild(sparkle);
+                
+                setTimeout(() => {
+                    if (sparkle.parentNode) {
+                        sparkle.remove();
+                    }
+                }, 500);
+            }
+        }
+
+        // Initialize the demo when DOM is loaded
+        document.addEventListener('DOMContentLoaded', () => {
+            new BicycleDynamoDemo();
+        });
+    </script>
+</body>
+</html>

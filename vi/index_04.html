@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../triz-base.css">
+    <script defer src="../triz-nav.js"></script>
+    <title>Nguyên tắc 4: Phản đối xứng</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;800;900&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Nunito', 'Segoe UI', system-ui, sans-serif;
+            background: linear-gradient(145deg, #a78bfa 0%, #8b5cf6 50%, #7c3aed 100%);
+            color: #0b1021;
+            margin: 0;
+            padding: 22px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-size: 2.4rem;
+            margin: 12px 0 6px;
+            font-weight: 900;
+        }
+
+        .subtitle {
+            margin: 0 0 16px;
+            color: #3b0764;
+            font-weight: 700;
+            font-size: 1.15rem;
+        }
+
+        .kid-card {
+            background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+            border-radius: 20px;
+            padding: 18px 20px;
+            border: 3px solid #fbbf24;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12), inset 0 2px 0 rgba(255, 255, 255, 0.5);
+            margin-bottom: 20px;
+        }
+
+        .kid-card p {
+            margin: 8px 0;
+            font-weight: 700;
+            color: #92400e;
+            font-size: 1.05rem;
+        }
+
+        .kid-card .emoji {
+            font-size: 1.4rem;
+            margin-right: 8px;
+        }
+
+        .demo {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 24px;
+            padding: 24px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.18);
+            border: 3px solid rgba(255, 255, 255, 0.8);
+        }
+
+        .demo-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            align-items: start;
+        }
+
+        .demo-stage {
+            background: linear-gradient(180deg, #faf5ff 0%, #f3e8ff 100%);
+            border: 3px dashed #d8b4fe;
+            border-radius: 20px;
+            padding: 30px;
+            min-height: 320px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .scissors-container {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .scissors {
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+
+        .handle {
+            width: 50px;
+            height: 70px;
+            border: 8px solid #64748b;
+            border-radius: 50%;
+            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .handle.thumb {
+            background: transparent;
+        }
+
+        .handle.fingers {
+            width: 50px;
+            height: 70px;
+            margin-left: -10px;
+        }
+
+        .blade {
+            width: 80px;
+            height: 12px;
+            background: linear-gradient(180deg, #94a3b8 0%, #64748b 100%);
+            margin-left: -5px;
+            border-radius: 0 6px 6px 0;
+        }
+
+        .asymmetric .handle.thumb {
+            width: 40px;
+            height: 55px;
+            background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+            border-color: #ea580c;
+        }
+
+        .asymmetric .handle.fingers {
+            width: 55px;
+            height: 85px;
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            border-color: #1d4ed8;
+        }
+
+        .hand-labels {
+            position: absolute;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            top: -40px;
+            left: 0;
+            padding: 0 10px;
+        }
+
+        .hand-label {
+            background: #64748b;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-weight: 800;
+            font-size: 0.75rem;
+            opacity: 0;
+            transition: all 0.4s ease;
+        }
+
+        .asymmetric .hand-label {
+            opacity: 1;
+        }
+
+        .asymmetric .hand-label.thumb-label {
+            background: #f97316;
+        }
+
+        .asymmetric .hand-label.finger-label {
+            background: #3b82f6;
+        }
+
+        .status-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            padding: 8px 14px;
+            border-radius: 20px;
+            font-weight: 900;
+            font-size: 0.85rem;
+            transition: all 0.4s ease;
+            background: #ef4444;
+            color: white;
+        }
+
+        .asymmetric .status-badge {
+            background: #22c55e;
+        }
+
+        .demo-label {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            transform: none;
+            background: rgba(30, 41, 59, 0.6);
+            color: #f1f5f9;
+            padding: 10px 18px;
+            border-radius: 30px;
+            font-weight: 800;
+            font-size: 0.95rem;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+            white-space: nowrap;
+        }
+
+        .controls {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .primary-btn {
+            background: linear-gradient(145deg, #f97316 0%, #ea580c 100%);
+            color: white;
+            border: none;
+            border-radius: 16px;
+            padding: 16px 24px;
+            font-weight: 900;
+            font-size: 1.1rem;
+            cursor: pointer;
+            box-shadow: 0 8px 24px rgba(249, 115, 22, 0.4), inset 0 2px 0 rgba(255, 255, 255, 0.2);
+            transition: all 0.2s ease;
+            font-family: inherit;
+        }
+
+        .primary-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 28px rgba(249, 115, 22, 0.5);
+        }
+
+        .status {
+            background: linear-gradient(135deg, #f3e8ff 0%, #e9d5ff 100%);
+            border-radius: 14px;
+            padding: 14px 18px;
+            font-weight: 800;
+            color: #6b21a8;
+            font-size: 1.05rem;
+            border: 2px solid #d8b4fe;
+        }
+
+        .examples {
+            background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+            border-radius: 16px;
+            padding: 16px 18px;
+            border: 2px solid #86efac;
+        }
+
+        .examples h3 {
+            margin: 0 0 12px;
+            color: #166534;
+            font-size: 1.05rem;
+        }
+
+        .example-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .example-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: white;
+            padding: 12px 14px;
+            border-radius: 12px;
+            font-weight: 700;
+            color: #15803d;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.06);
+        }
+
+        .example-item .icon {
+            font-size: 1.5rem;
+        }
+
+        @media (max-width: 800px) {
+            .demo-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>🔀 Nguyên tắc 4: Phản đối xứng</h1>
+        <p class="subtitle">Làm các mặt khác nhau có chủ đích!</p>
+
+        <div class="kid-card">
+            <p><span class="emoji">💡</span>Ý Tưởng Lớn: Các phần khác kích cỡ vừa với ngón tay khác nhau!</p>
+            <p><span class="emoji">🎯</span>Thử xem: Lưu ý kéo có lỗ nhỏ và lỗ lớn!</p>
+        </div>
+
+        <div class="demo">
+            <div class="demo-grid">
+                <div class="demo-stage">
+                    <div class="status-badge" id="statusBadge">Giống = Khó hiểu 😕</div>
+                    <div class="scissors-container" id="scissors">
+                        <div class="scissors">
+                            <div class="hand-labels">
+                                <span class="hand-label thumb-label">NGÓN CÁI</span>
+                                <span class="hand-label finger-label">NGÓN TAY</span>
+                            </div>
+                            <div class="handle thumb"></div>
+                            <div class="handle fingers"></div>
+                            <div class="blade"></div>
+                        </div>
+                    </div>
+                    <div class="demo-label" id="label">✂️ Tay cầm cùng cỡ gây khó hiểu</div>
+                </div>
+
+                <div class="controls">
+                    <button class="primary-btn" id="toggle">✨ Làm chúng khác nhau!</button>
+                    <div class="status" id="status">Cả hai tay cầm trông giống nhau - cái nào cho ngón cái?</div>
+
+                    <div class="examples">
+                        <h3>🔍 Tìm trong cuộc sống:</h3>
+                        <div class="example-list">
+                            <div class="example-item">
+                                <span class="icon">✂️</span>
+                                <span>Kéo: lỗ nhỏ cho ngón cái, lỗ lớn cho ngón tay khác</span>
+                            </div>
+                            <div class="example-item">
+                                <span class="icon">🥄</span>
+                                <span>Thìa có đầu to và đầu nhỏ</span>
+                            </div>
+                            <div class="example-item">
+                                <span class="icon">🚲</span>
+                                <span>Chân chống xe đạp chỉ một bên</span>
+                            </div>
+                            <div class="example-item">
+                                <span class="icon">🔑</span>
+                                <span>Chìa khóa có cạnh gồ ghề chỉ một mặt</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const scissors = document.getElementById('scissors');
+        const statusBadge = document.getElementById('statusBadge');
+        const label = document.getElementById('label');
+        const status = document.getElementById('status');
+        const toggle = document.getElementById('toggle');
+        let asymmetric = false;
+
+        toggle.addEventListener('click', () => {
+            asymmetric = !asymmetric;
+            scissors.classList.toggle('asymmetric', asymmetric);
+
+            if (asymmetric) {
+                statusBadge.textContent = 'Khác = Dễ! 😊';
+                label.textContent = '🎉 Kích cỡ khác vừa khít!';
+                status.textContent = 'Cam cho ngón cái, xanh cho các ngón tay khác - dễ dùng!';
+                toggle.textContent = '🔄 Làm giống nhau';
+            } else {
+                statusBadge.textContent = 'Giống = Khó hiểu 😕';
+                label.textContent = '✂️ Tay cầm cùng cỡ gây khó hiểu';
+                status.textContent = 'Cả hai tay cầm trông giống nhau - cái nào cho ngón cái?';
+                toggle.textContent = '✨ Làm chúng khác nhau!';
+            }
+        });
+    </script>
+</body>
+
+</html>
